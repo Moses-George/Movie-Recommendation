@@ -1,0 +1,58 @@
+ @import "../../Variables/Variables";
+ 
+ .news-card {
+    display: grid;
+    color: #fff;
+    border-radius: .5rem .5rem 0 0;
+    flex: 0 0 18rem;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 15rem;
+        border-radius: .5rem .5rem 0 0;
+        transition: transform 1s, filter 1.5s ease-in-out;
+        transform-origin: center center;
+        object-fit: cover;
+    }
+}
+
+.news-card:hover img {
+    cursor: pointer;
+    filter: brightness(100%);
+    transform: scale(1.1);
+}
+
+
+.news-card:hover a {
+    color: gold;
+    // cursor: pointer;
+}
+
+.news-detail {
+    padding-top: 1rem;
+    p {
+        text-align: justify;
+        text-justify: inter-word;
+        color: hsl(212, 7%, 58%);
+    }
+    
+    a {
+        @include linkStyle(#fff);
+        font-size: 1.2rem;
+    }
+}
+
+.news-source {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+
+    p {
+        color: hsl(212, 23%, 43%);
+    }
+
+    >p:nth-child(2) {
+        font-weight: bold;
+    }
+}

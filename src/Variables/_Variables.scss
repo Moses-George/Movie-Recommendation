@@ -1,0 +1,19 @@
+$btnColor : red;
+
+@mixin btnStyle($bgColor) {
+    border: none;
+    background-color: $bgColor;
+    border-radius: 1.5rem;
+    width: fit-content;
+    height: 3rem;
+    font-size: 1.1rem;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+@mixin linkStyle($textcolor) {
+    color: $textcolor;
+    background-color: transparent;
+    text-decoration: none;
+}

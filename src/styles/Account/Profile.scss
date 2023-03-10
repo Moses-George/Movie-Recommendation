@@ -1,0 +1,74 @@
+@import "../../Variables//Variables";
+
+.profile {
+    display: grid;
+    row-gap: 1rem;
+    color: #fff;
+    background-color: rgb(17, 16, 16);
+    width: 17rem;
+    border: 1px solid rgb(49, 49, 49);
+    padding: 2rem 0;
+
+    p {
+        color: hsl(212, 7%, 58%);
+    }
+}
+
+.profile-pic {
+    display: grid;
+    row-gap: 1rem;
+    justify-items: center;
+    justify-self: center;
+
+    label {
+        position: relative;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    button {
+        padding: .5rem 1rem;
+    }
+
+    img {
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+    }
+}
+
+.account-details, .others {
+    display: grid;
+    row-gap: .5rem;
+
+    a {
+        @include linkStyle(hsl(212, 23%, 43%));
+    }
+}
+
+.profile-pic, .account-details, .others {
+    padding: 0 2rem 1rem 2rem;
+}
+
+.camera {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: hsl(212, 23%, 43%);
+    cursor: pointer;
+    position: absolute;
+     top: -3.8rem;
+      left: 1.5rem;
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .profile {
+        width: 100%;
+        border: none;
+    }
+}

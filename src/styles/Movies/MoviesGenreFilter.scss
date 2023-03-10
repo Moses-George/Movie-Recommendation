@@ -1,0 +1,44 @@
+.movies-row__filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    column-gap: 2rem;
+    padding: 0 1rem;
+    height: 5rem;
+    background-color: rgb(0, 0, 0, 0.15);
+
+    button {
+        width: fit-content;
+        padding: .5rem 1rem;
+        box-shadow: 0 0 10px rgb(0 0 0 / 25%);
+    }
+}
+
+
+.movies-row__filter {
+    overflow-x: auto;
+    scrollbar-width: thin !important;
+}
+
+.movies-row__filter::-webkit-scrollbar {
+    display: block;
+    width: 12px;
+}
+
+
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .movies-row__filter {
+        overflow-x: overlay
+    }
+}
+
+// Js Classes
+
+.active-genre {
+    background-color: red;
+}
+
+.inactive {
+    background-color: rgb(51, 45, 45);
+}

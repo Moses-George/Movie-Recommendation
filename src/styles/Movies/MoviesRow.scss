@@ -1,0 +1,33 @@
+.movies-catalog {
+    padding: 1rem 0;
+    color: #fff;
+
+    h1 {
+        padding-left: 1rem;
+        font-size: 2rem;
+    }
+}
+
+.movies-catalog__row {
+    display: flex;
+    flex-wrap: nowrap;
+    column-gap: 2rem;
+}
+
+.movies-catalog__row {
+    overflow-x: auto;
+    scrollbar-width: thin !important;
+  }
+  
+  .movies-catalog__row::-webkit-scrollbar {
+    display: block;
+    width: 12px;
+  }
+
+  
+  
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .movies-catalog__row {
+        overflow-x: overlay
+        }
+  }

@@ -1,0 +1,38 @@
+.comment-header {
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
+}
+
+.comment-header img {
+    width: 3rem;
+    height: 3rem;
+}
+
+.user {
+    padding: .1rem .3rem;
+    border-radius: 3px;
+    color: #fff;
+    background-color: red;
+}
+
+.username {
+    font-weight: bold;
+    color: hsl(212, 23%, 43%);
+}
+
+.createdAt {
+    color: hsl(211, 10%, 45%);
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: .5rem;
+
+        p {
+            margin: 0;
+        }
+    }
+}

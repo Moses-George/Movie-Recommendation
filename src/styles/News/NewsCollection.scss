@@ -1,0 +1,29 @@
+.news-collection {
+    h1 {
+        color: #fff;
+    }
+}
+
+.news-collection__row {
+    display: flex;
+    flex-wrap: nowrap;
+    column-gap: 2rem;
+}
+
+.news-collection__row {
+    overflow-x: auto;
+    scrollbar-width: thin !important;
+  }
+  
+  .news-collection__row::-webkit-scrollbar {
+    display: block;
+    width: 12px;
+  }
+
+  
+  
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .news-collection__row {
+        overflow-x: overlay
+        }
+  }

@@ -1,0 +1,39 @@
+.crud-btn {
+    display: flex;
+    column-gap: .3rem;
+
+    button {
+        display: flex;
+        align-items: center;
+        column-gap: .3rem;
+        font-weight: bold;
+        font-size: 16px;
+        border: none;
+        background-color: rgb(17, 16, 16);
+    }
+}
+
+.reply, .edit {
+    color: hsl(238, 40%, 52%);
+}
+
+.reply:hover, .edit:hover {
+    cursor: pointer;
+    opacity: .4;
+}
+
+.delete {
+    color: hsl(358, 79%, 66%);
+}
+
+.delete:hover {
+    cursor: pointer;
+    opacity: .4;
+}
+
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .crud-btn {
+        align-self: flex-start;
+    }
+}

@@ -1,0 +1,25 @@
+.account {
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+    justify-items: center;
+    padding: 2rem 0;
+
+    h1 {
+        display: none;
+    }
+}
+
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .account {
+        grid-template-columns: 1fr;
+        row-gap: 2rem;
+
+        h1 {
+            display: block;
+            font-size: 1.5rem;
+            color: hsl(212, 7%, 58%);
+        }
+    }
+
+}

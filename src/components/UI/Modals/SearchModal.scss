@@ -1,0 +1,49 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.search-modal {
+    justify-self: end;
+    position: fixed;
+    // top: 1.5rem;
+    z-index: 99999;
+    border-radius: 7px;
+    width: 21rem;
+    height: 20rem;
+    max-height: fit-content;
+    animation: slide-down 300ms ease-out forwards;
+    background-color: #fff;
+
+    hr {
+        border-width: .3rem;
+    }
+}
+
+.search-result {
+    text-align: center;
+}
+
+@keyframes slide-down {
+
+    from {
+        transform: translateY(0rem);
+    }
+
+    to {
+        transform: translateY(1rem);
+    }
+    
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .search-modal {
+        width: 19rem;
+        justify-self: center;
+    }
+}

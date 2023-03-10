@@ -1,0 +1,23 @@
+.userFavourite {
+    h1 {
+        color: #fff;
+        display: block;
+    }
+}
+
+.userFavourite-movies {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1rem;
+    max-height: 35rem;
+    overflow-y: scroll;
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px)  {
+    .userFavourite-movies {
+        grid-template-columns: 1fr;
+        max-height: fit-content;
+        overflow-y: hidden;
+        gap: 0;
+    }
+}

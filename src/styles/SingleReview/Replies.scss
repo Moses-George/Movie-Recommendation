@@ -1,0 +1,13 @@
+.replies {
+    display: grid;
+    justify-self: end;
+    row-gap: 1rem;
+    width: 28rem;
+    
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .replies {
+        width: 100%;
+    }
+}

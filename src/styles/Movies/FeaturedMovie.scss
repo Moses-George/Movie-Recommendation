@@ -1,0 +1,130 @@
+@import "../../Variables/Variables";
+
+.slideshow {
+    margin: 0 auto;
+    overflow: hidden;
+    width: 100%;
+    color: #fff;
+}
+
+.slideshowSlider {
+    width: 100%;
+    transition: ease 1000ms;
+    white-space: nowrap;
+}
+
+.featured-movie__container {
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 32rem;
+    display: inline-block;
+    padding: 5rem 0 0 3rem;
+    width: 100%;
+
+    h1 {
+        font-size: 3rem;
+        padding-top: 1rem;
+        margin: 0;
+    }
+}
+
+.featured-movie__genre {
+    display: flex;
+    column-gap: 1rem;
+
+    div {
+        padding: .3rem 1rem;
+        background-color: blue;
+        border-radius: .5rem;
+    }
+}
+
+.featured-movie__info {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    column-gap: .5rem;
+    padding: 1rem 0;
+
+    >span:nth-child(1) {
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+    }
+}
+
+.movie-btn {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    column-gap: 2rem;
+
+    >button:nth-child(1) {
+        
+        width: 9rem;
+        padding: .8rem;
+
+        a {
+            @include linkStyle(#fff);
+        }
+    }
+
+    >button:nth-child(2) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 10.8rem;
+        padding: .5rem 1rem;
+        background-color: rgb(51, 45, 45);
+    }
+}
+
+.slideshowDots {
+    display: flex;
+    justify-content: center;
+    column-gap: 1rem;
+    padding: 1rem 0;
+}
+
+.slideshowDot {
+    width: .6rem;
+    height: .6rem;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: rgb(51, 45, 45);
+}
+
+.activeDot {
+    background-color: red;
+}
+
+
+@media screen and (min-width: 320px) and (max-width: 500px)  {
+    .featured-movie__container {
+        padding: 5rem 0 0 1rem;
+
+        h1 {
+            width: 6rem;
+            font-size: 2rem;
+        }
+    }
+    .featured-movie__genre {
+        column-gap: .5rem;
+    }
+
+    .featured-movie__info {
+        flex-direction: column;
+        row-gap: .5rem;
+        // justify-items: flex-start;
+        align-items: flex-start;
+    }
+
+    .movie-btn {
+        column-gap: 1rem;
+    }
+
+    .slideshowDots {
+        // justify-content: flex-start;
+        column-gap: .5rem;
+    }
+}

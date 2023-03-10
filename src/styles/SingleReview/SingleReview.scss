@@ -1,0 +1,41 @@
+.movie-single__review {
+    display: grid;
+    // align-items: start;
+    width: 37rem;
+    background-color: rgb(20, 19, 19);
+    padding: 1rem;
+
+    h2 {
+        color: #fff;
+    }
+}
+
+.comments {
+    display: grid;
+    align-self: start;
+    row-gap: 2rem;
+    max-height: 42rem;
+    padding-bottom: 1rem;
+}
+
+.single-comment {
+    max-height: 42rem;
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .movie-single__review {
+        // display: block;
+        // display: flex;
+        // flex-direction: column;
+        // row-gap: 1rem;
+        width: 100%;
+    }
+
+    .comments {
+        width: 100%;
+    }
+
+    .single-comment {
+        max-height: fit-content;
+    }
+}

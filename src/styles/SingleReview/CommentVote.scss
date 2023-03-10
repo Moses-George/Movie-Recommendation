@@ -1,0 +1,19 @@
+.vote {
+    align-self: start;
+    justify-self: center;
+    background-color: rgb(29, 26, 26);
+    border-radius: .4rem;
+    text-align: center;
+    width: 2.5rem;
+    padding: .5rem 0;
+
+    button {
+        border: none;
+        background-color: rgb(29, 26, 26);
+    }
+
+    p {
+        color: hsl(238, 40%, 52%);
+        font-weight: bold;
+    }
+}
