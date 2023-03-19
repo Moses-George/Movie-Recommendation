@@ -50,12 +50,17 @@
     text-justify: inter-word;
     color: hsl(212, 7%, 58%);
     padding-right: 1rem;
+
+    span {
+        font-weight: bold;
+        color: hsl(238, 40%, 52%);
+    }
 }
 
-.content span {
-    font-weight: bold;
-    color: hsl(238, 40%, 52%);
-}
+// .content span {
+//     font-weight: bold;
+//     color: hsl(238, 40%, 52%);
+// }
 
 .update {
     align-self: flex-end;
@@ -75,6 +80,12 @@
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .comment-section {
         width: 100%;
-        padding: 0;
+        padding: 0 .5rem;
+    }
+    .comment {
+        column-gap: 1.5rem;
+    }
+    .comment-top {
+        padding-right: .5rem;
     }
 }

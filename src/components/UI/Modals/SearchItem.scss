@@ -1,0 +1,26 @@
+.searchItem {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid gray;
+    padding-bottom: .7rem;
+    // column-gap: .5rem;
+
+    img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+    }
+}
+
+.searchItem-info {
+    align-self: flex-end;
+    justify-self: flex-start;
+
+    h4 {
+        margin: 0;
+    }
+
+    p {
+        margin-top: .3rem;
+    }
+}

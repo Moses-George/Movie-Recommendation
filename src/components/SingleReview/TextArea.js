@@ -1,64 +1,46 @@
 import { Avatar } from "@mui/material";
+import { useParams } from "react-router-dom";
 import React, { useState, useRef } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase";
+import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
 import '../../styles/SingleReview/TextArea.scss';
 import Button from "../UI/Button";
 
-const TextArea = ({placeholder, onClick, onChange, value, disabled}) => {
+const TextArea = ({ placeholder, sendComment, sendReply, value, disabled, setContent, action }) => {
 
-    // const { action } = props;
+    const {commentId} = useParams();
 
-    // const replyingToPerson = props.replyingTo ? `@${props.replyingTo}` : "";
+    const [user] = useAuthState(auth);
+    const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-    const [content, setContent] = useState("");
     const [isExpanded, setIsExpanded] = useState(false);
     const inputRef = useRef();
 
-    const handleChange = (e) => {
-        setContent(e.target.value);
-    };
-
-    // const newComment = {
-    //     id: Math.random().toString(),
-    //     content: content.replace(replyingToPerson, ""),
-    //     createdAt: new Date(),
-    //     "replyingTo": replyingToPerson,
-    //     score: 0,
-    //     currentUser: true,
-    //     user: {
-    //         image: {
-    //             png: data.currentUser.image.png,
-    //             webp: data.currentUser.image.webp
-    //         },
-    //         username: data.currentUser.username
-    //     },
-    //     replies: []
-    // };
-
-    // const addComment = () => {
-    //     if (content.trim().length === 0) {
-    //         inputRef.current.focus();
-    //     } else {
-    //         props.onAddComment(newComment);
-    //         setContent("");
-    //     };
-    // };
+    const sendReview = () => {
+        if (action === "Reply") {
+            sendReply(commentId);
+        }
+        if (action === "comment") {
+            sendComment();
+        }
+    }
 
     return (
         <div className="textArea-wrapper">
-            {/* <img src="" alt='' /> */}
-            <Avatar />
+            {currentUser?.data.imageUrl ? <img src={currentUser?.data.imageUrl} alt="" /> : <Avatar />}
             <textarea
                 ref={inputRef}
                 rows={!isExpanded ? 1 : 3}
                 cols={35}
                 placeholder={placeholder}
-                onChange={onChange}
+                onChange={(e)=> setContent(e.target.value)}
                 onClick={() => setIsExpanded(prev => !prev)}
                 value={value}
                 required
             />
-            <div >
-            <Button onClick={onClick} disabled={disabled} >Send</Button>
+            <div>
+                <Button onClick={sendReview} disabled={disabled} > {action}</Button>
             </div>
         </div>
     )

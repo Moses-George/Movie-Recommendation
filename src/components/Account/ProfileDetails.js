@@ -8,7 +8,7 @@ import { auth } from "../../firebase";
 
 const ProfileDetails = () => {
 
-    // const { username } = useParams();
+    const { username } = useParams();
 
     const [user] = useAuthState(auth);  
 
@@ -17,7 +17,7 @@ const ProfileDetails = () => {
 
     return (
         <section className="profile-details">
-            <h1>{`${currentUser?.data.username}'s PROFILE`}</h1>
+            <h1>{`${username}'s PROFILE`} hhh</h1>
             <div className="profile-content">
                 <div className="">
                     <p>Username</p>

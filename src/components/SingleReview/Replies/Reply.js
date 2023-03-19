@@ -1,53 +1,58 @@
 import React, { useState, Fragment } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import '../../../styles/SingleReview/Comment.scss';
 import CommentHeader from "../Comments/CommentHeader";
 import CommentHeaderBtn from "../Comments/CommentHeaderBtn";
 import CommentVote from "../Comments/CommentVote";
-import TextArea from "../TextArea";
+import UpdateTextArea from "../../UI/UpdateTextArea";
+import { db } from "../../../firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import useMovieName from "../../../hook/useMovieName";
 
-const Reply = (props) => {
+const Reply = ({ username, imageUrl, timestamp, replyContent, replyingTo, score, replyId }) => {
 
-    const [isReplying, setIsReplying] = useState(false);
-    // const [isEditing, setIsEditing] = useState(false);
+    const { commentId } = useParams();
+    const {movie} = useMovieName();
 
-    // const addReply = (newReply) => {
-    //     props.onAddReply(newReply);
-    //     setIsReplying(false);
-    // }
+    const [isEditing, setIsEditing] = useState(false);
+    const [content, setContent] = useState(""); 
+
+    const editReply = async (commentId, replyId) => {
+        setIsEditing(true);
+        const docRef = doc(db, "movies", movie, "comments", commentId, "replies", replyId);
+        const snapshot = await getDoc(docRef);
+        setContent(snapshot.data().content);
+    };
+
+    const updateReply = async (commentId, replyId) => {
+        const docRef = doc(db, "movies", movie, "comments", commentId, "replies", replyId);
+        await updateDoc(docRef, {
+            content: content
+        });
+        setIsEditing(false);
+    };
 
     return (
         <Fragment>
             <div className='comment'>
                 <div className='comment-vote'>
-                    <CommentVote  />
+                    <CommentVote score={score} />
                 </div>
                 <div className='comment-info'>
                     <div className='comment-top'>
-                        <CommentHeader />
-                        <CommentHeaderBtn
-                            isReplying={isReplying}
-                            setIsReplying={setIsReplying}
-                        />
+                        <CommentHeader username={username} timestamp={timestamp} imageUrl={imageUrl} />
+                        <CommentHeaderBtn reviewId={replyId} username={username} type="reply" editReview={() => editReply(commentId, replyId)} />
                     </div>
-                    <div className='comment-content'>
-                        <span> George </span>
-                        Joss Whedon has a little bit of a history with superhero movies,
-                        and for creating layered female characters. After his documented
-                        frustrations with Wonder Woman, he's getting another chance at
-                        the DC Extended Universe and Warner Bros., closing in on a
-                    </div>
-                    {/* {isEditing && <UpdateTextArea
-                        type="Reply"
-                        InitialValue={props.commentData.content}
-                        commentId={props.commentId}
-                        setIsEditing={setIsEditing} Id={props.id}
-                        onUpdateComment={props.onUpdateComment} />} */}
+                    {!isEditing && <div className='comment-content'>
+                        <span> {replyingTo} </span>
+                        {replyContent}
+                    </div>}
+                    {isEditing && <UpdateTextArea
+                        value={content}
+                        setContent={setContent}
+                        updateReview={() => updateReply(commentId, replyId)} />}
                 </div>
             </div>
-
-            {/* {isReplying && <TextArea
-                col={32}
-            />} */}
         </Fragment>
     )
 }

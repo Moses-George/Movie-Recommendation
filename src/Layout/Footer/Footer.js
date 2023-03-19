@@ -24,26 +24,26 @@ const Footer = () => {
                     <h1>GEO MOVIES</h1>
                     <p>Ugbowo Campus, University of Benin</p>
                     <div className="social-icons">
-                        <Twitter sx={{ fontSize: "35px" }} />
-                        <Facebook sx={{ fontSize: "35px" }} />
-                        <WhatsApp sx={{ fontSize: "35px" }} />
-                        <GitHub sx={{ fontSize: "35px" }} />
+                        <Link to=""><Twitter sx={{ fontSize: "35px" }} /></Link>
+                        <Link to=""><Facebook sx={{ fontSize: "35px" }} /></Link>
+                        <Link to=""><WhatsApp sx={{ fontSize: "35px" }} /></Link>
+                        <Link to=""><GitHub sx={{ fontSize: "35px" }} /></Link>
                     </div>
                 </div>
                 <div className="footer-right">
                     <div className="quick-links">
                         <h3>QUICK LINKS</h3>
-                        <p>Movies</p>
-                        <p>TV Shows</p>
-                        <p>Animations</p>
-                        <p>Blog</p>
+                        <Link to="/movies">Movies</Link>
+                        <Link to="/tvShow">TV Shows</Link>
+                        <Link to="">Animations</Link>
+                        <Link to="/news">Blog</Link>
                     </div>
                     <div className="my-account">
                         <h3>ACCOUNTS</h3>
                         <Link to={`/account/${currentUser?.data.username}`}>My Account</Link>
                         <Link to="/auth/sign-up">Sign Up</Link>
                         <Link to="/auth/login">Login</Link>
-                        <Link to="">User Guide</Link>
+                        <Link to="/news">News</Link>
                     </div>
                     <div className="news-letter">
                         <h3>NEWSLETTER</h3>

@@ -4,87 +4,95 @@ import '../../styles/SingleReview/SingleReview.scss';
 import TextArea from "./TextArea";
 import Comment from "./Comments/Comment";
 import ViewReplies from "./Replies/ViewReplies";
-import { collection, doc, addDoc, serverTimestamp, onSnapshot, orderBy, Firestore } from "firebase/firestore";
+import { collection, doc, addDoc, serverTimestamp, onSnapshot, orderBy, getDoc, Firestore } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
-import { useGetSingleMovieQuery, useGetSingleTvShowQuery } from "../../store/features/movieApiSlice";
+import useMovieName from "../../hook/useMovieName";
 
 const SingleReview = () => {
 
-    // const initializer = localStorage.getItem("comments") !== null ? JSON.parse(localStorage.getItem("comments")) : []
+    const { movieId } = useParams();
 
-    const [commentContent, setCommentContent] = useState("");
+    const [content, setContent] = useState("");
     const [comments, setComments] = useState([]);
 
-    // localStorage.setItem("comments", JSON.stringify(comments.map(item=> item)));/
-
-    const { movieId, tvShowId } = useParams();
-
+    const { movie } = useMovieName();
     const [user] = useAuthState(auth);
+    const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-    // const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
-    // const { data: singleMovie, isError, error, isFetching, isSuccess } = useGetSingleMovieQuery(movieId);
-    // const { data: singleTvShow } = useGetSingleTvShowQuery(tvShowId);
+    const btnIsDisabled = !content || content.trim().length === 0;
 
-    const handleCommentChange = (e) => {
-        setCommentContent(e.target.value);
-    }
-
-    const btnIsDisabled = !commentContent || commentContent.trim().length === 0;
-
-    // const movie = singleMovie.original_title;
-    // const tvShow = singleTvShow.name;
 
     const sendComment = async () => {
-        // const docRef = doc(db, "movies", movie);
-        // const colRef = collection(docRef, "comments");
-        // await addDoc(colRef, {
-        //     content: commentContent,
-        //     score: 0,
-        //     sentAt: serverTimestamp(),
-        //     user: {
-        //         username: currentUser?.data.username,
-        //         image: currentUser?.data.imageUrl
-        //     }
-        // });
-        setCommentContent("");
-    }
+        const docRef = doc(db, "movies", movie);
+        const colRef = collection(docRef, "comments");
+        await addDoc(colRef, {
+            content: content,
+            score: 0,
+            sentAt: serverTimestamp(),
+            user: {
+                username: currentUser?.data.username,
+                image: currentUser?.data.imageUrl
+            }
+        });
+        setContent("");
+    };
 
+    const sendReply = async (commentId) => {
+        const docRef = doc(db, "movies", movie, "comments", commentId);
+        const colRef = collection(docRef, "replies");
+        const snapshot = await getDoc(docRef);
+        await addDoc(colRef, {
+            content: content,
+            score: 0,
+            sentAt: serverTimestamp(),
+            replyingTo: snapshot.data().user?.username,
+            user: {
+                username: currentUser?.data.username,
+                image: currentUser?.data.imageUrl
+            }
+        });
+        setContent("");
+    };
 
-    // useEffect(() => {
-    //     // const docRef = Firestore.instance.collection("movies").doc(movie).get();
+    useEffect(() => {
+        onSnapshot(collection(db, "movies", movie, "comments"), orderBy(
+            'timestamp', 'asc'), (snapshot) => {
+                setComments(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    data: doc.data()
+                })));
+            });
+    }, [movieId]);
 
-    //     // if (docRef !== null || docRef.exists) {
-    //     onSnapshot(collection(db, "movies", movie, "comments"), orderBy(
-    //         'timestamp', 'asc'), (snapshot) => {
-    //             setComments(snapshot.docs.map(doc => ({
-    //                 id: doc.id,
-    //                 data: doc.data()
-    //             })))
-    //         })
-    //     // }
-    // }, [movieId])
+    const commentSize = comments.length;
 
     const Reviews =
         <div className="movie-single__review">
-            <h2>04 comments</h2>
+            <h2>{`${commentSize == 0 ? "No Comment" :
+                commentSize == 1 ? "01 Comment" :
+                    commentSize > 0 && commentSize <= 9 ? "0" + commentSize + " Comments" :
+                        commentSize + " Comments"}`}</h2>
             <div className="comments scroller" >
-                {/* {comments.map(comment => <Comment
+                {comments.map(comment => <Comment
                     key={comment.id}
+                    commentId={comment.id}
+                    commentContent={comment.data.content}
                     username={comment.data.user.username}
-                    content={comment.data.content}
-                    score={comment.data.score} />)} */}
-                <Comment username="George" score="12" />
-                <Comment username="George" score="12" />
+                    imageUrl={comment.data.user.image}
+                    timestamp={new Date(comment.data.sentAt?.toDate()).toUTCString()}
+                    score={comment.data.score}
+                />)}
             </div>
-            {/* {user && <TextArea
-                placeholder="Add a comment"
-                onChange={handleCommentChange} 
-                value={commentContent}
+            {user && <TextArea
+                placeholder="Add a comment..."
+                setContent={setContent}
+                value={content}
                 disabled={btnIsDisabled}
-                onClick={sendComment}
-            />} */}
+                sendComment={sendComment}
+                action="comment"
+            />}
         </div>
 
     const comment =
@@ -93,7 +101,13 @@ const SingleReview = () => {
                 className="single-comment scroller" >
                 <ViewReplies />
             </div>
-            {/* <TextArea placeholder="Reply" /> */}
+            {user && <TextArea
+                placeholder="Reply..."
+                setContent={setContent}
+                value={content}
+                sendReply={sendReply}
+                disabled={btnIsDisabled}
+                action="Reply" />}
         </div>
 
     return (

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import React, { useEffect, Suspense } from 'react';
 import Layout from '../Layout/Layout';
 import './App.scss';
@@ -14,7 +14,7 @@ const App = () => {
         window.scrollTo(0, 0);
     }, [location]);
 
-    const Home = React.lazy(()=> import('../pages/Home'));
+    const Home = React.lazy(() => import('../pages/Home'));
     const Movies = React.lazy(() => import("../pages/Movies/Movies"));
     const TvShow = React.lazy(() => import('../pages/TvShows/TvShow'));
     const News = React.lazy(() => import('../pages/News'));

@@ -6,10 +6,15 @@ import MovieSearch from "../../components/Movies/MovieSearch";
 const Movies = () => {
 
     return (
-        <div className="movies">
-            <MovieGrid type="series" />
-            <MovieSearch type="series" />
-        </div>
+        <>
+            <div className="movies-bg">
+                <h1>Tv Show  LISTING</h1>
+            </div>
+            <div className="movies">
+                <MovieGrid type="series" />
+                <MovieSearch type="series" />
+            </div>
+        </>
     )
 }
 

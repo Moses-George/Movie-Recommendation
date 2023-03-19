@@ -12,12 +12,10 @@ import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice"
 const Navbar = () => {
 
     const [anchor, setAnchor] = useState(null);
+    const [isVisible, setIsVisible] = useState(false);
 
     const [user, loading, error] = useAuthState(auth);
-
     const { data: currentUser, isFetching, isLoading } = useFetchCurrentUserQuery(user?.uid);
-
-    const [isVisible, setIsVisible] = useState(false);
 
     const theme = useTheme();
     const showNavLink = useMediaQuery(theme.breakpoints.up('lg'));
@@ -87,7 +85,7 @@ const Navbar = () => {
                                 </Link>
                             </MenuItem>}
                             <Divider />
-                            {user && <MenuItem> <Link to="/home" className="menu-link" >
+                            {user && <MenuItem> <Link to="/account/george/settings" className="menu-link" >
                                 <Settings />
                                 <p>Settings</p>
                             </Link>

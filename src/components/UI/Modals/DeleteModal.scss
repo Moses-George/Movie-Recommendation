@@ -1,0 +1,55 @@
+
+.delete-modal {
+    position: fixed;
+    top: 30vh;
+    z-index: 99999;
+    justify-self: center;
+    background-color: #fff;
+    border-radius: 7px;
+    padding: 1.5rem;
+    width: 22rem;
+    animation: slide-down 300ms ease-out forwards;
+
+    h3 {
+        margin: 0;
+        color: hsl(212, 24%, 26%);
+    }
+
+    p {
+        line-height: 1.5;
+        color: hsl(211, 10%, 45%);
+    }
+}
+
+.delete-btn {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-btn button {
+    padding: .9rem 1.5rem;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.delete-btn button:nth-child(1) {
+    background-color: hsl(211, 10%, 45%);
+}
+
+.delete-btn button:nth-child(2) {
+    background-color: hsl(358, 79%, 66%);
+}
+
+@keyframes slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-3rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

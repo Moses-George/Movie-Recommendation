@@ -1,0 +1,28 @@
+
+.update-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: .5rem;
+
+    textarea {
+        height: 7rem;
+    }
+}
+
+.update-form button {
+    padding: .8rem 1.5rem;
+    border-radius: .5rem;
+    background-color: hsl(238, 40%, 52%);
+    border: none;
+    color: #fff;
+    align-self: flex-end;
+}
+
+.update-btn {
+    align-self: flex-end;
+}
+
+.update-form button:hover {
+    cursor: pointer;
+    background-color: hsl(239, 57%, 85%);
+}

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Divider } from "@mui/material";
 import '../../styles/Account/Profile.scss';
-import Button from "../UI/Button";
 import { Link } from "react-router-dom";
 import { Settings, AddAPhoto, Logout } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
-import { storage, db, logOut } from "../../firebase";
+import { storage, db, logOut, auth } from "../../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { doc, updateDoc } from "firebase/firestore";
 import ImagePreview from "../UI/Modals/ImagePreview";
@@ -20,7 +18,7 @@ const Profile = () => {
 
     const [user] = useAuthState(auth);
     const { data: currentUser, isFetching, isLoading, refetch } = useFetchCurrentUserQuery(user?.uid);
-    // console.log(useFetchCurrentUserQuery(user?.uid))
+
 if (image) {
     console.log(URL.createObjectURL(image))
 }

@@ -4,7 +4,7 @@ import { Visibility, VisibilityOff, Google, Facebook } from "@mui/icons-material
 import { IconButton, InputAdornment, TextField, Divider, Chip } from "@mui/material";
 import '../../styles/pages/Auth.scss';
 import Button from "../../components/UI/Button";
-import { auth, signUpWithEmailAndPassword, signInWithGoogle, db } from "../../firebase";
+import { auth,  signInWithGoogle, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
@@ -73,7 +73,7 @@ const SignUp = () => {
             }
 
             if (lengthGreaterThanOrEqualToSix && !atLeastOneCharacter) {
-                setPasswordIsInvalid("Password must contain at least one characters");
+                setPasswordIsInvalid("Password must contain at least one character");
             }
 
             if (lengthGreaterThanOrEqualToSix && !atLeastTwoDigits) {
@@ -166,8 +166,8 @@ const SignUp = () => {
                             </Divider>
                         </div>
                         <div className="alt-auth">
-                            <Button> <Google /> </Button>
-                            <Button onClick={signInWithGoogle} > <Facebook /> </Button>
+                            <Button onClick={signInWithGoogle} > <Google /> </Button>
+                            <Button onClick={()=> alert("This option is disabled!. You may want to sign up with google")} > <Facebook /> </Button>
                         </div>
                         <p className="member">Already a member ? <Link to="/auth/login">LOGIN</Link> </p>
                     </div>

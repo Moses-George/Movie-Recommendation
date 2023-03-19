@@ -13,16 +13,16 @@ export const currentUserApi = createApi({
                     if (userId) {
                         const q = query(collection(db, "users"), where("uid", "==", userId));
                         const doc = await getDocs(q);
-                        const data = {data:doc.docs[0].data(), docId: doc.docs[0].id};
+                        const data = { data: doc.docs[0].data(), docId: doc.docs[0].id };
                         // const docId = doc.docs[0].id;
                         // console.log(doc.docs[0])
-                        return {data} ; 
+                        return { data };
                     }
                 } catch (error) {
                     return { error };
                 }
             },
-            providesTags: ["User"],  
+            providesTags: ["User"],
         })
     })
 })

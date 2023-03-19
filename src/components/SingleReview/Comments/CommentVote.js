@@ -3,7 +3,7 @@ import { Add } from "@mui/icons-material";
 import { Remove } from "@mui/icons-material";
 import '../../../styles/SingleReview/CommentVote.scss';
 
-const CommentVote = ({score}) => {
+const CommentVote = ({ score }) => {
 
     // const increaseVoteHandler = () => {
     //     const score = props.vote + 1
@@ -25,12 +25,12 @@ const CommentVote = ({score}) => {
 
     return (
         <div className="vote">
-            <button onClick={()=> console.log("add")}  >
-                <Add sx={{color:"gray"}} />
+            <button onClick={() => console.log("add")} >
+                <Add sx={{ color: "gray" }} />
             </button>
             <p>{score}</p>
-            <button onClick={()=> console.log("remove")} >
-                <Remove sx={{color:"gray"}} />
+            <button onClick={() => console.log("remove")} >
+                <Remove sx={{ color: "gray" }} />
             </button>
         </div>
     )

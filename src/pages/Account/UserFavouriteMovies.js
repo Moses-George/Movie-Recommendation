@@ -6,7 +6,7 @@ import { collection, onSnapshot, orderBy } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const UserFavouriteMovies = () => {
 
@@ -23,9 +23,9 @@ const UserFavouriteMovies = () => {
                 setUserFavourites(snapshot.docs.map(doc => ({
                     id: doc.id,
                     data: doc.data()
-                })))
-            })
-    }, [])
+                })));
+            });
+    }, []);
 
     const discoveryItems = localStorage.getItem("discoveries") !== null ? JSON.parse(localStorage.getItem("discoveries")) : []
     return (

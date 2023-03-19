@@ -4,7 +4,8 @@ import '../../styles/Movies/MovieGrid.scss';
 import MovieCard from './MovieCard';
 import { useGetMoviesDiscoverQuery } from "../../store/features/movieApiSlice";
 import { useNavigate, createSearchParams, useLocation, useSearchParams } from "react-router-dom";
-import { current } from "@reduxjs/toolkit";
+import Spinner from "../UI/Spinners/Spinner";
+// import { current } from "@reduxjs/toolkit";
 
 const movies = new Array(12).fill(null).map((item, index) => "m" + index);
 console.log(movies);
@@ -54,6 +55,10 @@ const MovieGrid = ({ type }) => {
     // }
     const discoveryItems = localStorage.getItem("discoveries") !== null ? JSON.parse(localStorage.getItem("discoveries")) : []
 
+    if (isLoading) {
+        return <Spinner />
+    }
+
     const handlePageChange = (e, value) => {
         setPage(value);
         refetch();
@@ -61,13 +66,13 @@ const MovieGrid = ({ type }) => {
 
     const params = { sort: filter }
 
-    useEffect(() => {
-        if (filter)
-            navigate({
-                pathname: '/movies',
-                search: `?${createSearchParams(params)}`,
-            })
-    }, [filter])
+    // useEffect(() => {
+    //     if (filter)
+    //         navigate({
+    //             pathname: '/movies',
+    //             search: `?${createSearchParams(params)}`,
+    //         });
+    // }, [filter])
 
     const sortedMovies = sortMovies(discoveryItems, query);
     console.log(discoveryMovies);

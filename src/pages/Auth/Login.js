@@ -44,14 +44,6 @@ const Login = () => {
         setIsLoading(false);
     };
 
-    // const logIn = (e) => {
-    //     e.preventDefault();
-    //     const email = emailRef.current.value;
-    //     const password = passwordRef.current.value;
-    //     logInWithEmailAndPassword(email, password);
-    //     console.log(email, password);
-    // }
-
     return (
         <>
             {isLoading && <Spinner />}
@@ -96,8 +88,8 @@ const Login = () => {
                         </div>
                         <div className="alt-auth">
                             <Button onClick={signInWithGoogle} > <Google /> </Button>
-                            <Button> <Facebook /> </Button>
-                        </div>
+                            <Button onClick={()=> alert("This option is disabled!. You may want to sign up with google")}  > <Facebook /> </Button>
+                        </div> 
                         <p className="member">Don't have an account ? <Link to="/auth/sign-up">Sign Up</Link> </p>
                     </div>
                 </div>

@@ -3,39 +3,72 @@ import { Reply } from "@mui/icons-material";
 import { Delete } from "@mui/icons-material";
 import { Edit } from "@mui/icons-material";
 import '../../../styles/SingleReview/CommentHeaderBtn.scss';
+import { auth } from "../../../firebase";
+import { useFetchCurrentUserQuery } from "../../../store/features/currentUserSlice";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { deleteDoc, doc } from "firebase/firestore";
+import { Link, useParams, useLocation } from "react-router-dom";
+import { db } from "../../../firebase";
+import DeleteModal from "../../UI/Modals/DeleteModal";
+import useMovieName from "../../../hook/useMovieName";
 
-// import classes from '../components/CrudBtn.module.css';
-// import { ReactComponent as Reply } from '../Assets/images/icon-reply.svg';
-// import { ReactComponent as Delete } from '../Assets/images/icon-delete.svg';
-// import { ReactComponent as Edit } from '../Assets/images/icon-edit.svg';
-// import DeleteModal from "./UI/DeleteModal";
+const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
 
-const CommentHeaderBtn = (props) => {
+    const { commentId } = useParams();
 
     const [confirmDelete, setConfirmDelete] = useState(false);
 
-    const showTextArea = () => {
-        props.setIsReplying(!props.isReplying);
+    const { movie } = useMovieName();
+    const [user] = useAuthState(auth);
+    const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
+
+    const isCurrentUser = currentUser?.data.username === username;
+
+
+    const deleteComment = async (commentId) => {
+        try {
+            const docRef = doc(db, "movies", movie, "comments", commentId);
+            await deleteDoc(docRef);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
-    // const closeDeleteModalHandler = () => {
-    //     setConfirmDelete(false);
-    // }
+    const deleteReply = async (commentId, replyId) => {
+        try {
+            const docRef = doc(db, "movies", movie, "comments", commentId, "replies", replyId);
+            await deleteDoc(docRef);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const deleteReview = () => {
+        if (type === "comment") {
+            deleteComment(reviewId);
+        }
+        if (type === "reply") {
+            deleteReply(commentId, reviewId);
+        }
+    }
+
 
     return (
         <Fragment>
-            {/* {confirmDelete && <DeleteModal onCancel={closeDeleteModalHandler}
-                onDeleteComment={() => props.onDeleteComment(props.type, props.id)} />} */}
+            {confirmDelete &&
+                <DeleteModal
+                    onCancel={() => setConfirmDelete(false)}
+                    onDelete={() => deleteReview()} />}
             <div className='crud-btn'>
-                <button className="reply" onClick={showTextArea} >
-                    <Reply /> 
-                </button>
-                <button className="delete" onClick={() => setConfirmDelete(true)}>
-                    <Delete /> 
-                </button>
-                <button className="edit" onClick={() => props.setIsEditing(true)} >
-                    <Edit /> 
-                </button>
+                {!isCurrentUser && <button className="reply" style={{ display: `${type === "reply" ? "none" : "flex"}` }}>
+                    <Link to={`${user ? reviewId : "/auth/login"}`}><Reply /></Link>
+                </button>}
+                {user && isCurrentUser && <button className="delete" onClick={() => setConfirmDelete(true)} >
+                    <Delete />
+                </button>}
+                {user && isCurrentUser && <button className="edit" onClick={editReview} >
+                    <Edit />
+                </button>}
             </div>
         </Fragment>
     )

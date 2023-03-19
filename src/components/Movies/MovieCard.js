@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
-import { collection, doc } from "firebase/firestore";
+import { collection, doc, addDoc } from "firebase/firestore";
 
 const MovieCard = ({ movie }) => {
 

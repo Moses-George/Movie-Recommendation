@@ -13,9 +13,9 @@ const TvShowSingle = () => {
 
     const { data: single, isError, error, isFetching, isSuccess } = useGetSingleTvShowQuery(tvShowId);
 
-    // if(isFetching) {
-    //     return <Spinner />
-    // }
+    if(isFetching) {
+        return <Spinner />
+    }
 
     // return (
     //     <div className="movie-single">
