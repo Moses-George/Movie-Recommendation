@@ -7,6 +7,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
 import { collection, doc, addDoc } from "firebase/firestore";
+import { formatDate } from "../../utils/dateFormatter";
+// import format
 
 const MovieCard = ({ movie }) => {
 
@@ -16,7 +18,7 @@ const MovieCard = ({ movie }) => {
 
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-    const heartedMovie = {
+    const LikedMovie = {
         id: movie.id,
         title: movie.title,
         movieImageUrl: movie.backdrop_path,
@@ -28,8 +30,8 @@ const MovieCard = ({ movie }) => {
         const docId = currentUser?.docId;
         const docRef = doc(db, 'users', docId);
         const colRef = collection(docRef, "favourites");
-        await addDoc(colRef, heartedMovie)
-        console.log(heartedMovie);
+        await addDoc(colRef, LikedMovie);
+        // console.log(heartedMovie);
         // setTimeout(()=> setFavoriteMovie(""), 2000)
     }
 
@@ -42,7 +44,7 @@ const MovieCard = ({ movie }) => {
             <Link to={`/movies/${movie.id}`}> <Button>Read More</Button></Link>
             <h3>{movie.title}</h3>
             <div className="movie-info">
-                <p>{movie.release_date.split("-")[0]}</p>
+                <p>{new Date(movie.release_date).getFullYear()}</p>
                 <div className="movie-info__right">
                     {user && <span> <Favorite onClick={handleLikedMovie}
                         sx={{ fontSize: "23px", color: `${favoriteMovie ? "red" : "gray"}` }}

@@ -19,7 +19,7 @@ const TvShowCard = ({ tvShow }) => {
             <Link to={`/tvShow/${tvShow.id}`}> <Button>Read More</Button></Link>
             <h3>{tvShow.name}</h3>
             <div className="movie-info">
-                <p>{tvShow.first_air_date.split("-")[0]}</p>
+                <p>{new Date(tvShow.first_air_date).getFullYear()}</p>
                 <div className="movie-info__right">
                     <span> <Favorite onClick={handleLikedMovie}
                         sx={{ fontSize: "23px", color: `${favoriteMovie ? "red" : "gray"}` }}

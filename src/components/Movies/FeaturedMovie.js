@@ -42,26 +42,26 @@ const FeaturedMovie = () => {
             <div className="slideshowSlider"
                 style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
             >
-                {!isTrendingMoviesLoading && TrendingItems.map((item) =>
-                    <div key={item.id} className="featured-movie__container"
-                        style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1280${item.backdrop_path})`, }}
+                {!isTrendingMoviesLoading && TrendingItems.map((movie) =>
+                    <div key={movie.id} className="featured-movie__container"
+                        style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1280${movie.backdrop_path})`, }}
                     >
                         <div className="featured-movie__genre">
-                            {moviesGenre.filter(genre => item.genre_ids.includes(genre.id))
-                                .map(genreItem => <div key={genreItem.id}>{genreItem.name}</div>)}
+                            {moviesGenre.filter(genre => movie.genre_ids.includes(genre.id))
+                                .map(filteredGenre => <div key={filteredGenre.id}>{filteredGenre.name}</div>)} 
                         </div>
-                        <h1>{item.title}</h1>
+                        <h1>{movie.title}</h1>
                         <div className="featured-movie__info">
-                            <span> <Star sx={{ fontSize: "20px", color: "gold" }} /> {item.vote_average}</span>
+                            <span> <Star sx={{ fontSize: "20px", color: "gold" }} /> {movie.vote_average}</span>
                             <span> <Circle sx={{ fontSize: "10px" }} /> </span>
                             <span>Runtime: 2h21'</span>
                             <span> <Circle sx={{ fontSize: "10px" }} /> </span>
                             <span>Rated: PG-13</span>
                             <span> <Circle sx={{ fontSize: "10px" }} /> </span>
-                            <span>Release: {formatDate(item.release_date)}</span>
+                            <span>Release: {formatDate(movie.release_date)}</span>
                         </div>
                         <div className="movie-btn">
-                            <Button><Link to={`/movies/${item.id}`}>More Details</Link></Button>
+                            <Button><Link to={`/movies/${movie.id}`}>More Details</Link></Button>
                             <Button> <AddCircleOutline /> Add Favourite </Button>
                         </div>
                     </div>)}

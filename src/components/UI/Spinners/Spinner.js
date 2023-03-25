@@ -5,7 +5,7 @@ import "./Spinner.scss";
 const Spinner = () => {
 
     return (
-        <div className="center">
+        <div className="center-spinner">
             <span className="loader"></span>
         </div>
     )

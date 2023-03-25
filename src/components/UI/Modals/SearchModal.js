@@ -1,105 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactDOM from 'react-dom';
 import '../Modals/SearchModal.scss';
 import SearchBar from '../SearchBar';
 import SearchItem from "./SearchItem";
-import { useDebounceState } from "use-debounce-state"; 
 import Backdrop from "./Backdrop";
-// import { useDebounceState } from '@piso/use-debounce-state';
+import Button from "../Button";
+import { Cancel } from "@mui/icons-material";
 
-const SearchModalOverlay = ({onClick, value, setValue, result}) => {
-    console.log("me");
+const SearchModalOverlay = ({ onClick }) => {
 
-    // const  [searchTerm, setSearchTerm] = useState("");
-    // const [result, setResult] = useState([]);
+    const [result, setResult] = useState([]);
+    const [filteredTerm, setFilteredTerm] = useState("movie");
 
-    // const [value, setValue, debounceValue] = useDebounceState('', 500);
+    const debounce = (func) => {
+        let timer;
+        return function (...args) {
+            const context = this;
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                timer = null;
+                func.apply(context, args);
+            }, 500);
+        }
+    }
 
-    // useEffect(
-    //     () => {
-    //         const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
-    //       fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${value}`)
-    //         .then(response => response.json())
-    //         .then(results => {
-    //         //   const filtered = users.filter(user =>
-    //         //     user.name.startsWith(debounceValue)
-    //         //   );
-    //           setResult(results);
-    //         })
-    //         .catch(e => console.log(e));
-    //     },
-    //     [debounceValue]
-    //   );
-//   const [users, setUsers] = useState([]);
-    // const [isSearching, setIsSearching] = useState(false);
+    const handleChange = (value) => {
+        const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
+        fetch(`https://api.themoviedb.org/3/search/${filteredTerm}?api_key=${API_KEY}&query=${value}`)  
+            .then((res) => res.json())
+            .then((result => setResult(result.results)));
+    }
 
-    // const useDebounce = (value, delay) => {
-    //     const [debounceValue, setDebounceValue] = useState(value);
-
-    //     useEffect(()=> {
-    //         const handler = setTimeout(()=> {
-    //             setDebounceValue(value);
-    //         }, delay);
-
-    //         return () => {
-    //             clearTimeout(handler);
-    //         }
-    //     }, [value, delay]);
-
-    //     return debounceValue;
-    // }
-
-    // const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
-    // const handleChange = (e) => {
-    //     setSearchTerm(e.target.value);
-    // }
-
-    // useEffect(()=> {
-    //     if (debouncedSearchTerm) {
-    //         searchCharacters(debouncedSearchTerm);
-    //         // setIsSearching(true);
-    //         // searchCharacters(debouncedSearchTerm).then((results)=> {
-    //         //     setIsSearching(false);
-    //         //     setResult(results);
-    //         // });
-    //     } 
-    //     // else {
-    //     //     setResult([]);
-    //     //     setIsSearching(false);
-    //     // }
-    // }, [debouncedSearchTerm]);
-
-    // const searchCharacters = async (search) => {
-    //     const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
-    //     try {
-    //         const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${search}`);
-    //         const result = await response.json();
-    //         setResult(result);
-    //         console.log(result);
-    //         return result;
-    //     } catch (error) {
-    //         console.error(error);
-    //         return error;
-    //     }
-    //     // return fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${search}`).then((response)=> response.json()).then((result)=> {
-    //     //     console.log(result);
-    //     //     return result;
-    //     // }).catch((error)=> {
-    //     //     console.error(error);
-    //     //     return [];
-    //     // })
-    // }
-
-    // const x = searchCharacters(debouncedSearchTerm).then
+    const optimizedFn = useCallback(debounce(handleChange), []);
 
 
     return (
         <div className="search-modal">
-            <SearchBar onClick={onClick} searchTerm={value} setSearchTerm={setValue} />
+            {currentTerm && <SearchBar onClick={onClick} onChange={(e) => optimizedFn(e.target.value)} />}
+            {/* <hr /> */}
+            <div className="adv-search">
+                {currentTerm && <div className="filtered-term">
+                    <span> {currentTerm} </span>
+                    <Cancel onClick={() => setFilteredTerm("")} />
+                </div>}
+                <p>Search From:</p>
+                <div className="search-btn">
+                    <Button onClick={() => setFilteredTerm("movie")} >Movie</Button>
+                    <Button onClick={() => setFilteredTerm("tv")} >TvShow</Button>
+                </div>
+            </div>
             <hr />
             <div className="search-result">
-            { result.results?.map(item=> <SearchItem key={item.id} movie={item} />)}
+                {result.length > 0 && result.map(movie => <SearchItem key={movie.id} overview={movie.overview} title={movie.title || movie.name} imageUrl={movie.poster_path} />)}
                 {/* {} */}
             </div>
         </div>
@@ -108,31 +60,31 @@ const SearchModalOverlay = ({onClick, value, setValue, result}) => {
 
 const SearchModal = ({ onClick }) => {
 
-    const [result, setResult] = useState([]);
+    // const [result, setResult] = useState([]);
 
-    const [value, setValue, debounceValue] = useDebounceState('', 500);
+    // const [value, setValue, debounceValue] = useDebounceState('', 500);
 
-    useEffect(
-        () => {
-            const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
-          fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${value}`)
-            .then(response => response.json())
-            .then(results => {
-            //   const filtered = users.filter(user =>
-            //     user.name.startsWith(debounceValue)
-            //   );
-              setResult(results);
-            })
-            .catch(e => console.log(e));
-        },
-        [debounceValue]
-      );
+    // useEffect(
+    //     () => {
+    //         const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
+    //         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${value}`)
+    //             .then(response => response.json())
+    //             .then(results => {
+    //                 //   const filtered = users.filter(user =>
+    //                 //     user.name.startsWith(debounceValue)
+    //                 //   );
+    //                 setResult(results);
+    //             })
+    //             .catch(e => console.log(e));
+    //     },
+    //     [debounceValue]
+    // );
 
     return (
         <>
             {ReactDOM.createPortal(<Backdrop onClick={onClick} />,
                 document.getElementById("backdrop-root"))}
-            {ReactDOM.createPortal(<SearchModalOverlay onClick={onClick} value={value} setValue={setValue} result={result} />,
+            {ReactDOM.createPortal(<SearchModalOverlay onClick={onClick} />,
                 document.getElementById("modal-root"))}
         </>
     )

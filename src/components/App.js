@@ -2,13 +2,16 @@ import { Routes, Route, Navigate, useLocation, useParams } from 'react-router-do
 import React, { useEffect, Suspense } from 'react';
 import Layout from '../Layout/Layout';
 import './App.scss';
-// import Home from '../pages/Home';
 import Spinner from './UI/Spinners/Spinner';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
 
 
 const App = () => {
 
     const location = useLocation();
+
+    const [user] = useAuthState(auth);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -37,8 +40,8 @@ const App = () => {
                 <Route path='/auth/login' element={<Suspense fallback={<Spinner />}><Login /></Suspense>} />
                 <Route path='movies/:movieId/*' element={<Suspense fallback={<Spinner />}><MovieSingle /></Suspense>} />
                 <Route path='tvShow/:tvShowId/*' element={<Suspense fallback={<Spinner />}><TvShowSingle /></Suspense>} />
-                <Route path='/account/:username/*' element={<Suspense fallback={<Spinner />}><Account /></Suspense>} />
-                <Route path='account/:username/settings' element={<Suspense fallback={<Spinner />}><Settings /></Suspense>} />
+                {user && <Route path='/account/:username/*' element={<Suspense fallback={<Spinner />}><Account /></Suspense>} />}
+                {user && <Route path='account/:username/settings' element={<Suspense fallback={<Spinner />}><Settings /></Suspense>} />}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </Layout>

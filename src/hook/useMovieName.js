@@ -5,8 +5,8 @@ const useMovieName = () => {
 
     const { movieId, tvShowId } = useParams();
 
-    const { data: singleMovie } = useGetSingleMovieQuery(movieId);
-    const { data: singleTvShow } = useGetSingleTvShowQuery(tvShowId);
+    const { data: singleMovie, isFetching: isFetchingMovie } = useGetSingleMovieQuery(movieId);
+    const { data: singleTvShow, isFetching: isFetchingTvShow } = useGetSingleTvShowQuery(tvShowId);
 
     const location = useLocation();
     const path = location.pathname;
@@ -15,8 +15,9 @@ const useMovieName = () => {
 
 
     const movie = isMovie ? singleMovie.original_title : singleTvShow.name;
+    const fetching = isMovie ? isFetchingMovie : isFetchingTvShow;
 
-    return { movie };
+    return { movie, fetching };
 }
 
 export default useMovieName;

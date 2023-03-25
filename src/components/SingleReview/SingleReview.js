@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { Forum } from "@mui/icons-material";
 import '../../styles/SingleReview/SingleReview.scss';
 import TextArea from "./TextArea";
 import Comment from "./Comments/Comment";
 import ViewReplies from "./Replies/ViewReplies";
-import { collection, doc, addDoc, serverTimestamp, onSnapshot, orderBy, getDoc, Firestore } from "firebase/firestore";
+import { collection, doc, addDoc, serverTimestamp, onSnapshot, orderBy, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
 import useMovieName from "../../hook/useMovieName";
+import ReviewSpinner from "../UI/Spinners/ReviewSpinner";
 
 const SingleReview = () => {
 
-    const { movieId } = useParams();
-
     const [content, setContent] = useState("");
     const [comments, setComments] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { movie } = useMovieName();
+    const { movie, fetching } = useMovieName();
     const [user] = useAuthState(auth);
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
@@ -29,7 +30,6 @@ const SingleReview = () => {
         const colRef = collection(docRef, "comments");
         await addDoc(colRef, {
             content: content,
-            score: 0,
             sentAt: serverTimestamp(),
             user: {
                 username: currentUser?.data.username,
@@ -45,7 +45,6 @@ const SingleReview = () => {
         const snapshot = await getDoc(docRef);
         await addDoc(colRef, {
             content: content,
-            score: 0,
             sentAt: serverTimestamp(),
             replyingTo: snapshot.data().user?.username,
             user: {
@@ -57,6 +56,7 @@ const SingleReview = () => {
     };
 
     useEffect(() => {
+        setIsLoading(true);
         onSnapshot(collection(db, "movies", movie, "comments"), orderBy(
             'timestamp', 'asc'), (snapshot) => {
                 setComments(snapshot.docs.map(doc => ({
@@ -64,27 +64,33 @@ const SingleReview = () => {
                     data: doc.data()
                 })));
             });
-    }, [movieId]);
+        setIsLoading(false);
+    }, [movie]);
 
     const commentSize = comments.length;
 
     const Reviews =
         <div className="movie-single__review">
-            <h2>{`${commentSize == 0 ? "No Comment" :
-                commentSize == 1 ? "01 Comment" :
-                    commentSize > 0 && commentSize <= 9 ? "0" + commentSize + " Comments" :
-                        commentSize + " Comments"}`}</h2>
+            {fetching && <ReviewSpinner />}
+            {!fetching && <h2>{commentSize === 0 ? "No Comment" :
+                commentSize === 1 ? "01 Comment" :
+                    commentSize > 0 && commentSize <= 9 ? `0${commentSize} Comments` :
+                        `${commentSize} Comments`}</h2>}
             <div className="comments scroller" >
-                {comments.map(comment => <Comment
+                {comments?.map(comment => <Comment
                     key={comment.id}
                     commentId={comment.id}
                     commentContent={comment.data.content}
                     username={comment.data.user.username}
                     imageUrl={comment.data.user.image}
-                    timestamp={new Date(comment.data.sentAt?.toDate()).toUTCString()}
+                    timestamp={new Date(comment?.data.sentAt?.toDate())}
                     score={comment.data.score}
                 />)}
             </div>
+            {!fetching && commentSize === 0 && <div className="no-comment">
+                <Forum sx={{ color: "#fff", fontSize: "100px" }} />
+                <p>Be the first to comment.</p>
+            </div>}
             {user && <TextArea
                 placeholder="Add a comment..."
                 setContent={setContent}

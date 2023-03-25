@@ -16,8 +16,7 @@ const Replies = ({ replies }) => {
                     username={reply.data.user.username}
                     imageUrl={reply.data.user.image}
                     replyingTo={reply.data.replyingTo}
-                    timestamp={new Date(reply.data.sentAt?.toDate())}
-                    score={reply.data.score}
+                    timestamp={new Date(reply?.data.sentAt?.toDate())}
                 />)}
         </div>
     )
@@ -31,7 +30,7 @@ export const RepliesOutline = ({ replies, commentId }) => {
                 <div className="replies-outline" key={reply.id} >
                     {reply.data.user.image ? <img src={reply.data.user.image} alt="" /> : <Avatar />}
                     <Link to={commentId}> {reply.data.user.username}</Link>
-                    <p> {`${reply.data.content?.slice(0, 13)}...`} </p>
+                    <p> {reply.data.content?.length > 12 ? `${reply.data.content?.slice(0, 12)}...` : reply.data.content} </p>
                 </div>
             )}
         </div>

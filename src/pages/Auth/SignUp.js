@@ -8,7 +8,7 @@ import { auth,  signInWithGoogle, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
-import Spinner from "../../components/UI/Spinners/Spinner";
+import AuthSpinner from "../../components/UI/Spinners/AuthSpinner";
 
 const textFieldStyle = { width: "100%", "& .MuiFilledInput-root": { backgroundColor: "gray", color: "#fff" } }
 
@@ -117,7 +117,7 @@ const SignUp = () => {
 
     return (
         <>
-            {isLoading && <Spinner />}
+            {isLoading && <AuthSpinner />}
             <div className="sign-up__wrapper">
                 <h1>GEO MOVIES</h1>
                 <div className="form-container">

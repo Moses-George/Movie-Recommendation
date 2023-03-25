@@ -7,7 +7,7 @@ import { auth } from "../../../firebase";
 import { useFetchCurrentUserQuery } from "../../../store/features/currentUserSlice";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { deleteDoc, doc } from "firebase/firestore";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { db } from "../../../firebase";
 import DeleteModal from "../../UI/Modals/DeleteModal";
 import useMovieName from "../../../hook/useMovieName";
@@ -32,7 +32,7 @@ const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
         } catch (err) {
             console.error(err);
         }
-    }
+    };
 
     const deleteReply = async (commentId, replyId) => {
         try {
@@ -41,7 +41,7 @@ const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
         } catch (err) {
             console.error(err);
         }
-    }
+    };
 
     const deleteReview = () => {
         if (type === "comment") {
@@ -50,7 +50,7 @@ const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
         if (type === "reply") {
             deleteReply(commentId, reviewId);
         }
-    }
+    };
 
 
     return (

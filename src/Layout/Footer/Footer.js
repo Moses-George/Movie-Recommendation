@@ -40,7 +40,7 @@ const Footer = () => {
                     </div>
                     <div className="my-account">
                         <h3>ACCOUNTS</h3>
-                        <Link to={`/account/${currentUser?.data.username}`}>My Account</Link>
+                        <Link to={user ? `/account/${currentUser?.data.username}` : "/auth/login"}>My Account</Link>
                         <Link to="/auth/sign-up">Sign Up</Link>
                         <Link to="/auth/login">Login</Link>
                         <Link to="/news">News</Link>

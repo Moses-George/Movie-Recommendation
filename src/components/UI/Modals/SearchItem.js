@@ -1,13 +1,13 @@
 import React from "react";
 import "./SearchItem.scss";
 
-const SearchItem = (movie) => {
+const SearchItem = ({ overview, title, imageUrl }) => {
     return (
         <div className="searchItem">
-            <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
+            <img src={`https://image.tmdb.org/t/p/w500${imageUrl}`} alt="" />
             <div className="searchItem-info">
-                <h4>{movie.title || movie.name}</h4>
-                <p>{movie.overview}</p>
+                <h4>{title.length > 20 ? `${title.slice(0, 17)}...` : title}</h4> 
+                <p>{`${overview.slice(0, 20)}...`}</p>
             </div>
         </div>
     )

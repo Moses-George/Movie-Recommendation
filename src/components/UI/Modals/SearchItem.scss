@@ -1,9 +1,12 @@
 .searchItem {
     display: flex;
-    justify-content: space-around;
+
+    // justify-content: space-evenly;
+    // justify-items: flex-start;
     border-bottom: 1px solid gray;
     padding-bottom: .7rem;
-    // column-gap: .5rem;
+    column-gap: 2rem;
+    // padding-left: 1rem;
 
     img {
         width: 4rem;
@@ -15,9 +18,10 @@
 .searchItem-info {
     align-self: flex-end;
     justify-self: flex-start;
+    // padding-left: 1rem;
 
     h4 {
-        margin: 0;
+        margin-bottom: .3rem;
     }
 
     p {

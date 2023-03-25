@@ -1,3 +1,5 @@
+@import "../../../Variables/Variables";
+
 .backdrop {
     position: fixed;
     top: 0;
@@ -30,7 +32,32 @@
     row-gap: 1rem;
     overflow-y: auto;
     height: 18rem;
+    justify-items: center;
     // padding: 1rem;
+}
+
+.filtered-term {
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
+    width: fit-content;
+    background-color: gray;
+    border-radius: 0 .5rem  .5rem 0;
+    padding: .2rem .5rem;
+}
+
+.adv-search {
+    padding: 0 1rem;
+}
+
+.search-btn {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+        @include btnStyle(rgb(51, 45, 45));
+        padding: .5rem 1rem;
+    }
 }
 
 @keyframes slide-down {
@@ -42,17 +69,19 @@
     to {
         transform: translateY(1rem);
     }
-    
+
 }
 
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .search-modal {
         width: 90%;
         justify-self: center;
-        height: 28rem;
+        height: 30rem;
+        // max-height: 25rem;
     }
 
     .search-result {
-        height: 21rem;
+        height: 15rem;
+        // max-height: 25rem;
     }
 }

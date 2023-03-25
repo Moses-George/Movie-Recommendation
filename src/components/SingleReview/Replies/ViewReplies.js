@@ -1,12 +1,12 @@
 import React, { Fragment, memo, useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import '../../../styles/SingleReview/Comment.scss';
 import CommentHeader from "../Comments/CommentHeader";
 import CommentHeaderBtn from "../Comments/CommentHeaderBtn";
 import CommentVote from '../Comments/CommentVote';
 import Replies from "../Replies/Replies";
 import { db } from "../../../firebase";
-import { doc, getDoc, onSnapshot, collection, orderBy } from "firebase/firestore";
+import { doc, getDoc, collection, onSnapshot, orderBy } from "firebase/firestore";
 import useMovieName from "../../../hook/useMovieName";
 
 
@@ -28,7 +28,7 @@ const ViewReplies = () => {
         if (commentId) {
             getComment();
         }
-    }, [commentId]);
+    }, [commentId, movie]);
 
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const ViewReplies = () => {
                     data: doc.data()
                 })));
             });
-    }, [commentId]);
+    }, [commentId, movie]);
 
 
     return (
@@ -47,7 +47,10 @@ const ViewReplies = () => {
             <div className='comment-section'>
                 <div className="comment">
                     <div className="comment-vote">
-                        <CommentVote />
+                        <CommentVote
+                            isComment={true}
+                            reviewId={commentId}
+                        />
                     </div>
                     <div className='comment-info'>
                         <div className='comment-top'>
@@ -60,7 +63,6 @@ const ViewReplies = () => {
                         <div className="comment-content"> {singleComment?.content} </div>
                     </div>
                 </div>
-
                 <Replies replies={replies} />
             </div>
         </Fragment>

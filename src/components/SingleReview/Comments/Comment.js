@@ -1,29 +1,21 @@
 import React, { Fragment, memo, useState, useEffect } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import '../../../styles/SingleReview/Comment.scss';
 import CommentHeader from "./CommentHeader";
 import CommentHeaderBtn from "./CommentHeaderBtn";
 import CommentVote from './CommentVote';
-import TextArea from "../TextArea";
 import UpdateTextArea from "../../UI/UpdateTextArea";
-import Replies from "../Replies/Replies";
 import { RepliesOutline } from "../Replies/Replies";
 import { doc, getDoc, updateDoc, collection, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "../../../firebase";
-import { useGetSingleMovieQuery, useGetSingleTvShowQuery } from "../../../store/features/movieApiSlice";
-// import Replies from "./Replies";
 import useMovieName from "../../../hook/useMovieName";
 
-// const replies = ['r1', 'r2', 'r3'];
 
+const Comments = ({ username, commentId, imageUrl, timestamp, commentContent }) => {
 
-const Comments = ({ username, commentId, imageUrl, timestamp, commentContent, score }) => {
-
-    const { movieId, tvShowId } = useParams();
     const { movie } = useMovieName();
 
     const [isEditing, setIsEditing] = useState(false);
-    const [vote, setVote] = useState(0);
 
     const [content, setContent] = useState("");
     const [replies, setReplies] = useState([]);
@@ -51,9 +43,7 @@ const Comments = ({ username, commentId, imageUrl, timestamp, commentContent, sc
                     data: doc.data()
                 })));
             });
-        // }
     }, [commentId]);
-    console.log(replies)
 
 
     return (
@@ -61,12 +51,24 @@ const Comments = ({ username, commentId, imageUrl, timestamp, commentContent, sc
             <div className='comment-section'>
                 <div className="comment">
                     <div className="comment-vote">
-                        <CommentVote score={score} />
+                        <CommentVote
+                            reviewId={commentId}
+                            isComment={true}
+                        />
                     </div>
                     <div className='comment-info'>
                         <div className='comment-top'>
-                            <CommentHeader timestamp={timestamp} username={username} imageUrl={imageUrl} />
-                            <CommentHeaderBtn username={username} type="comment" reviewId={commentId} editReview={() => editComment(commentId)} />
+                            <CommentHeader
+                                timestamp={timestamp}
+                                username={username}
+                                imageUrl={imageUrl}
+                            />
+                            <CommentHeaderBtn
+                                username={username}
+                                type="comment"
+                                reviewId={commentId}
+                                editReview={() => editComment(commentId)}
+                            />
                         </div>
                         {!isEditing && <div className="comment-content"> {commentContent} </div>}
                         {isEditing && <UpdateTextArea
@@ -76,45 +78,12 @@ const Comments = ({ username, commentId, imageUrl, timestamp, commentContent, sc
                         />}
                     </div>
                 </div>
-                {replies.length >= 3 && <Link to={commentId}>{`View Previous ${replies.length} replies...`}</Link>}
+                {replies.length >= 3 && <Link to={commentId}>{`View all ${replies.length} replies...`}</Link>}
 
                 {replies.length < 3 && <RepliesOutline replies={replies} commentId={commentId} />}
             </div>
         </Fragment>
     )
-    // return (
-    //     <Fragment>
-    //         <div  className='comment-section'>
-    //             <div className="comment">
-    //                 <div className="comment-vote">
-    //                     <CommentVote score={score} setVote={setVote} />
-    //                 </div>
-    //                 <div className='comment-info'>
-    //                     <div className='comment-top'>
-    //                         <CommentHeader username={username} />
-    //                         <CommentHeaderBtn
-    //                             isReplying={isReplying}
-    //                             setIsReplying={setIsReplying}
-    //                             setIsEditing={setIsEditing}
-    //                         />
-    //                     </div>
-    //                     <div className="comment-content"> hdhdhhdhd dvddgd vdvdvddv vsvvsd </div>
-    //                     {/* {isEditing && <UpdateTextArea
-    //                         type="Comment"
-    //                         setIsEditing={setIsEditing} />} */}
-    //                 </div>
-    //             </div>
-    //             {replies.length >= 3 && <Link to="c1">View 3 replies....</Link>}
-
-    //             {isReplying && <TextArea
-    //                 // col={30}
-    //                 action="REPLY"
-    //             />}
-
-    //             {replies.length < 3 && <Replies replies={replies} />}
-    //         </div>
-    //     </Fragment>
-    // )
 }
 
 export default memo(Comments);

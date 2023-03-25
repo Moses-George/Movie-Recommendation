@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import '../../../styles/SingleReview/Comment.scss';
 import CommentHeader from "../Comments/CommentHeader";
 import CommentHeaderBtn from "../Comments/CommentHeaderBtn";
@@ -9,13 +9,14 @@ import { db } from "../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import useMovieName from "../../../hook/useMovieName";
 
-const Reply = ({ username, imageUrl, timestamp, replyContent, replyingTo, score, replyId }) => {
+const Reply = ({ username, imageUrl, timestamp, replyContent, replyingTo, replyId }) => {
 
     const { commentId } = useParams();
-    const {movie} = useMovieName();
+
+    const { movie } = useMovieName();
 
     const [isEditing, setIsEditing] = useState(false);
-    const [content, setContent] = useState(""); 
+    const [content, setContent] = useState("");
 
     const editReply = async (commentId, replyId) => {
         setIsEditing(true);
@@ -36,12 +37,22 @@ const Reply = ({ username, imageUrl, timestamp, replyContent, replyingTo, score,
         <Fragment>
             <div className='comment'>
                 <div className='comment-vote'>
-                    <CommentVote score={score} />
+                    <CommentVote
+                        isComment={false}
+                        reviewId={replyId}
+                    />
                 </div>
                 <div className='comment-info'>
                     <div className='comment-top'>
-                        <CommentHeader username={username} timestamp={timestamp} imageUrl={imageUrl} />
-                        <CommentHeaderBtn reviewId={replyId} username={username} type="reply" editReview={() => editReply(commentId, replyId)} />
+                        <CommentHeader
+                            username={username}
+                            timestamp={timestamp}
+                            imageUrl={imageUrl} />
+                        <CommentHeaderBtn
+                            reviewId={replyId}
+                            username={username}
+                            type="reply"
+                            editReview={() => editReply(commentId, replyId)} />
                     </div>
                     {!isEditing && <div className='comment-content'>
                         <span> {replyingTo} </span>

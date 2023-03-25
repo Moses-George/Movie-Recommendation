@@ -4,7 +4,7 @@ import '../../styles/Movies/MovieGrid.scss';
 import MovieCard from './MovieCard';
 import { useGetMoviesDiscoverQuery } from "../../store/features/movieApiSlice";
 import { useNavigate, createSearchParams, useLocation, useSearchParams } from "react-router-dom";
-import Spinner from "../UI/Spinners/Spinner";
+import MovieSpinner from "../UI/Spinners/MovieSpinner";
 // import { current } from "@reduxjs/toolkit";
 
 const movies = new Array(12).fill(null).map((item, index) => "m" + index);
@@ -15,7 +15,7 @@ const textFieldStyle = {
     "& .MuiFilledInput-root": { backgroundColor: "#464646", color: "#fff" }
 }
 
-const sortMovies =  (movies, sort) => {
+const sortMovies = (movies, sort) => {
     if (sort === "All" || !sort) {
         return movies;
     }
@@ -55,9 +55,6 @@ const MovieGrid = ({ type }) => {
     // }
     const discoveryItems = localStorage.getItem("discoveries") !== null ? JSON.parse(localStorage.getItem("discoveries")) : []
 
-    if (isLoading) {
-        return <Spinner />
-    }
 
     const handlePageChange = (e, value) => {
         setPage(value);
@@ -78,34 +75,37 @@ const MovieGrid = ({ type }) => {
     console.log(discoveryMovies);
 
     return (
-        <div className="movie-grid">
-            <div className="movie-grid__sort">
-                <p> {`Found 500 ${type}s`} </p>
-                <div className="sort-by">
-                    <span>Sort by:</span>
-                    <FormControl fullWidth sx={textFieldStyle}>
-                        <Select variant="filled"
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select" 
-                            value={filter || (query && query)}
-                            onChange={(e) => setFilter(e.target.value)}
-                            label="Genre">
-                            <MenuItem value="All" >All</MenuItem>
-                            <MenuItem value="Rating Ascending" >Rating Ascending</MenuItem>
-                            <MenuItem value="Rating Descending" >Rating Descending</MenuItem>
-                            <MenuItem value="Release Date Ascending" >Release Date Ascending</MenuItem>
-                            <MenuItem value="Release Date Descending" >Release Date Descending</MenuItem>
-                            <MenuItem value="Popularity Ascending" >Popularity Ascending</MenuItem>
-                            <MenuItem value="Popularity Descending" >Popularity Descending</MenuItem>
-                        </Select>
-                    </FormControl>
+        <>
+            {isLoading && <MovieSpinner />}
+            <div className="movie-grid">
+                <div className="movie-grid__sort">
+                    <p> {`Found 500 ${type}s`} </p>
+                    <div className="sort-by">
+                        <span>Sort by:</span>
+                        <FormControl fullWidth sx={textFieldStyle}>
+                            <Select variant="filled"
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={filter || (query && query)}
+                                onChange={(e) => setFilter(e.target.value)}
+                                label="Genre">
+                                <MenuItem value="All" >All</MenuItem>
+                                <MenuItem value="Rating Ascending" >Rating Ascending</MenuItem>
+                                <MenuItem value="Rating Descending" >Rating Descending</MenuItem>
+                                <MenuItem value="Release Date Ascending" >Release Date Ascending</MenuItem>
+                                <MenuItem value="Release Date Descending" >Release Date Descending</MenuItem>
+                                <MenuItem value="Popularity Ascending" >Popularity Ascending</MenuItem>
+                                <MenuItem value="Popularity Descending" >Popularity Descending</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
                 </div>
+                <div className="movie-grid__wrapper">
+                    {!isLoading && discoveryMovies?.results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+                </div>
+                <Pagination onChange={handlePageChange} count={20} color="primary" />
             </div>
-            <div className="movie-grid__wrapper">
-                {!isLoading && sortedMovies.map(movie => <MovieCard key={movie.id} movie={movie} />)}
-            </div>
-            <Pagination onChange={handlePageChange} count={20} color="primary" />
-        </div>
+        </>
     )
 }
 
