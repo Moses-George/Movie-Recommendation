@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Divider } from "@mui/material";
 import Button from "../UI/Button";
 import '../../styles/MovieSingle/MovieSingleMoreInfo.scss';
 import { formatDate } from "../../utils/dateFormatter";
 
 
-const MovieSingleMoreInfo = ({single}) => {
+const MovieSingleMoreInfo = ({ single }) => {
 
     return (
         <div className="movie-single__moreInfo">
@@ -14,10 +15,12 @@ const MovieSingleMoreInfo = ({single}) => {
             <p> <strong>Language: </strong> {single?.spoken_languages.map(language => language.name + " ")} </p>
             <p> <strong>Budget: </strong> {single?.budget} </p>
             <p> <strong>Revenue: </strong> {single?.revenue} </p>
-            <div className="genre">
+            <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
             <p>Genres:</p>
-                {single?.genres.map(genre => <div key={genre.id}>{genre.name}</div> )}
+            <div className="genre">
+                {single?.genres.map(genre => <div key={genre.id}>{genre.name}</div>)}
             </div>
+            <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
             <div className="production-companies">
                 <h3>Production Companies</h3>
                 {single?.production_companies.map(company => <div key={company.id} className="company">

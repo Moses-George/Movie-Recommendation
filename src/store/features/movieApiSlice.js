@@ -27,6 +27,9 @@ export const movieApi = createApi({
         getSingleTvShow: builder.query({
             query: (tvShowId) => `tv/${tvShowId}?api_key=${API_KEY}`,
         }),
+        getSortedMovies: builder.query({
+            query: (page, query) => `movie/upcoming?sort_by=${query}&api_key=${API_KEY}&page=${page}`
+        })
     })
 });
 
@@ -37,4 +40,5 @@ export const { useGetMoviesDiscoverQuery,
     useGetTrendingMoviesQuery,
     useGetSingleMovieQuery,
     useGetSingleTvShowQuery,
+    useGetSortedMoviesQuery
 } = movieApi;

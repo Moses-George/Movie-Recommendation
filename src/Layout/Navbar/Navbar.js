@@ -39,7 +39,7 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/tvShow" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
+                            <NavLink to="/tv" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
                                 {showNavLink && "Tv Shows"} {!showNavLink && <Tv sx={{ fontSize: "33px" }} />}
                             </NavLink>
                         </li>

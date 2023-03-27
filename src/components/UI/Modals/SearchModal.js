@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import ReactDOM from 'react-dom';
 import '../Modals/SearchModal.scss';
 import SearchBar from '../SearchBar';
@@ -6,11 +6,16 @@ import SearchItem from "./SearchItem";
 import Backdrop from "./Backdrop";
 import Button from "../Button";
 import { Cancel } from "@mui/icons-material";
+import SearchSpinner from "../Spinners/SearchSpinner";
 
 const SearchModalOverlay = ({ onClick }) => {
 
     const [result, setResult] = useState([]);
     const [filteredTerm, setFilteredTerm] = useState("movie");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const searchRef = useRef();
 
     const debounce = (func) => {
         let timer;
@@ -24,61 +29,65 @@ const SearchModalOverlay = ({ onClick }) => {
         }
     }
 
-    const handleChange = (value) => {
-        const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
-        fetch(`https://api.themoviedb.org/3/search/${filteredTerm}?api_key=${API_KEY}&query=${value}`)  
-            .then((res) => res.json())
-            .then((result => setResult(result.results)));
+    const handleChange = async (value) => {
+        setIsLoading(true);
+        try {
+            const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
+            const filter = searchRef.current.textContent.trim();
+            const res = await fetch(`https://api.themoviedb.org/3/search/${filter}?api_key=${API_KEY}&query=${value}`);
+            if (!res.ok) {
+                throw new Error("No Result Found");
+            }
+            const result = await res.json();
+            setResult(result.results);
+        } catch (err) {
+            setError(err.message);
+            console.error(err);
+        }
+        setIsLoading(false);
     }
 
     const optimizedFn = useCallback(debounce(handleChange), []);
 
+    useEffect(() => {
+        if (searchTerm && filteredTerm) {
+            optimizedFn(searchTerm);
+        }
+    }, [searchTerm, filteredTerm, optimizedFn]);
+
 
     return (
         <div className="search-modal">
-            {currentTerm && <SearchBar onClick={onClick} onChange={(e) => optimizedFn(e.target.value)} />}
+            {filteredTerm && <SearchBar onClick={onClick} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />}
             {/* <hr /> */}
             <div className="adv-search">
-                {currentTerm && <div className="filtered-term">
-                    <span> {currentTerm} </span>
-                    <Cancel onClick={() => setFilteredTerm("")} />
+                {filteredTerm && <div className="filtered-term">
+                    <span ref={searchRef} > {filteredTerm} </span>
+                    <Cancel />
                 </div>}
                 <p>Search From:</p>
                 <div className="search-btn">
-                    <Button onClick={() => setFilteredTerm("movie")} >Movie</Button>
-                    <Button onClick={() => setFilteredTerm("tv")} >TvShow</Button>
+                    <Button onClick={() => setFilteredTerm("movie")} className={filteredTerm === "movie" ? "active-filter" : "inactive-filter"} >Movie</Button>
+                    <Button onClick={() => setFilteredTerm("tv")} className={filteredTerm === "tv" ? "active-filter" : "inactive-filter"} >TvShow</Button>
                 </div>
             </div>
             <hr />
             <div className="search-result">
-                {result.length > 0 && result.map(movie => <SearchItem key={movie.id} overview={movie.overview} title={movie.title || movie.name} imageUrl={movie.poster_path} />)}
-                {/* {} */}
+                {!isLoading && !error && result.length > 0 && result.map(movie => <SearchItem
+                    key={movie.id}
+                    movieId={movie.id}
+                    filter={filteredTerm === "movie" ? "movies" : filteredTerm}
+                    overview={movie.overview}
+                    title={movie.title || movie.name}
+                    imageUrl={movie.poster_path} />)}
+                {isLoading && <SearchSpinner />}
+                {error && <h3 className="error">{error}</h3>}
             </div>
         </div>
     )
 }
 
 const SearchModal = ({ onClick }) => {
-
-    // const [result, setResult] = useState([]);
-
-    // const [value, setValue, debounceValue] = useDebounceState('', 500);
-
-    // useEffect(
-    //     () => {
-    //         const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
-    //         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${value}`)
-    //             .then(response => response.json())
-    //             .then(results => {
-    //                 //   const filtered = users.filter(user =>
-    //                 //     user.name.startsWith(debounceValue)
-    //                 //   );
-    //                 setResult(results);
-    //             })
-    //             .catch(e => console.log(e));
-    //     },
-    //     [debounceValue]
-    // );
 
     return (
         <>

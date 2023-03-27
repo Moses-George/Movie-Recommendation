@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Divider } from "@mui/material";
 import Button from "../UI/Button";
 import '../../styles/MovieSingle/MovieSingleMoreInfo.scss';
 import { formatDate } from "../../utils/dateFormatter";
 import pic from "../../Assets/images/robot.jpg"
 
 
-const TvShowSingleMoreInfo = ({single}) => {
+const TvShowSingleMoreInfo = ({ single }) => {
 
     // return (
     //     <div className="movie-single__moreInfo">
@@ -40,16 +41,19 @@ const TvShowSingleMoreInfo = ({single}) => {
             <p> <strong>Language: </strong> English, French </p>
             <p> <strong>Budget: </strong> 1,200,000 </p>
             <p> <strong>Revenue: </strong> 20,000,000 </p>
+            <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
             <p>Genres:</p>
             <div className="genre">
-            <div>Adventure</div>
-            <div>Horror</div>
-            <div>Comedy</div>
-            <div>Romance</div>
+                <div>Adventure</div>
+                <div>Horror</div>
+                <div>Comedy</div>
+                <div>Romance</div>
             </div>
+            <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
+            <h3>Production Companies</h3>
             <div className="production-companies">
-                <h3>Production Companies</h3>
-                {[1,2,3].map(company => <div key={company} className="company">
+                {/* <h3>Production Companies</h3> */}
+                {[1, 2, 3].map(company => <div key={company} className="company">
                     <img src={pic} alt="" />
                     <div className="company-detail">
                         <p> company.name</p>

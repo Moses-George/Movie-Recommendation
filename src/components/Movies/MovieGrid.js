@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FormControl, MenuItem, Select, Pagination } from "@mui/material";
 import '../../styles/Movies/MovieGrid.scss';
 import MovieCard from './MovieCard';
-import { useGetMoviesDiscoverQuery } from "../../store/features/movieApiSlice";
+import { useGetMoviesDiscoverQuery, useGetSortedMoviesQuery } from "../../store/features/movieApiSlice";
 import { useNavigate, createSearchParams, useLocation, useSearchParams } from "react-router-dom";
 import MovieSpinner from "../UI/Spinners/MovieSpinner";
 // import { current } from "@reduxjs/toolkit";
@@ -15,41 +15,42 @@ const textFieldStyle = {
     "& .MuiFilledInput-root": { backgroundColor: "#464646", color: "#fff" }
 }
 
-const sortMovies = (movies, sort) => {
-    if (sort === "All" || !sort) {
-        return movies;
-    }
-    if (sort === "Rating Ascending") {
-        return movies?.sort((prevMovie, currentMovie) => prevMovie.vote_average - currentMovie.vote_average);
-    }
-    if (sort === "Rating Descending") {
-        return movies?.sort((prevMovie, currentMovie) => currentMovie.vote_average - prevMovie.vote_average);
-    }
-    if (sort === "Release Date Ascending") {
-        return movies.sort((prevMovie, currentMovie) => prevMovie.release_date - currentMovie.release_date);
-    }
-    if (sort === "Release Date Descending") {
-        return movies.sort((prevMovie, currentMovie) => currentMovie.release_date - prevMovie.release_date);
-    }
-    if (sort === "Popularity Ascending") {
-        return movies.sort((prevMovie, currentMovie) => prevMovie.popularity - currentMovie.popularity);
-    }
-    if (sort === "Popularity Descending") {
-        return movies.sort((prevMovie, currentMovie) => currentMovie.popularity - prevMovie.popularity);
-    }
-}
+// const sortMovies = (movies, sort) => {
+//     if (sort === "All" || !sort) {
+//         return movies;
+//     }
+//     if (sort === "Rating Ascending") {
+//         return movies?.sort((prevMovie, currentMovie) => prevMovie.vote_average - currentMovie.vote_average);
+//     }
+//     if (sort === "Rating Descending") {
+//         return movies?.sort((prevMovie, currentMovie) => currentMovie.vote_average - prevMovie.vote_average);
+//     }
+//     if (sort === "Release Date Ascending") {
+//         return movies.sort((prevMovie, currentMovie) => prevMovie.release_date - currentMovie.release_date);
+//     }
+//     if (sort === "Release Date Descending") {
+//         return movies.sort((prevMovie, currentMovie) => currentMovie.release_date - prevMovie.release_date);
+//     }
+//     if (sort === "Popularity Ascending") {
+//         return movies.sort((prevMovie, currentMovie) => prevMovie.popularity - currentMovie.popularity);
+//     }
+//     if (sort === "Popularity Descending") {
+//         return movies.sort((prevMovie, currentMovie) => currentMovie.popularity - prevMovie.popularity);
+//     }
+// }
 
 const MovieGrid = ({ type }) => {
 
     const [page, setPage] = useState(1);
-    const [filter, setFilter] = useState("");
+    const [filter, setFilter] = useState("popularity.asc");
+    const scrollToRef = useRef(null);
 
     const navigate = useNavigate();
 
-    const [searchParam] = useSearchParams();
-    const query = searchParam.get('sort');
+    // const [searchParam] = useSearchParams();
+    // const query = searchParam.get('sort');
 
-    const { data: discoveryMovies, isLoading, isFetching, refetch } = useGetMoviesDiscoverQuery(page);
+    const { data: discoveryMovies, isLoading, isFetching, refetch } = useGetSortedMoviesQuery(page, filter);
     // if (!isFetching) {
     //     localStorage.setItem("discoveries", JSON.stringify(discoveryMovies.results.map(item=> item)));
     // }
@@ -59,6 +60,7 @@ const MovieGrid = ({ type }) => {
     const handlePageChange = (e, value) => {
         setPage(value);
         refetch();
+        scrollToRef.current.scrollIntoView({behavior:"smooth"}); 
     }
 
     const params = { sort: filter }
@@ -71,13 +73,13 @@ const MovieGrid = ({ type }) => {
     //         });
     // }, [filter])
 
-    const sortedMovies = sortMovies(discoveryItems, query);
-    console.log(discoveryMovies);
+    // const sortedMovies = sortMovies(discoveryItems, query);
+    // console.log(discoveryMovies);
 
     return (
         <>
             {isLoading && <MovieSpinner />}
-            <div className="movie-grid">
+            <div className="movie-grid" ref={scrollToRef} >
                 <div className="movie-grid__sort">
                     <p> {`Found 500 ${type}s`} </p>
                     <div className="sort-by">
@@ -86,16 +88,16 @@ const MovieGrid = ({ type }) => {
                             <Select variant="filled"
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={filter || (query && query)}
+                                value={filter}
                                 onChange={(e) => setFilter(e.target.value)}
                                 label="Genre">
                                 <MenuItem value="All" >All</MenuItem>
-                                <MenuItem value="Rating Ascending" >Rating Ascending</MenuItem>
-                                <MenuItem value="Rating Descending" >Rating Descending</MenuItem>
-                                <MenuItem value="Release Date Ascending" >Release Date Ascending</MenuItem>
-                                <MenuItem value="Release Date Descending" >Release Date Descending</MenuItem>
-                                <MenuItem value="Popularity Ascending" >Popularity Ascending</MenuItem>
-                                <MenuItem value="Popularity Descending" >Popularity Descending</MenuItem>
+                                <MenuItem value="vote_average.asc" >Rating Ascending</MenuItem>
+                                <MenuItem value="vote_average.desc" >Rating Descending</MenuItem>
+                                <MenuItem value="release_date.asc" >Release Date Ascending</MenuItem>
+                                <MenuItem value="release_date.desc" >Release Date Descending</MenuItem>
+                                <MenuItem value="popularity.asc" >Popularity Ascending</MenuItem>
+                                <MenuItem value="popularity.desc" >Popularity Descending</MenuItem>
                             </Select>
                         </FormControl>
                     </div>

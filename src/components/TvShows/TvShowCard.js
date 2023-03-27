@@ -16,7 +16,7 @@ const TvShowCard = ({ tvShow }) => {
     return (
         <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`} alt="" />
-            <Link to={`/tvShow/${tvShow.id}`}> <Button>Read More</Button></Link>
+            <Link to={`/tv/${tvShow.id}`}> <Button>Read More</Button></Link>
             <h3>{tvShow.name}</h3>
             <div className="movie-info">
                 <p>{new Date(tvShow.first_air_date).getFullYear()}</p>

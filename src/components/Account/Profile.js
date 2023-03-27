@@ -6,7 +6,7 @@ import { Settings, AddAPhoto, Logout } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
 import { storage, db, logOut, auth } from "../../firebase";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable, listAll, getMetadata } from "firebase/storage";
 import { doc, updateDoc } from "firebase/firestore";
 import ImagePreview from "../UI/Modals/ImagePreview";
 
@@ -19,9 +19,9 @@ const Profile = () => {
     const [user] = useAuthState(auth);
     const { data: currentUser, isFetching, isLoading, refetch } = useFetchCurrentUserQuery(user?.uid);
 
-if (image) {
-    console.log(URL.createObjectURL(image))
-}
+    if (image) {
+        console.log(URL.createObjectURL(image))
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -67,45 +67,81 @@ if (image) {
         }
     }, [refetch, url]);
 
+
+    // import { storage } from '../firebase';
+    // import { ref, list, listAll, getDownloadURL } from "firebase/storage";
+
+    // const fetchImages = async () => {
+    //     const storageRef = ref(storage, 'images/');
+    //     const result = await listAll(storageRef);
+
+    //     const urlPromises = result.items.map((imageRef) => getDownloadURL(imageRef));
+
+    //     return Promise.all(urlPromises);
+    // };
+    // console.log(fetchImages());
+
+    // const [files, setFiles] = useState([]);
+
+    // useEffect(() => {
+    //     const fetchImages = async () => {
+    //         const storageRef = ref(storage, 'images/');
+    //         const result = await listAll(storageRef);
+    //         console.log(result); 
+    //         let urlPromises = result.items.map((imageRef) => getMetadata(imageRef) 
+    //         );
+
+    //         return Promise.all(urlPromises);
+    //     };
+
+    //     const loadImages = async () => {
+    //         const urls = await fetchImages();
+    //         setFiles(urls);
+    //     };
+    //     loadImages();
+    // }, [url]);
+
+    // console.log(files);
+
     return (
         <>
-        {image && progressPercent < 100 && <ImagePreview
-         image={image} 
-         progressPercent={progressPercent}
-         onClose={()=> setImage(null)} 
-         onSave={handleSubmit} />}
-        <section className="profile">
-            <form  className="profile-pic">
-                {!currentUser?.data.imageUrl ?
-                    <Avatar sx={{ width: "10rem", height: "10rem" }} /> :
-                    <img src={currentUser?.data.imageUrl} alt="" />}
-                <label htmlFor="fileInput">
-                    <div className="camera">
-                        <AddAPhoto sx={{ fontSize: "30px" }} />
-                    </div>
-                </label>
-                <input type="file" id="fileInput" onChange={(e) => setImage(e.target.files[0])} />
-            </form>
-            <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
-            <div className="account-details">
-                <p>Account Details</p>
-                <Link to="">PROFILE</Link>
-                <Link to="favourites">FAVOURITE MOVIES</Link>
-                <Link to="">USER GUIDE</Link>
-            </div>
-            <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
-            <div className="others">
-                <p>Others</p>
-                <Link to="/account/george/settings" className="menu-link" >
-                    <Settings />
-                    <p> SETTINGS</p>
-                </Link>
-                <Link to="/" onClick={logOut} className="menu-link" >
-                    <Logout />
-                    <p>Logout </p>
-                </Link>
-            </div>
-        </section>
+            {image && progressPercent < 100 && <ImagePreview
+                image={image}
+                progressPercent={progressPercent}
+                onClose={() => setImage(null)}
+                onSave={handleSubmit} />}
+            <section className="profile">
+                <form className="profile-pic">
+                    {!currentUser?.data.imageUrl ?
+                        <Avatar sx={{ width: "10rem", height: "10rem" }} /> :
+                        <img src={currentUser?.data.imageUrl} alt="" />}  
+                    <label htmlFor="fileInput">
+                        <div className="camera">
+                            <AddAPhoto sx={{ fontSize: "30px" }} />
+                        </div>
+                    </label>
+                    <input type="file" id="fileInput" onChange={(e) => setImage(e.target.files[0])} />
+                </form>
+                <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
+                <div className="account-details">
+                    <p>Account Details</p>
+                    <Link to="">PROFILE</Link>
+                    <Link to="favourites">FAVOURITE MOVIES</Link>
+                    <Link to="">USER GUIDE</Link>
+                </div>
+                <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
+                <div className="others">
+                    <p>Others</p>
+                    <Link to="/account/george/settings" className="menu-link" >
+                        <Settings />
+                        <p> SETTINGS</p>
+                    </Link>
+                    <Link to="/" onClick={logOut} className="menu-link" >
+                        <Logout />
+                        <p>Logout </p>
+                    </Link>
+                </div>
+            </section>
         </>
     )
 }

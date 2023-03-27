@@ -11,6 +11,10 @@
         background-color: rgb(0,0,0,0.9);
         color: red;
     }
+
+    h3 {
+        color: #fff;
+    }
 }
 
 .genre {
@@ -28,22 +32,24 @@
 }
 
 .production-companies {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    column-gap: 1rem;
+    // display: flex;
+    // flex-direction: column;
     row-gap: .8rem;
     padding-bottom: 1rem;
-    h3 {
-        color: #fff;
-    }
 }
 
 .company {
     display: flex;
     column-gap: 1rem;
     align-items: center;
+    border-radius: 10px;
     // width: fit-content;
-    background-color: rgb(39, 38, 38);
-    padding: 0 0 0 1rem;
+    // background-color: rgb(39, 38, 38);
+    background-color: rgb(0,0,0,0.9);
+    padding: 0 .5rem;
 
     img {
         width: 4rem;
@@ -66,5 +72,9 @@
 
     .movie-single__moreInfo {
         padding: 3rem 1rem 0 1rem;
+    }
+
+    .production-companies {
+        grid-template-columns: 1fr;
     }
 }

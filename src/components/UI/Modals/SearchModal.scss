@@ -16,9 +16,8 @@
     z-index: 99999;
     border-radius: 7px;
     width: 21rem;
-    height: 25rem;
+    height: 33rem;
     max-height: fit-content;
-    // overflow-y: auto;
     animation: slide-down 300ms ease-out forwards;
     background-color: #fff;
 
@@ -32,8 +31,12 @@
     row-gap: 1rem;
     overflow-y: auto;
     height: 18rem;
-    justify-items: center;
-    // padding: 1rem;
+    justify-items: start;
+    padding: 1rem;
+
+    h3 {
+        text-align: center;
+    }
 }
 
 .filtered-term {
@@ -44,10 +47,16 @@
     background-color: gray;
     border-radius: 0 .5rem  .5rem 0;
     padding: .2rem .5rem;
+    color: #fff;
 }
 
 .adv-search {
     padding: 0 1rem;
+
+    p {
+        color: hsl(212, 23%, 43%);
+    }
+    // color: #fff;
 }
 
 .search-btn {
@@ -55,9 +64,23 @@
     justify-content: space-between;
 
     button {
-        @include btnStyle(rgb(51, 45, 45));
+        // @include btnStyle(rgb(51, 45, 45));
         padding: .5rem 1rem;
     }
+}
+
+.error {
+    text-align: center;
+    // align-self: center;
+    color: hsl(212, 23%, 43%);
+}
+
+.active-filter {
+    background-color: red;
+}
+
+.inactive-filter {
+    background-color: rgb(51, 45, 45);
 }
 
 @keyframes slide-down {
@@ -77,6 +100,7 @@
         width: 90%;
         justify-self: center;
         height: 30rem;
+        top: 2rem;
         // max-height: 25rem;
     }
 

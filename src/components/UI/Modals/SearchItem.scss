@@ -1,9 +1,11 @@
+@import "../../../Variables/Variables";
+
 .searchItem {
     display: flex;
 
     // justify-content: space-evenly;
     // justify-items: flex-start;
-    border-bottom: 1px solid gray;
+    // border-bottom: 1px solid gray;
     padding-bottom: .7rem;
     column-gap: 2rem;
     // padding-left: 1rem;
@@ -14,6 +16,12 @@
         border-radius: 50%;
     }
 }
+
+a {
+    @include linkStyle(hsl(212, 23%, 43%));
+}
+
+
 
 .searchItem-info {
     align-self: flex-end;

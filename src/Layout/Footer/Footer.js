@@ -34,7 +34,7 @@ const Footer = () => {
                     <div className="quick-links">
                         <h3>QUICK LINKS</h3>
                         <Link to="/movies">Movies</Link>
-                        <Link to="/tvShow">TV Shows</Link>
+                        <Link to="/tv">TV Shows</Link>
                         <Link to="">Animations</Link>
                         <Link to="/news">Blog</Link>
                     </div>

@@ -11,16 +11,22 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
 import useMovieName from "../../hook/useMovieName";
 import ReviewSpinner from "../UI/Spinners/ReviewSpinner";
+import { useRef } from "react";
 
 const SingleReview = () => {
 
     const [content, setContent] = useState("");
     const [comments, setComments] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const scrollToComments = useRef(null); 
 
     const { movie, fetching } = useMovieName();
     const [user] = useAuthState(auth);
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
+
+    useEffect(()=> {
+        scrollToComments.current.scrollIntoView({behavior:"smooth"});
+    }, [])
 
     const btnIsDisabled = !content || content.trim().length === 0;
 
@@ -70,7 +76,7 @@ const SingleReview = () => {
     const commentSize = comments.length;
 
     const Reviews =
-        <div className="movie-single__review">
+        <div className="single__review" ref={scrollToComments} >
             {fetching && <ReviewSpinner />}
             {!fetching && <h2>{commentSize === 0 ? "No Comment" :
                 commentSize === 1 ? "01 Comment" :
