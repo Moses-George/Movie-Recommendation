@@ -32,20 +32,22 @@ const SingleReview = () => {
 
 
     const sendComment = async () => {
+        const docId = currentUser?.docId;
         const docRef = doc(db, "movies", movie);
         const colRef = collection(docRef, "comments");
         await addDoc(colRef, {
             content: content,
             sentAt: serverTimestamp(),
             user: {
+                userId: docId,
                 username: currentUser?.data.username,
-                image: currentUser?.data.imageUrl
             }
         });
         setContent("");
     };
 
     const sendReply = async (commentId) => {
+        const docId = currentUser?.docId;
         const docRef = doc(db, "movies", movie, "comments", commentId);
         const colRef = collection(docRef, "replies");
         const snapshot = await getDoc(docRef);
@@ -54,8 +56,8 @@ const SingleReview = () => {
             sentAt: serverTimestamp(),
             replyingTo: snapshot.data().user?.username,
             user: {
+                userId: docId,
                 username: currentUser?.data.username,
-                image: currentUser?.data.imageUrl
             }
         });
         setContent("");
@@ -88,7 +90,8 @@ const SingleReview = () => {
                     commentId={comment.id}
                     commentContent={comment.data.content}
                     username={comment.data.user.username}
-                    imageUrl={comment.data.user.image}
+                    userId={comment.data.user.userId}
+                    // imageUrl={comment.data.user.image}
                     timestamp={new Date(comment?.data.sentAt?.toDate())}
                     score={comment.data.score}
                 />)}

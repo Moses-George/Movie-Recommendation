@@ -6,8 +6,8 @@ import { Settings, AddAPhoto, Logout } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
 import { storage, db, logOut, auth } from "../../firebase";
-import { ref, getDownloadURL, uploadBytesResumable, listAll, getMetadata } from "firebase/storage";
-import { doc, updateDoc } from "firebase/firestore";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { doc, updateDoc, collection, addDoc, serverTimestamp, orderBy, onSnapshot } from "firebase/firestore";
 import ImagePreview from "../UI/Modals/ImagePreview";
 
 const Profile = () => {
@@ -15,13 +15,10 @@ const Profile = () => {
     const [image, setImage] = useState("");
     const [url, setUrl] = useState("");
     const [progressPercent, setProgressPercent] = useState(0);
+    const [profilePics, setProfilePics] = useState([]);
 
     const [user] = useAuthState(auth);
-    const { data: currentUser, isFetching, isLoading, refetch } = useFetchCurrentUserQuery(user?.uid);
-
-    if (image) {
-        console.log(URL.createObjectURL(image))
-    }
+    const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -45,63 +42,35 @@ const Profile = () => {
                     setImage("");
                 })
             }
-        )
-    }
+        );
+    };
 
     useEffect(() => {
-        const updateProfilePic = async () => {
+        const addProfilePic = async () => {
             const docId = currentUser?.docId;
             const userRef = doc(db, "users", docId);
-            await updateDoc(userRef, {
+            const colRef = collection(userRef, "profileImages");
+            await addDoc(colRef, {
+                sentAt: serverTimestamp(),
                 imageUrl: url
-            })
+            });
         }
         if (url) {
-            updateProfilePic();
+            addProfilePic();
         }
-    }, [url, currentUser?.docId])
+    }, [url]);
+
 
     useEffect(() => {
-        if (url) {
-            refetch();
-        }
-    }, [refetch, url]);
-
-
-    // import { storage } from '../firebase';
-    // import { ref, list, listAll, getDownloadURL } from "firebase/storage";
-
-    // const fetchImages = async () => {
-    //     const storageRef = ref(storage, 'images/');
-    //     const result = await listAll(storageRef);
-
-    //     const urlPromises = result.items.map((imageRef) => getDownloadURL(imageRef));
-
-    //     return Promise.all(urlPromises);
-    // };
-    // console.log(fetchImages());
-
-    // const [files, setFiles] = useState([]);
-
-    // useEffect(() => {
-    //     const fetchImages = async () => {
-    //         const storageRef = ref(storage, 'images/');
-    //         const result = await listAll(storageRef);
-    //         console.log(result); 
-    //         let urlPromises = result.items.map((imageRef) => getMetadata(imageRef) 
-    //         );
-
-    //         return Promise.all(urlPromises);
-    //     };
-
-    //     const loadImages = async () => {
-    //         const urls = await fetchImages();
-    //         setFiles(urls);
-    //     };
-    //     loadImages();
-    // }, [url]);
-
-    // console.log(files);
+        const docId = currentUser?.docId;
+        onSnapshot(collection(db, "users", docId, "profileImages"), orderBy(
+            'timestamp', 'asc'), (snapshot) => {
+                setProfilePics(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    data: doc.data()
+                })));
+            });
+    }, [url]);
 
     return (
         <>
@@ -112,9 +81,9 @@ const Profile = () => {
                 onSave={handleSubmit} />}
             <section className="profile">
                 <form className="profile-pic">
-                    {!currentUser?.data.imageUrl ?
+                    {profilePics.length === 0 ?
                         <Avatar sx={{ width: "10rem", height: "10rem" }} /> :
-                        <img src={currentUser?.data.imageUrl} alt="" />}  
+                        <img src={profilePics[0].data.imageUrl} alt="" />}
                     <label htmlFor="fileInput">
                         <div className="camera">
                             <AddAPhoto sx={{ fontSize: "30px" }} />
@@ -146,4 +115,5 @@ const Profile = () => {
     )
 }
 
-export default Profile;
+
+export default Profile; 

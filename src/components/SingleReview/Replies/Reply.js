@@ -9,7 +9,7 @@ import { db } from "../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import useMovieName from "../../../hook/useMovieName";
 
-const Reply = ({ username, imageUrl, timestamp, replyContent, replyingTo, replyId }) => {
+const Reply = ({ username, userId, timestamp, replyContent, replyingTo, replyId }) => {
 
     const { commentId } = useParams();
 
@@ -47,7 +47,9 @@ const Reply = ({ username, imageUrl, timestamp, replyContent, replyingTo, replyI
                         <CommentHeader
                             username={username}
                             timestamp={timestamp}
-                            imageUrl={imageUrl} />
+                            userId={userId}
+                            // imageUrl={imageUrl} 
+                            />
                         <CommentHeaderBtn
                             reviewId={replyId}
                             username={username}

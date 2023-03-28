@@ -11,7 +11,7 @@ import { db } from "../../../firebase";
 import useMovieName from "../../../hook/useMovieName";
 
 
-const Comments = ({ username, commentId, imageUrl, timestamp, commentContent }) => {
+const Comments = ({ username, userId, commentId, timestamp, commentContent }) => {
 
     const { movie } = useMovieName();
 
@@ -61,7 +61,8 @@ const Comments = ({ username, commentId, imageUrl, timestamp, commentContent }) 
                             <CommentHeader
                                 timestamp={timestamp}
                                 username={username}
-                                imageUrl={imageUrl}
+                                userId={userId}
+                                // imageUrl={imageUrl}
                             />
                             <CommentHeaderBtn
                                 username={username}

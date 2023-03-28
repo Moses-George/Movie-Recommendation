@@ -1,9 +1,13 @@
 import { Avatar } from "@mui/material";
 import '../../../styles/SingleReview/CommentHeader.scss';
 import timeAgo from "../../../utils/time";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "../../../firebase";
+import { onSnapshot, collection, orderBy } from "firebase/firestore";
 
-const CommentHeader = ({ timestamp, username, imageUrl }) => {
+const CommentHeader = ({ timestamp, username, userId}) => {
+
+    const [profilePics, setProfilePics] = useState([]);
 
     const sentAt = timeAgo(timestamp);
     console.log(timestamp);
@@ -19,9 +23,19 @@ const CommentHeader = ({ timestamp, username, imageUrl }) => {
         }
     }, []);
 
+    useEffect(() => {
+        onSnapshot(collection(db, "users", userId, "profileImages"), orderBy(
+            'timestamp', 'asc'), (snapshot) => {
+                setProfilePics(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    data: doc.data()
+                })));
+            });
+    }, [userId]); 
+
     return (
         <div className="comment-header">
-            {imageUrl ? <img src={imageUrl} alt="" /> : <Avatar />}
+            {profilePics.length > 0 ? <img src={profilePics[0]?.data.imageUrl} alt="" /> : <Avatar />}
             <p className="username">{username}</p>
             <p className="createdAt"> {sentAt} </p>
         </div> 
