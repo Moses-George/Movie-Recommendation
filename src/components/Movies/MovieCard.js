@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Favorite, Star } from "@mui/icons-material";
 import Button from "../UI/Button";
 import '../../styles/Movies/MovieCard.scss';
@@ -6,61 +6,55 @@ import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
-import { collection, doc, addDoc, getDocs } from "firebase/firestore";
-// import FavouriteAdded from "../UI/Modals/FavouriteAdded";
-// import format
+import { collection, doc, getDocs } from "firebase/firestore";
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, onAddFavourite }) => {
 
-    const [favoriteMovie, setFavoriteMovie] = useState("");
+    const [favouriteMovies, setFavouriteMovies] = useState([]);
+    const [color, setColor] = useState(false);
 
     const [user] = useAuthState(auth);
 
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-    const LikedMovie = {
-        id: movie.id,
-        title: movie.title,
-        poster_path: movie.poster_path,
-        release_date: movie.release_date,
-        vote_average: movie.vote_average,
-        type: "movie"
-    }
 
-    const handleLikedMovie = async () => {
-        try {
+    useEffect(() => {
+
+        const getMovie = async () => {
             const docId = currentUser?.docId;
             const docRef = doc(db, 'users', docId);
             const colRef = collection(docRef, "favourites");
-            const docs = getDocs(colRef);
-            const favourite = docs?.docs.find(doc => doc.data.title === movie.title);
+            const docs = await getDocs(colRef);
+            setFavouriteMovies(docs?.docs);
+            const favourite = favouriteMovies.find(doc => doc.data().title === movie.title);
 
-            if (favourite) {
-                console.log("Already exist in favourite list!")
-            } else {
-                await addDoc(colRef, LikedMovie);
-                console.log("Added to list!")
-            }
-        } catch (err) {
-            console.error(err);
+                        if (favourite) {
+                            setColor("red");
+                        } else {
+                            setColor("gray");
+                       }
         }
-    }
+
+        if(currentUser?.docId) {
+            getMovie();
+        }
+    }, [movie.title, currentUser?.docId, favouriteMovies]);
 
     return (
-            <div className="movie">
-                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
-                <Link to={`/movies/${movie.id}`}> <Button>Read More</Button></Link>
-                <h3>{movie.title}</h3>
-                <div className="movie-info">
-                    <p>{new Date(movie.release_date).getFullYear()}</p>
-                    <div className="movie-info__right">
-                        {user && <span> <Favorite onClick={handleLikedMovie}
-                            sx={{ fontSize: "23px", color: `${favoriteMovie ? "red" : "gray"}` }}
-                            className={`${movie.id === favoriteMovie && "bump"}`} /> </span>}
-                        <span> <Star sx={{ fontSize: "22px", color: "gold" }} /> {movie.vote_average} </span>
-                    </div>
+        <div className="movie">
+            <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
+            <Link to={`/movies/${movie.id}`}> <Button>Read More</Button></Link>
+            <h3>{movie.title}</h3>
+            <div className="movie-info">
+                <p>{new Date(movie.release_date).getFullYear()}</p>
+                <div className="movie-info__right">
+                    {user && <span> <Favorite onClick={() => onAddFavourite(movie, "movie")}
+                        sx={{ fontSize: "23px", color: color }}
+                    /> </span>}
+                    <span> <Star sx={{ fontSize: "22px", color: "gold" }} /> {movie.vote_average} </span>
                 </div>
-            </div> 
+            </div>
+        </div>
     )
 }
 

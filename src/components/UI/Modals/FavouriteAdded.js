@@ -2,20 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./FavouriteAdded.scss";
 
-const FavouriteAddedOverlay = () => {
+const FavouriteAddedOverlay = ({ message }) => {
 
     return (
         <div className="favourite-popup__wrapper">
-            <div className="favourite-popup">Added to Favourite List</div>
+            <div className="favourite-popup">{message}</div>
         </div>
     )
 }
 
-const FavouriteAdded = () => {
+const FavouriteAdded = ({ message }) => {
 
     return (
         <>
-            {ReactDOM.createPortal(<FavouriteAddedOverlay />, document.getElementById("modal-root"))}
+            {ReactDOM.createPortal(<FavouriteAddedOverlay message={message} />, document.getElementById("modal-root"))}
         </>
     )
 }

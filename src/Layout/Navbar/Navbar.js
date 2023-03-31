@@ -49,7 +49,7 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                     </ul>
-                </nav>
+                </nav> 
                 <div className="nav-right">
                     <Search sx={{ fontSize: "35px", color: "#fff" }} onClick={() => setIsVisible(true)} />
                     {showNavLink && !user && <Link to="/auth/login" ><Button className="login-btn">Login</Button></Link>}

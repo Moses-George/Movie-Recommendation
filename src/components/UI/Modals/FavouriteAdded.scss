@@ -5,17 +5,60 @@
     width: 100%;
     height: 100%;
     z-index: 9999;
-    background: rgba(0, 0, 0, 0.25);
-    // display: grid;
+    background: transparent;
+    // background: rgba(0, 0, 0, 0.25);
+    display: grid;
 }
 
 .favourite-popup {
     justify-self: center;
-    top: 10%;
+    position: fixed;
+    z-index: 99999;
+    transform: scale(1);
+    // transform: translateY(100%);
+    top: -400px;
     background-color: #fff;
     padding: 1rem;
     border-radius: 1rem;
     color: hsl(212, 23%, 43%);
     font-style: italic;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    animation: popup 5s ease forwards;
 }
+
+
+@keyframes popup {
+
+    0% {
+        transform: translateY(310px);
+    }
+
+    20% {
+        transform: translateY(510px);
+    }
+    40% {
+        transform: translateY(510px);
+    }
+    60% {
+        transform: translateY(510px);
+    }
+    80% {
+        transform: translateY(-310px);
+    }
+100% {
+        transform: translateY(-510px);
+    }
+
+}
+
+// @keyframes popback {
+
+//     from {
+//         transform: translateY(600px);
+//     }
+
+//     to {
+//         transform: translateY(-600px);
+//     }
+
+// }
