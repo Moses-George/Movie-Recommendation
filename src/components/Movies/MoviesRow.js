@@ -6,17 +6,20 @@ import FavouriteAdded from "../UI/Modals/FavouriteAdded";
 import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
-import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import { collection, doc, addDoc, getDocs } from "firebase/firestore";
 
 const MoviesRow = ({ header, movieData }) => {
 
     const [message, setMessage] = useState("");
 
+    // get user authentication state with the useAuthState hook
     const [user] = useAuthState(auth);
 
+    // Fetch current user from firebase db with user found from the authentication state
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
+    // Add movie to user favourite list
     const addToFavourite = async (movie, type) => {
 
         try {
@@ -57,7 +60,7 @@ const MoviesRow = ({ header, movieData }) => {
             <section className="movies-catalog">
                 <h1>{header}</h1>
                 <div className="movies-catalog__row">
-                    {movieData.map(movie => <MovieCard key={movie.id} movie={movie} onAddFavourite={addToFavourite} />)}
+                    {movieData.map(movie => <MovieCard key={movie.id} movie={movie} onAddFavourite={addToFavourite}  />)}
                     {/* {movieData.map(movie => <MovieCardSkeleton key={movie.id} />)} */}
                     {/* <MovieCardSkeleton />
                 <MovieCardSkeleton />

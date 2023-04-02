@@ -48,7 +48,6 @@ const Reply = ({ username, userId, timestamp, replyContent, replyingTo, replyId 
                             username={username}
                             timestamp={timestamp}
                             userId={userId}
-                            // imageUrl={imageUrl} 
                             />
                         <CommentHeaderBtn
                             reviewId={replyId}

@@ -2,13 +2,9 @@
 
 .searchItem {
     display: flex;
-
-    // justify-content: space-evenly;
-    // justify-items: flex-start;
-    // border-bottom: 1px solid gray;
     padding-bottom: .7rem;
     column-gap: 2rem;
-    // padding-left: 1rem;
+    color: hsl(212, 23%, 43%);
 
     img {
         width: 4rem;
@@ -17,16 +13,11 @@
     }
 }
 
-a {
-    @include linkStyle(hsl(212, 23%, 43%));
-}
-
 
 
 .searchItem-info {
     align-self: flex-end;
     justify-self: flex-start;
-    // padding-left: 1rem;
 
     h4 {
         margin-bottom: .3rem;

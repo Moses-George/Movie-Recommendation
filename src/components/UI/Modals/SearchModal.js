@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import ReactDOM from 'react-dom';
 import '../Modals/SearchModal.scss';
 import SearchBar from '../SearchBar';
@@ -59,7 +59,6 @@ const SearchModalOverlay = ({ onClick }) => {
     return (
         <div className="search-modal">
             {filteredTerm && <SearchBar onClick={onClick} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />}
-            {/* <hr /> */}
             <div className="adv-search">
                 {filteredTerm && <div className="filtered-term">
                     <span ref={searchRef} > {filteredTerm} </span>

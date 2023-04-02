@@ -1,65 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Favorite, Star } from "@mui/icons-material";
 import Button from "../UI/Button";
 import '../../styles/Movies/MovieCard.scss';
 import { Link } from "react-router-dom";
-import { db, auth } from "../../firebase";
-import { getDocs, collection, doc, addDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
+import { collection, doc, getDocs } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 
-const TvShowCard = ({ tvShow }) => {
+const TvShowCard = ({ tvShow, onAddFavourite }) => {
 
-    const [favoriteMovie, setFavoriteMovie] = useState("");
-
-    // const handleLikedMovie = () => {
-    //     setFavoriteMovie(tvShow.id);
-    // }
-
+    const [favouriteMovies, setFavouriteMovies] = useState([]);
+    const [color, setColor] = useState(false);
 
     const [user] = useAuthState(auth);
 
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-    const LikedMovie = {
-        id: tvShow.id,
-        title: tvShow.title,
-        poster_path: tvShow.poster_path,
-        release_date: tvShow.release_date,
-        vote_average: tvShow.vote_average,
-        type: "tv"
-    }
 
-    const handleLikedMovie = async () => {
-        try {
+    useEffect(() => {
+
+        const getMovie = async () => {
             const docId = currentUser?.docId;
             const docRef = doc(db, 'users', docId);
             const colRef = collection(docRef, "favourites");
-            const docs = getDocs(colRef);
-            const favourites = docs?.docs.find(doc=> doc.data.title === tvShow.title); 
+            const docs = await getDocs(colRef);
+            setFavouriteMovies(docs?.docs);
+            const favourite = favouriteMovies.find(doc => doc.data().title === tvShow.name);
 
-            if (favourites) {
-                console.log("Already exist in favourite list!");
+            if (favourite) {
+                setColor("red");
             } else {
-                await addDoc(colRef, LikedMovie);
-                console.log("Added to list!");
+                setColor("white");
             }
-        } catch (err) {
-            console.error(err);
         }
-    }
+
+        if (currentUser?.docId) {
+            getMovie();
+        }
+    }, [tvShow.name, currentUser?.docId, favouriteMovies]);
 
     return (
         <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`} alt="" />
             <Link to={`/tv/${tvShow.id}`}> <Button>Read More</Button></Link>
-            <h3>{tvShow.name}</h3>
+            <h3>{tvShow.name.length > 20 ? `${tvShow.name.slice(0, 17)}...` : tvShow.name}</h3>
             <div className="movie-info">
                 <p>{new Date(tvShow.first_air_date).getFullYear()}</p>
                 <div className="movie-info__right">
-                    <span> <Favorite onClick={handleLikedMovie}
-                        sx={{ fontSize: "23px", color: `${favoriteMovie ? "red" : "gray"}` }}
-                        className={`${tvShow.id === favoriteMovie && "bump"}`} /> </span>
+                    <span>
+                        <Favorite onClick={() => onAddFavourite(tvShow, "tvShow")}
+                            sx={{ fontSize: "23px", color: color }}
+                        // className={`${tvShow.id === favoriteMovie && "bump"}`}
+                        />
+                    </span>
                     <span> <Star sx={{ fontSize: "22px" }} /> {tvShow.vote_average} </span>
                 </div>
             </div>

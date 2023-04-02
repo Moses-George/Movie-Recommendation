@@ -60,7 +60,7 @@ const Settings = () => {
                         sx={textFieldStyle}
                         InputProps={InputProps}
                     />
-                    <Button>Change Password</Button>
+                    <Button>Change Password</Button>    
                 </form>
             </div>
         </div>

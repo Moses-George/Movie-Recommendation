@@ -4,7 +4,7 @@ import '../../styles/MovieSingle/MovieSingle.scss';
 import MovieSingleInfo from '../../components/MovieSingle/MovieSingleInfo';
 import MovieSingleMoreInfo from "../../components/MovieSingle/MovieSingleMoreInfo";
 import SingleReview from '../../components/SingleReview/SingleReview';
-import { useGetSingleMovieQuery } from "../../store/features/movieApiSlice";
+import { useGetSingleMovieQuery } from "../../store/service/movieApiSlice";
 import Spinner from "../../components/UI/Spinners/Spinner";
 
 const MovieSingle = () => {

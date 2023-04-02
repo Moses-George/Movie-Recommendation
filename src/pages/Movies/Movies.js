@@ -4,7 +4,7 @@ import MovieGrid from '../../components/Movies/MovieGrid'
 import MovieSearch from "../../components/Movies/MovieSearch";
 
 const Movies = () => {
-
+ 
     return (
         <>
             <div className="movies-bg">

@@ -1,5 +1,5 @@
 import { useParams, useLocation } from "react-router-dom";
-import { useGetSingleMovieQuery, useGetSingleTvShowQuery } from "../store/features/movieApiSlice";
+import { useGetSingleMovieQuery, useGetSingleTvShowQuery } from "../store/service/movieApiSlice";
 
 const useMovieName = () => {
 

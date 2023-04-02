@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useRef } from "react";
 import '../../styles/Movies/FeaturedMovie.scss';
 import { Star, Circle, AddCircleOutline } from "@mui/icons-material";
 import Button from '../UI/Button';
-import { useGetTrendingMoviesQuery } from "../../store/features/movieApiSlice";
+import { useGetTrendingMoviesQuery } from "../../store/service/movieApiSlice";
 import { formatDate } from "../../utils/dateFormatter";
 import { moviesGenre } from "../../utils/genreData";
 import { Link } from "react-router-dom";

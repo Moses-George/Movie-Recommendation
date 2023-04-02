@@ -13,6 +13,7 @@ import useMovieName from "../../../hook/useMovieName";
 
 const Comments = ({ username, userId, commentId, timestamp, commentContent }) => {
 
+    // Fetch movie/tvShow name from api with the custom hook
     const { movie } = useMovieName();
 
     const [isEditing, setIsEditing] = useState(false);
@@ -20,6 +21,7 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
     const [content, setContent] = useState("");
     const [replies, setReplies] = useState([]);
 
+    // Edit user comment on textArea
     const editComment = async (id) => {
         setIsEditing(true);
         const docRef = doc(db, "movies", movie, "comments", id);
@@ -27,6 +29,7 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
         setContent(snapshot.data().content);
     };
 
+    // Send edited comment to database
     const updateComment = async (id) => {
         const docRef = doc(db, "movies", movie, "comments", id);
         await updateDoc(docRef, {
@@ -35,6 +38,7 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
         setIsEditing(false);
     };
 
+    // Fetch all Replies for a specific comment 
     useEffect(() => {
         onSnapshot(collection(db, "movies", movie, "comments", commentId, "replies"), orderBy(
             'timestamp', 'asc'), (snapshot) => {
@@ -47,43 +51,40 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
 
 
     return (
-        <Fragment>
-            <div className='comment-section'>
-                <div className="comment">
-                    <div className="comment-vote">
-                        <CommentVote
+        <div className='comment-section'>
+            <div className="comment">
+                <div className="comment-vote">
+                    <CommentVote
+                        reviewId={commentId}
+                        isComment={true}
+                    />
+                </div>
+                <div className='comment-info'>
+                    <div className='comment-top'>
+                        <CommentHeader
+                            timestamp={timestamp}
+                            username={username}
+                            userId={userId}
+                        />
+                        <CommentHeaderBtn
+                            username={username}
+                            type="comment"
                             reviewId={commentId}
-                            isComment={true}
+                            editReview={() => editComment(commentId)}
                         />
                     </div>
-                    <div className='comment-info'>
-                        <div className='comment-top'>
-                            <CommentHeader
-                                timestamp={timestamp}
-                                username={username}
-                                userId={userId}
-                                // imageUrl={imageUrl}
-                            />
-                            <CommentHeaderBtn
-                                username={username}
-                                type="comment"
-                                reviewId={commentId}
-                                editReview={() => editComment(commentId)}
-                            />
-                        </div>
-                        {!isEditing && <div className="comment-content"> {commentContent} </div>}
-                        {isEditing && <UpdateTextArea
-                            value={content}
-                            setContent={setContent}
-                            updateReview={() => updateComment(commentId)}
-                        />}
-                    </div>
+                    {!isEditing && <div className="comment-content"> {commentContent} </div>}
+                    {isEditing && <UpdateTextArea
+                        value={content}
+                        setContent={setContent}
+                        updateReview={() => updateComment(commentId)}
+                    />}
                 </div>
-                {replies.length >= 3 && <Link to={commentId}>{`View all ${replies.length} replies...`}</Link>}
-
-                {replies.length < 3 && <RepliesOutline replies={replies} commentId={commentId} />}
             </div>
-        </Fragment>
+            {replies.length >= 3 && <Link to={commentId}>{`View all ${replies.length} replies...`}</Link>}
+
+            {replies.length < 3 && <RepliesOutline replies={replies} commentId={commentId} />}
+        </div>
     )
 }
 

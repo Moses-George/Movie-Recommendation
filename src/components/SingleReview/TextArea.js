@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
-import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import '../../styles/SingleReview/TextArea.scss';
 import Button from "../UI/Button";
 

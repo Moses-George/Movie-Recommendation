@@ -7,7 +7,7 @@ import '../../styles/Navbar/Navbar.scss';
 import { Box, Menu, MenuItem, useMediaQuery, useTheme, Slide, Divider } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, logOut } from "../../firebase";
-import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 
 const Navbar = () => {
 
@@ -51,10 +51,10 @@ const Navbar = () => {
                     </ul>
                 </nav> 
                 <div className="nav-right">
-                    <Search sx={{ fontSize: "35px", color: "#fff" }} onClick={() => setIsVisible(true)} />
+                    <Search sx={{ fontSize: "35px", color: "#102A43" }} onClick={() => setIsVisible(true)} />
                     {showNavLink && !user && <Link to="/auth/login" ><Button className="login-btn">Login</Button></Link>}
                     {showNavLink && !user && <Link to="/auth/sign-up"><Button>Sign Up</Button></Link>}
-                    {showNavLink && user && !currentUser?.data.imageUrl && <Link to={`/account/${currentUser?.data.username}`}><AccountCircle sx={{ fontSize: "40px", color: "#fff" }} /></Link>}
+                    {showNavLink && user && !currentUser?.data.imageUrl && <Link to={`/account/${currentUser?.data.username}`}><AccountCircle sx={{ fontSize: "40px", color: "#102A43" }} /></Link>}
                     {showNavLink && user && currentUser?.data.imageUrl &&
                         <Link to={`/account/${currentUser?.data.username}`}> <img src={currentUser?.data.imageUrl} alt="" /></Link>
                     }

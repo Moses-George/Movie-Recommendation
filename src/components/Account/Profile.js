@@ -4,10 +4,10 @@ import '../../styles/Account/Profile.scss';
 import { Link } from "react-router-dom";
 import { Settings, AddAPhoto, Logout } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import { storage, db, logOut, auth } from "../../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { doc, updateDoc, collection, addDoc, serverTimestamp, orderBy, onSnapshot } from "firebase/firestore";
+import { doc, collection, addDoc, serverTimestamp, orderBy, onSnapshot } from "firebase/firestore";
 import ImagePreview from "../UI/Modals/ImagePreview";
 
 const Profile = () => {
@@ -17,9 +17,13 @@ const Profile = () => {
     const [progressPercent, setProgressPercent] = useState(0);
     const [profilePics, setProfilePics] = useState([]);
 
+    // get user authentication state with the useAuthState hook
     const [user] = useAuthState(auth);
+
+    // Fetch current user from firebase db with user found from the authentication state
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
+    // Upload image file to firebase cloud storage and get image download url
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!image) {
@@ -45,6 +49,7 @@ const Profile = () => {
         );
     };
 
+    // Sends image download url immediately after uploaded to cloud storage to user database
     useEffect(() => {
         const addProfilePic = async () => {
             const docId = currentUser?.docId;
@@ -60,7 +65,7 @@ const Profile = () => {
         }
     }, [url]);
 
-
+// Fetch user profile pictures download url
     useEffect(() => {
         const docId = currentUser?.docId;
         onSnapshot(collection(db, "users", docId, "profileImages"), orderBy(

@@ -57,7 +57,6 @@ const ViewReplies = () => {
                             <CommentHeader
                                 username={singleComment?.user?.username}
                                 userId={singleComment?.user?.userId}
-                                // imageUrl={singleComment?.user?.image}
                                 timestamp={new Date(singleComment?.sentAt?.toDate())} />
                             <CommentHeaderBtn type="reply" />
                         </div>

@@ -1,43 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { FormControl, MenuItem, Select, Pagination } from "@mui/material";
 import '../../styles/Movies/MovieGrid.scss';
 import MovieCard from './MovieCard';
-import { useGetMoviesDiscoverQuery, useGetSortedMoviesQuery } from "../../store/features/movieApiSlice";
-import { useNavigate, createSearchParams, useLocation, useSearchParams } from "react-router-dom";
+import { useGetSortedMoviesQuery } from "../../store/service/movieApiSlice";
 import MovieSpinner from "../UI/Spinners/MovieSpinner";
-// import { current } from "@reduxjs/toolkit";
 
-const movies = new Array(12).fill(null).map((item, index) => "m" + index);
-console.log(movies);
 
 const textFieldStyle = {
     width: "100%", "&:hover": { backgroundColor: "#464646" },
     "& .MuiFilledInput-root": { backgroundColor: "#464646", color: "#fff" }
 }
 
-// const sortMovies = (movies, sort) => {
-//     if (sort === "All" || !sort) {
-//         return movies;
-//     }
-//     if (sort === "Rating Ascending") {
-//         return movies?.sort((prevMovie, currentMovie) => prevMovie.vote_average - currentMovie.vote_average);
-//     }
-//     if (sort === "Rating Descending") {
-//         return movies?.sort((prevMovie, currentMovie) => currentMovie.vote_average - prevMovie.vote_average);
-//     }
-//     if (sort === "Release Date Ascending") {
-//         return movies.sort((prevMovie, currentMovie) => prevMovie.release_date - currentMovie.release_date);
-//     }
-//     if (sort === "Release Date Descending") {
-//         return movies.sort((prevMovie, currentMovie) => currentMovie.release_date - prevMovie.release_date);
-//     }
-//     if (sort === "Popularity Ascending") {
-//         return movies.sort((prevMovie, currentMovie) => prevMovie.popularity - currentMovie.popularity);
-//     }
-//     if (sort === "Popularity Descending") {
-//         return movies.sort((prevMovie, currentMovie) => currentMovie.popularity - prevMovie.popularity);
-//     }
-// }
 
 const MovieGrid = ({ type }) => {
 
@@ -45,36 +18,16 @@ const MovieGrid = ({ type }) => {
     const [filter, setFilter] = useState("popularity.asc");
     const scrollToRef = useRef(null);
 
-    const navigate = useNavigate();
-
-    // const [searchParam] = useSearchParams();
-    // const query = searchParam.get('sort');
-
+    // Fetch discovery movies from api using RTK query
     const { data: discoveryMovies, isLoading, isFetching, refetch } = useGetSortedMoviesQuery(page, filter);
-    // if (!isFetching) {
-    //     localStorage.setItem("discoveries", JSON.stringify(discoveryMovies.results.map(item=> item)));
-    // }
-    const discoveryItems = localStorage.getItem("discoveries") !== null ? JSON.parse(localStorage.getItem("discoveries")) : []
 
-
+    // Handle page change from api
     const handlePageChange = (e, value) => {
         setPage(value);
         refetch();
-        scrollToRef.current.scrollIntoView({behavior:"smooth"}); 
+        scrollToRef.current.scrollIntoView({ behavior: "smooth" });
     }
 
-    const params = { sort: filter }
-
-    // useEffect(() => {
-    //     if (filter)
-    //         navigate({
-    //             pathname: '/movies',
-    //             search: `?${createSearchParams(params)}`,
-    //         });
-    // }, [filter])
-
-    // const sortedMovies = sortMovies(discoveryItems, query);
-    // console.log(discoveryMovies);
 
     return (
         <>

@@ -10,7 +10,7 @@ import {
     useGetUpcomingMoviesQuery,
     useGetPopularTVShowsQuery,
     useGetTopRatedTVShowsQuery
-} from "../store/features/movieApiSlice";
+} from "../store/service/movieApiSlice";
 
 const Home = () => {
 

@@ -6,7 +6,7 @@ import useMovieName from "../../../hook/useMovieName";
 import { useParams, useNavigate } from "react-router-dom";
 import { db, auth } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useFetchCurrentUserQuery } from "../../../store/features/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../../store/service/currentUserSlice";
 import { doc, getDocs, collection, onSnapshot, orderBy, addDoc, where, query, deleteDoc } from "firebase/firestore";
 
 const CommentVote = ({ isComment, reviewId }) => {
@@ -16,10 +16,16 @@ const CommentVote = ({ isComment, reviewId }) => {
 
     const [votes, setVotes] = useState([]);
 
+    // get user authentication state with the useAuthState hook
     const [user] = useAuthState(auth);
+
+    // Fetch current user from firebase db with user found from the authentication state
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
+
+    // Fetch movie name from api with the custom hook
     const { movie } = useMovieName();
 
+    // Vote on comment/reply
     const addVote = async () => {
         if (user) {
             const colRef = isComment ? collection(db, "movies", movie, "comments", reviewId, "votes") :
@@ -40,6 +46,7 @@ const CommentVote = ({ isComment, reviewId }) => {
         }
     };
 
+    // Unvote on comment/reply
     const removeVote = async () => {
         if (user) {
             const colRef = isComment ? collection(db, "movies", movie, "comments", reviewId, "votes") :
@@ -64,6 +71,7 @@ const CommentVote = ({ isComment, reviewId }) => {
         }
     };
 
+    // Fetch votes from database
     useEffect(() => {
         const colRef = isComment ? collection(db, "movies", movie, "comments", reviewId, "votes") :
             collection(db, "movies", movie, "comments", commentId, "reply", reviewId, "votes");

@@ -8,7 +8,7 @@ import ViewReplies from "./Replies/ViewReplies";
 import { collection, doc, addDoc, serverTimestamp, onSnapshot, orderBy, getDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import useMovieName from "../../hook/useMovieName";
 import ReviewSpinner from "../UI/Spinners/ReviewSpinner";
 import { useRef } from "react";
@@ -91,7 +91,6 @@ const SingleReview = () => {
                     commentContent={comment.data.content}
                     username={comment.data.user.username}
                     userId={comment.data.user.userId}
-                    // imageUrl={comment.data.user.image}
                     timestamp={new Date(comment?.data.sentAt?.toDate())}
                     score={comment.data.score}
                 />)}
@@ -101,7 +100,7 @@ const SingleReview = () => {
                 <p>Be the first to comment.</p>
             </div>}
             {user && <TextArea
-                placeholder="Add a comment..."
+                placeholder="What's on your mind ?"
                 setContent={setContent}
                 value={content}
                 disabled={btnIsDisabled}

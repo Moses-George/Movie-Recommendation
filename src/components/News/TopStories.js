@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/News/TopStories.scss";
 import NewsCard from "./NewsCard";
-import { useGetTopStoriesQuery } from "../../store/features/newsApiSlice";
+import { useGetTopStoriesQuery } from "../../store/service/newsApiSlice";
 
 const newsItem = ["n1", "n2", "n3", "n4"]
 

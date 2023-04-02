@@ -15,7 +15,6 @@ const Replies = ({ replies }) => {
                     replyContent={reply.data.content}
                     username={reply.data.user.username}
                     userId={reply.data.user.userId}
-                    // imageUrl={reply.data.user.image}
                     replyingTo={reply.data.replyingTo}
                     timestamp={new Date(reply?.data.sentAt?.toDate())}
                 />)}

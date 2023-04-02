@@ -27,6 +27,8 @@ const TvShowSingleInfo = ({ single }) => {
                 <span>Runtime: 20 minutes</span>
             </div>
             <p> dggggggggggggg dggdddddddddd dgggggggggg gsgsg ggsd ghs hwwwyw ywyyyyyy gwgtgww gwwyywtgtwv </p>
+            <h2>Seasons:</h2>
+            <div className="seasons"></div>
         </div>
     )
 

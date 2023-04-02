@@ -4,7 +4,7 @@ import '../../styles/MovieSingle/MovieSingle.scss';
 import TvShowSingleInfo from "../../components/TvShowSingle/TvShowSingleInfo";
 import TvShowSingleMoreInfo from "../../components/TvShowSingle/TvShowSingleMoreInfo";
 import SingleReview from '../../components/SingleReview/SingleReview';
-import { useGetSingleTvShowQuery } from "../../store/features/movieApiSlice";
+import { useGetSingleTvShowQuery } from "../../store/service/movieApiSlice";
 import Spinner from "../../components/UI/Spinners/Spinner";
 
 const TvShowSingle = () => {

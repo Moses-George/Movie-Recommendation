@@ -6,7 +6,7 @@ import Button from "../../components/UI/Button";
 import '../../styles/Footer/Footer.scss';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
-import { useFetchCurrentUserQuery } from "../../store/features/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 
 const Footer = () => {
 
