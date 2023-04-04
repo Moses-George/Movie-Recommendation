@@ -11,8 +11,8 @@ const Movies = () => {
                 <h1>MOVIE  LISTING</h1>
             </div>
             <div className="movies">
-                <MovieGrid type="movie" />
-                <MovieSearch type="movie" />
+                <MovieGrid  />
+                <MovieSearch  />
             </div>
         </>
     )

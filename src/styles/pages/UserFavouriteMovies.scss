@@ -5,7 +5,15 @@
     }
 }
 
-.userFavourite-movies {
+.favourite-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 1.5rem;
+    padding-right: 3rem;
+}
+
+.favourite-grid__wrapper {
     display: grid;
     grid-template-columns: repeat(3,1fr);
     gap: 1rem;
@@ -13,15 +21,33 @@
     overflow-y: scroll;
 }
 
+.favourite-grid__length {
+    width: 100%;
+    padding: 1rem;
+    border-top: 1px solid hsl(212, 7%, 58%);
+    border-bottom: 1px solid hsl(212, 7%, 58%);
+    // border: 2px 0 solid #fff;
+    color: #fff;
+}
+
 @media screen and (min-width: 320px) and (max-width: 500px)  {
-    .userFavourite-movies {
+    .favourite-grid {
+        padding: 1rem;
+    }
+    .favourite-grid__wrapper {
         grid-template-columns: 1fr;
         max-height: fit-content;
         overflow-y: hidden;
         gap: 0;
+        row-gap: 1rem;
+        justify-items: center;
 
         // div {
         //     width: 95% !important;
         // }
     }
+    // .favourite-grid__length {
+    //     justify-self: center;
+    //     align-self: center;
+    // }
 }

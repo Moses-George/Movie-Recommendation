@@ -80,7 +80,7 @@ const SearchModalOverlay = ({ onClick }) => {
                     title={movie.title || movie.name}
                     imageUrl={movie.poster_path} />)}
                 {isLoading && <SearchSpinner />}
-                {error && <h3 className="error">{error}</h3>}
+                {error && !isLoading && <h3 className="error">{error}</h3>}
             </div>
         </div>
     )

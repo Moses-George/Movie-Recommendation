@@ -1,21 +1,21 @@
 import React from "react";
 import '../../styles/pages/Movies.scss';
-import MovieGrid from '../../components/Movies/MovieGrid'
+import TvShowGrid from "../../components/TvShows/TvShowGrid";
 import MovieSearch from "../../components/Movies/MovieSearch";
 
-const Movies = () => {
+const TvShows = () => {
 
     return (
         <>
-            <div className="movies-bg">
+            <div className="tvShows-bg">
                 <h1>Tv Show  LISTING</h1>
             </div>
-            <div className="movies">
-                <MovieGrid type="series" />
-                <MovieSearch type="series" />
+            <div className="tvShows">
+                <TvShowGrid  />
+                <MovieSearch  />
             </div>
         </>
     )
 }
 
-export default Movies;
+export default TvShows;

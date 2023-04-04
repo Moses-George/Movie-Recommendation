@@ -3,10 +3,10 @@ import Button from "../UI/Button";
 import '../../styles/Movies/MovieCard.scss';
 import { Link } from "react-router-dom";
 
-const FavouriteCard = ({ favourite, removeFavourite }) => {
+const FavouriteCard = ({ favourite, removeFavourite, id }) => {
 
 
-    return (
+    return ( 
         <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500${favourite.poster_path}`} alt="" />
             <Link to={`/${favourite.type === "movie" ? "movies" : "tv"}/${favourite.id}`}> <Button>Read More</Button></Link>
@@ -15,7 +15,7 @@ const FavouriteCard = ({ favourite, removeFavourite }) => {
                 <p>{new Date(favourite.release_date).getFullYear()}</p>
                 <div className="movie-info__right">
                     <span>
-                        <RemoveCircleOutline onClick={() => removeFavourite(favourite.id)} sx={{ color: "#fff", fontSize: "23px" }} />
+                        <RemoveCircleOutline onClick={() => removeFavourite(id)} sx={{ color: "#fff", fontSize: "23px" }} />
                     </span>
                     <span> <Star sx={{ fontSize: "22px", color: "gold" }} /> {favourite.vote_average} </span>
                 </div>

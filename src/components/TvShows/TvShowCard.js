@@ -6,12 +6,15 @@ import { Link } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
+import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice"; 
+import { useDispatch } from "react-redux";
+import { addToFavourite } from "../../store/actions/addFavourite";
 
-const TvShowCard = ({ tvShow, onAddFavourite }) => {
+const TvShowCard = ({ tvShow }) => {
 
     const [favouriteMovies, setFavouriteMovies] = useState([]);
     const [color, setColor] = useState(false);
+    const dispatch = useDispatch();
 
     const [user] = useAuthState(auth);
 
@@ -40,6 +43,15 @@ const TvShowCard = ({ tvShow, onAddFavourite }) => {
         }
     }, [tvShow.name, currentUser?.docId, favouriteMovies]);
 
+    const tvShowInfo = {
+        id: tvShow.id,
+        title: tvShow.name,
+        poster_path: tvShow.poster_path,
+        release_date: tvShow.first_air_date,
+        vote_average: tvShow.vote_average,
+        type: "tvShow"
+    }
+
     return (
         <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`} alt="" />
@@ -49,7 +61,7 @@ const TvShowCard = ({ tvShow, onAddFavourite }) => {
                 <p>{new Date(tvShow.first_air_date).getFullYear()}</p>
                 <div className="movie-info__right">
                     <span>
-                        <Favorite onClick={() => onAddFavourite(tvShow, "tvShow")}
+                        <Favorite onClick={() => dispatch(addToFavourite(tvShowInfo, currentUser?.docId))}
                             sx={{ fontSize: "23px", color: color }}
                         // className={`${tvShow.id === favoriteMovie && "bump"}`}
                         />

@@ -29,8 +29,8 @@ const UserFavouriteMovies = () => {
     }, [currentUser?.docId]);
     console.log(userFavourites)
 
-    useEffect(()=> {
-        scrollToFavourites.current.scrollIntoView({behavior:"smooth"}); 
+    useEffect(() => {
+        scrollToFavourites.current.scrollIntoView({ behavior: "smooth" });
     }, [])
 
     const removeFavourite = async (favouriteId) => {
@@ -51,14 +51,14 @@ const UserFavouriteMovies = () => {
         //         {userFavourites?.map(favourite => <MovieCard key={favourite.id} movie={favourite.data} isFavouritePage={true} id={favourite.id} removeFavourite={removeFavourite}  />)}
         //     </div>
         // </div>
-        <div className="movie-grid" ref={scrollToFavourites} >
-        <div className="movie-grid__sort">
-            <p> {`Found ${userFavourites.length} Favourites`} </p>
+        <div className="favourite-grid" ref={scrollToFavourites} >
+            <div className="favourite-grid__length">
+                <p> {`Found ${userFavourites.length} Favourites`} </p>
             </div>
-        <div className="movie-grid__wrapper">
-            {userFavourites.map(favourite => <FavouriteCard key={favourite.id} favourite={favourite.data}   removeFavourite={removeFavourite} />)}
+            <div className="favourite-grid__wrapper">
+                {userFavourites.map(favourite => <FavouriteCard key={favourite.id} favourite={favourite.data} id={favourite.id} removeFavourite={removeFavourite} />)}
+            </div>
         </div>
-    </div>
     )
 }
 

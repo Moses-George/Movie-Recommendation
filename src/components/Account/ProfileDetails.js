@@ -19,7 +19,7 @@ const ProfileDetails = () => {
 
     return (
         <section className="profile-details">
-            <h1>{`${username}'s PROFILE`} hhh</h1>
+            <h1>{`${currentUser?.data.username}'s PROFILE`} </h1>
             <div className="profile-content">
                 <div className="">
                     <p>Username</p>

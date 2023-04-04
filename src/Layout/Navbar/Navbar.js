@@ -1,119 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { AccountCircle, DonutLarge, Search, Movie, Tv, Home, Newspaper, MoreVert, Settings, Logout, Login } from "@mui/icons-material";
+import { AccountCircle, DonutLarge, Search, Movie, Tv, Home, Newspaper, MoreVert, Settings, Logout, Login, Menu } from "@mui/icons-material";
 import Button from "../../components/UI/Button";
 import SearchModal from "../../components/UI//Modals/SearchModal";
+import Sidebar from "../../components/UI/Sidebar/Sidebar";
 import '../../styles/Navbar/Navbar.scss';
-import { Box, Menu, MenuItem, useMediaQuery, useTheme, Slide, Divider } from "@mui/material";
+import { Box, MenuItem, useMediaQuery, useTheme, Slide, Divider } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logOut } from "../../firebase";
+import {db, auth, logOut } from "../../firebase";
 import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
+import { onSnapshot, collection, orderBy } from "firebase/firestore";
 
 const Navbar = () => {
 
-    const [anchor, setAnchor] = useState(null);
-    const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(true);
+  const [profilePics, setProfilePics] = useState([]);
 
-    const [user, loading, error] = useAuthState(auth);
-    const { data: currentUser, isFetching, isLoading } = useFetchCurrentUserQuery(user?.uid);
+  const [user] = useAuthState(auth);
+  const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-    const theme = useTheme();
-    const showNavLink = useMediaQuery(theme.breakpoints.up('lg'));
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+
+  // Fetch user profile pictures download url
+  useEffect(() => {
+    if (user) {
+      const docId = currentUser?.docId;
+      onSnapshot(collection(db, "users", docId, "profileImages"), orderBy(
+          'timestamp', 'asc'), (snapshot) => {
+              setProfilePics(snapshot.docs.map(doc => ({
+                  id: doc.id,
+                  data: doc.data()
+              })));
+          });
+    }
+}, [user]);
 
 
-    return (
-        <>
-            {isVisible && <SearchModal onClick={() => setIsVisible(false)} />}
-            <header className="header">
-                <div className="logo">{showNavLink ? "GEO MOVIES" : "GM"}</div>
-                <nav>
-                    <ul>
-                        <li>
-                            <NavLink to="/home" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
-                                {showNavLink && "Home"} {!showNavLink && <Home sx={{ fontSize: "33px" }} />}
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/movies" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
-                                {showNavLink && "Movie"} {!showNavLink && <Movie sx={{ fontSize: "33px" }} />}
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/tv" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
-                                {showNavLink && "Tv Shows"} {!showNavLink && <Tv sx={{ fontSize: "33px" }} />}
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/news" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
-                                {showNavLink && "News"} {!showNavLink && <Newspaper sx={{ fontSize: "33px" }} />}
-                            </NavLink>
-                        </li>
-                    </ul>
-                </nav> 
-                <div className="nav-right">
-                    <Search sx={{ fontSize: "35px", color: "#102A43" }} onClick={() => setIsVisible(true)} />
-                    {showNavLink && !user && <Link to="/auth/login" ><Button className="login-btn">Login</Button></Link>}
-                    {showNavLink && !user && <Link to="/auth/sign-up"><Button>Sign Up</Button></Link>}
-                    {showNavLink && user && !currentUser?.data.imageUrl && <Link to={`/account/${currentUser?.data.username}`}><AccountCircle sx={{ fontSize: "40px", color: "#102A43" }} /></Link>}
-                    {showNavLink && user && currentUser?.data.imageUrl &&
-                        <Link to={`/account/${currentUser?.data.username}`}> <img src={currentUser?.data.imageUrl} alt="" /></Link>
-                    }
-                    {/* {user && <Link to="/home" ><Button onClick={logOut} >Logout</Button></Link>} */}
-                    {showNavLink ? (user && <Link to="/home" ><Button onClick={logOut} >Logout</Button></Link>) :
-                        <MoreVert onClick={(e) => setAnchor(e.currentTarget)} sx={{ fontSize: "40px", color: "#fff" }} />}
-                    {!showNavLink && <Box >
-                        <Menu
-                            open={Boolean(anchor)}
-                            anchorEl={anchor}
-                            onClose={() => setAnchor(null)}
-                            keepMounted
-                            TransitionComponent={Slide}
-                            PaperProps={{
-                                style: {
-                                    // maxHeight: 40 * 4,
-                                    width: "20ch",
-                                    // backgroundColor: "black"
-                                }
-                            }}
-                        >
-                            {user && <MenuItem>
-                                <Link to={`/account/${currentUser?.data.username}`} className="menu-link">
-                                    {currentUser?.data.imageUrl ?
-                                        <img src={currentUser?.data.imageUrl} alt="" style={{ width: "3rem", height: "3rem", borderRadius: "50%" }} /> :
-                                        <AccountCircle sx={{ fontSize: "40px", color: "#fff" }} />}
-                                    <p>Profile</p>
-                                </Link>
-                            </MenuItem>}
-                            <Divider />
-                            {user && <MenuItem> <Link to="/account/george/settings" className="menu-link" >
-                                <Settings />
-                                <p>Settings</p>
-                            </Link>
-                            </MenuItem>}
-                            {user && <MenuItem className="menu-link" onClick={logOut}>
-                                <Link to="/home" className="menu-link" >
-                                    <Logout />
-                                    <p>Logout</p>
-                                </Link>
-                            </MenuItem>}
-                            {!user && <MenuItem>
-                                <Link to="/auth/login" className="menu-link" >
-                                    <Login />
-                                    <p>Login</p>
-                                </Link>
-                            </MenuItem>}
-                            {!user && <MenuItem>
-                                <Link to="/auth/sign-up" className="menu-link">
-                                    <Login />
-                                    <p>Sign up</p>
-                                </Link>
-                            </MenuItem>}
-                        </Menu>
-                    </Box>}
-                </div>
-            </header>
-        </>
-    )
+  return (
+    <>
+      {openSidebar && <Sidebar setOpenSidebar={setOpenSidebar} currentUser={currentUser} user={user} profilePics={profilePics} />}
+      {isVisible && <SearchModal onClick={() => setIsVisible(false)} />}
+      <header className="header">
+        <div className="navbar-left">
+          {!isDesktop && <Menu onClick={()=> setOpenSidebar(true)} sx={{ fontSize: "35px", color: "#fff" }} />}
+          <h2>{isDesktop ? "GEO MOVIES" : "GM"}</h2>
+        </div>
+        {isDesktop && <nav>
+          <ul>
+            <li>
+              <NavLink to="/home" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/movies" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
+                Movies
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/tv" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
+                Tv Shows
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/news" className={({ isActive }) => (!isActive ? "unselected" : "active")}>
+                News
+              </NavLink>
+            </li>
+          </ul>
+        </nav>}
+        <div className="nav-right"> 
+          <Search sx={{ fontSize: "35px", color: "#fff" }} onClick={() => setIsVisible(true)} /> 
+          {isDesktop && !user && <Link to="/auth/login" ><Button className="login-btn">Login</Button></Link>}
+          {isDesktop && !user && <Link to="/auth/sign-up"><Button>Sign Up</Button></Link>}
+          {user && profilePics?.length === 0 && <Link to={`/account/${currentUser?.data.username}`}><AccountCircle sx={{ fontSize: "40px", color: "#fff" }} /></Link>}
+          {user && profilePics?.length !==0 &&
+            <Link to={`/account/${currentUser?.data.username}`}> <img src={profilePics[0]?.data.imageUrl} alt="" /></Link>
+          }
+          {isDesktop && user && <Link to="/home" ><Button onClick={logOut} >Logout</Button></Link>} 
+        </div>
+      </header> 
+    </>
+  )
 }
 
 export default Navbar;
+

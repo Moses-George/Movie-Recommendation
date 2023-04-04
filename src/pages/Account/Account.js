@@ -13,7 +13,7 @@ import Spinner from "../../components/UI/Spinners/Spinner";
 
 const Account = () => {
 
-    const [user, loading] = useAuthState(auth);
+    const [user] = useAuthState(auth);
 
     const { data: currentUser, isFetching, isLoading, isError, error } = useFetchCurrentUserQuery(user?.uid);
 

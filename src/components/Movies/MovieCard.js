@@ -7,11 +7,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import { collection, doc, getDocs } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { addToFavourite } from "../../store/actions/addFavourite";
 
-const MovieCard = ({ movie, onAddFavourite }) => { 
+const MovieCard = ({ movie }) => {
 
-    const [favouriteMovies, setFavouriteMovies] = useState([]); 
+    const [favouriteMovies, setFavouriteMovies] = useState([]);
     const [color, setColor] = useState(false);
+    const dispatch = useDispatch();
 
     // get user authentication state with the useAuthState hook
     const [user] = useAuthState(auth);
@@ -19,7 +22,8 @@ const MovieCard = ({ movie, onAddFavourite }) => {
     // Fetch current user from firebase db with user found from the authentication state
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-// Fetch user favourites movies and set the heart reaction color to red
+
+    // Fetch user favourites movies and set the heart reaction color to red
     useEffect(() => {
 
         const getMovie = async () => {
@@ -42,6 +46,15 @@ const MovieCard = ({ movie, onAddFavourite }) => {
         }
     }, [movie.title, currentUser?.docId, favouriteMovies]);
 
+    const movieInfo = {
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+        release_date: movie.release_date,
+        vote_average: movie.vote_average,
+        type: "movie"
+    }
+
 
     return (
         <div className="movie">
@@ -52,7 +65,7 @@ const MovieCard = ({ movie, onAddFavourite }) => {
                 <p>{new Date(movie.release_date).getFullYear()}</p>
                 <div className="movie-info__right">
                     {user && <span>
-                        <Favorite sx={{ fontSize: "23px", color: color }} onClick={() => onAddFavourite(movie, "movie")} />
+                        <Favorite sx={{ fontSize: "23px", color: color }} onClick={() => dispatch(addToFavourite(movieInfo, currentUser?.docId))} />
                     </span>}
                     <span> <Star sx={{ fontSize: "22px", color: "gold" }} /> {movie.vote_average} </span>
                 </div>
