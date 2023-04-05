@@ -4,8 +4,8 @@ import '../../../styles/SingleReview/Comment.scss';
 import CommentHeader from "./CommentHeader";
 import CommentHeaderBtn from "./CommentHeaderBtn";
 import CommentVote from './CommentVote';
-import UpdateTextArea from "../../UI/UpdateTextArea";
-import { RepliesOutline } from "../Replies/Replies";
+import UpdateTextArea from "../../UI/UpdateTextArea/UpdateTextArea";
+import { RepliesPreview } from "../Replies/Replies";
 import { doc, getDoc, updateDoc, collection, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "../../../firebase";
 import useMovieName from "../../../hook/useMovieName";
@@ -47,7 +47,7 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
                     data: doc.data()
                 })));
             });
-    }, [commentId]);
+    }, [commentId, movie]);
 
 
     return (
@@ -83,7 +83,7 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
             </div>
             {replies.length >= 3 && <Link to={commentId}>{`View all ${replies.length} replies...`}</Link>}
 
-            {replies.length < 3 && <RepliesOutline replies={replies} commentId={commentId} />}
+            {replies.length < 3 && <RepliesPreview replies={replies} commentId={commentId} />}
         </div>
     )
 }

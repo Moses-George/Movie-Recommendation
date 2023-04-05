@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import ReactDOM from 'react-dom';
-import '../Modals/SearchModal.scss';
-import SearchBar from '../SearchBar';
+import './SearchModal.scss';
+import SearchBar from './SearchBar';
 import SearchItem from "./SearchItem";
-import Backdrop from "./Backdrop";
-import Button from "../Button";
+import Backdrop from "../Backdrop";
+import Button from "../../Button/Button";
 import { Cancel } from "@mui/icons-material";
-import SearchSpinner from "../Spinners/SearchSpinner";
+import SearchSpinner from "../../Spinners/SearchSpinner";
 
 const SearchModalOverlay = ({ onClick }) => {
 

@@ -2,14 +2,6 @@ import React from "react";
 import MovieCard from "./MovieCard";
 import '../../styles/Movies/MoviesRow.scss';
 import MovieCardSkeleton from "../UI/Spinners/MovieCardSkeleton";
-import FavouriteAdded from "../UI/Modals/FavouriteAdded";
-import { useState, useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../../firebase";
-import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
-import { collection, doc, addDoc, getDocs } from "firebase/firestore";
-import { useDispatch, useSelector } from "react-redux";
-import { showPopUpMessage } from "../../store/features/addFavouriteSlice";
 
 const MoviesRow = ({ header, movieData }) => {
 

@@ -3,6 +3,7 @@
     grid-template-columns: 7fr 3fr;
     column-gap: 4rem;
     padding: 4rem 3rem;
+    // margin-top: -4rem;
 }
 
 .movies-bg, .tvShows-bg {
@@ -17,7 +18,7 @@
 
     h1 {
         margin: 0;
-        padding-top: 4rem;
+        padding-top: 5rem;
         letter-spacing: 6px;
         color: #fff;
     }

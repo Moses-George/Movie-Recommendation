@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import '../../styles/MovieSingle/MovieSingleMoreInfo.scss';
 import { formatDate } from "../../utils/dateFormatter";
 import pic from "../../Assets/images/robot.jpg"

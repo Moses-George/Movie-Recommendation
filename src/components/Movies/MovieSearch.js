@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import '../../styles/Movies/MovieSearch.scss';
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 
 const textFieldStyle = {
     width: "100%", "&:hover": { backgroundColor: "#464646" },

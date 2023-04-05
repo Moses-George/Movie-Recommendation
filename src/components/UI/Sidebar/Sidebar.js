@@ -5,12 +5,10 @@ import "./Sidebar.scss";
 import Backdrop from "../Modals/Backdrop";
 import { Avatar } from '@mui/material';
 import { ArrowBack, Home, Movie, Newspaper, Settings, Tv, Login, Logout } from '@mui/icons-material';
-import pic from "../../../Assets/images/robot.jpg";
 import { logOut } from "../../../firebase";
 
-const SidebarOverlay = ({ setOpenSidebar, currentUser, user, profilePics }) => {
+const SidebarOverlay = ({ setOpenSidebar, currentUser, user, imageUrl }) => {
 
-    // const [user] = useAuthState(auth);
 
     return (
         <section className="sidebar">
@@ -25,15 +23,15 @@ const SidebarOverlay = ({ setOpenSidebar, currentUser, user, profilePics }) => {
                 </div>
             </div>
             <div className='sidebar-profile'>
-                { user ? (profilePics.length !==0 ? <img src={profilePics[0]?.data.imageUrl} alt='profil-pic' /> : <Avatar />) : ""}
-                <p>{currentUser?.data.username}</p>
+                {user ? (imageUrl ? <img src={imageUrl} alt='profil-pic' /> : <Avatar sx={{ width:"6rem", height:"6rem" }} />) : ""}
+                {user && <p>{currentUser?.data.username}</p>}
             </div>
             <ul>
                 <li>
                     <NavLink to="/home" className={({ isActive }) => (!isActive ? "unselected" : "active-sidebar-link")}>
                         <Home />
                         <span>Home</span>
-                    </NavLink>
+                    </NavLink> 
                 </li>
                 <li>
                     <NavLink to="/movies" className={({ isActive }) => (!isActive ? "unselected" : "active-sidebar-link")}>
@@ -72,20 +70,20 @@ const SidebarOverlay = ({ setOpenSidebar, currentUser, user, profilePics }) => {
                     {user && <Link to="/home" className="menu-link" onClick={logOut} >
                         <Logout />
                         <p>Logout</p>
-                    </Link>} 
+                    </Link>}
                 </div>
             </div>
         </section>
     )
 }
 
-const Sidebar = ({ setOpenSidebar, currentUser, user, profilePics }) => {
+const Sidebar = ({ setOpenSidebar, currentUser, user, imageUrl }) => {
 
     return (
         <Fragment>
             {ReactDOM.createPortal(<Backdrop onClick={() => setOpenSidebar(false)} />, document.getElementById("backdrop-root"))}
             {ReactDOM.createPortal(
-                <SidebarOverlay setOpenSidebar={setOpenSidebar} currentUser={currentUser} user={user} profilePics={profilePics} />,
+                <SidebarOverlay setOpenSidebar={setOpenSidebar} currentUser={currentUser} user={user} imageUrl={imageUrl} />,
                 document.getElementById("modal-root"))}
         </Fragment>
     )

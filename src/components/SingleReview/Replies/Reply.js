@@ -4,7 +4,7 @@ import '../../../styles/SingleReview/Comment.scss';
 import CommentHeader from "../Comments/CommentHeader";
 import CommentHeaderBtn from "../Comments/CommentHeaderBtn";
 import CommentVote from "../Comments/CommentVote";
-import UpdateTextArea from "../../UI/UpdateTextArea";
+import UpdateTextArea from "../../UI/UpdateTextArea/UpdateTextArea";
 import { db } from "../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import useMovieName from "../../../hook/useMovieName";

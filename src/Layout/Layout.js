@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import './Layout.scss';
-import FavouriteAdded from "../components/UI/Modals/FavouriteAdded";
+import Popup from "../components/UI/Modals/Popup/Popup";
 import { useDispatch, useSelector } from "react-redux";
 import { showPopUpMessage } from "../store/features/addFavouriteSlice";
 
@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
 
     return (
         <Fragment>
-        {popUpMessage && <FavouriteAdded message={popUpMessage} />}
+        {popUpMessage && <Popup message={popUpMessage} />}
             {!authPage && <Navbar />}
             <main style={{ height: `${authPage ? "100%" : "auto"}` }} className="main">{children}</main>
             {!authPage && <Footer />}

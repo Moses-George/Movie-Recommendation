@@ -9,7 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { deleteDoc, doc } from "firebase/firestore";
 import { Link, useParams } from "react-router-dom";
 import { db } from "../../../firebase";
-import DeleteModal from "../../UI/Modals/DeleteModal";
+import DeleteModal from "../../UI/Modals/DeleteModal/DeleteModal";
 import useMovieName from "../../../hook/useMovieName";
 
 const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
@@ -66,7 +66,7 @@ const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
             {confirmDelete &&
                 <DeleteModal
                     onCancel={() => setConfirmDelete(false)}
-                    onDelete={() => deleteReview()} />}
+                    onDelete={() => deleteReview()} />}  
             <div className='crud-btn'>
                 {!isCurrentUser && <button className="reply" style={{ display: `${type === "reply" ? "none" : "flex"}` }}>
                     <Link to={`${user ? reviewId : "/auth/login"}`}><Reply /></Link>

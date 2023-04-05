@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import '../../styles/Movies/FeaturedMovie.scss';
 import { Star, Circle, AddCircleOutline } from "@mui/icons-material";
-import Button from '../UI/Button';
+import Button from '../UI/Button/Button';
 import { useGetTrendingMoviesQuery } from "../../store/service/movieApiSlice";
 import { formatDate } from "../../utils/dateFormatter";
 import { moviesGenre } from "../../utils/genreData";

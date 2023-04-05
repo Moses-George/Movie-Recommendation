@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff, Google, Facebook } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField, Divider, Chip } from "@mui/material";
 import '../../styles/pages/Auth.scss';
-import Button from "../../components/UI/Button";
+import Button from "../../components/UI/Button/Button";
 import { auth,  signInWithGoogle, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -161,9 +161,9 @@ const SignUp = () => {
                             <Button disabled={passwordIsInvalid || invalidUsernameMessage} >Sign Up</Button>
                         </form>
                         <div>
-                            <Divider sx={{ "&::before, &::after": { borderColor: "#fff" } }} >
+                            {/* <Divider sx={{ "&::before, &::after": { borderColor: "#fff" } }} >
                                 <Chip label="OR" sx={{ color: "#fff", borderColor: "#fff" }} />
-                            </Divider>
+                            </Divider> */}
                         </div>
                         <div className="alt-auth">
                             <Button onClick={signInWithGoogle} > <Google /> </Button>

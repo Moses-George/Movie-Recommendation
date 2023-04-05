@@ -1,14 +1,21 @@
 .single__review {
-    display: grid;
-    grid-template-rows: auto;
-    grid-auto-rows: auto;
+    // display: grid;
+    display: flex;
+    flex-direction: column;
     width: 37rem;
     background-color: rgb(20, 19, 19);
-    padding: 1rem;
+    padding: 1rem 1rem 2rem 1rem;
 
     h2 {
         color: #fff;
     }
+}
+
+.reviews-container {
+    display: grid;
+    height: 100%;
+    width: inherit;
+    align-items: end;
 }
 
 .comments {
@@ -21,7 +28,7 @@
 
 .single-comment {
     max-height: 42rem;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
 }
 
 .no-comment {

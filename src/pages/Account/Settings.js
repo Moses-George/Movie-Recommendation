@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
-import Button from "../../components/UI/Button";
+import Button from "../../components/UI/Button/Button";
 import '../../styles/pages/Settings.scss';
 
 const textFieldStyle = { width: "80%", "& .MuiFilledInput-root": { backgroundColor: "gray", color: "#fff" } }

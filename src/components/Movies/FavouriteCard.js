@@ -1,5 +1,5 @@
 import { RemoveCircleOutline, Star } from "@mui/icons-material";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import '../../styles/Movies/MovieCard.scss';
 import { Link } from "react-router-dom";
 

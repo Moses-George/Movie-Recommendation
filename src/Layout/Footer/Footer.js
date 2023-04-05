@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom'
 import { Twitter, GitHub, WhatsApp, Facebook } from "@mui/icons-material";
 import { TextField } from "@mui/material";
-import Button from "../../components/UI/Button";
+import Button from "../../components/UI/Button/Button";
 import '../../styles/Footer/Footer.scss';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
@@ -55,7 +55,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <i>Copyright {year} George Moses</i>
+            <p>Copyright {year} George Moses</p>
         </footer>
     )
 }

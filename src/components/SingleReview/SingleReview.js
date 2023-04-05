@@ -18,14 +18,16 @@ const SingleReview = () => {
     const [content, setContent] = useState("");
     const [comments, setComments] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const scrollToComments = useRef(null); 
+    const scrollToComments = useRef(null);
 
     const { movie, fetching } = useMovieName();
     const [user] = useAuthState(auth);
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-    useEffect(()=> {
-        scrollToComments.current.scrollIntoView({behavior:"smooth"});
+    // const commentRef = document.getElementById("comment")
+
+    useEffect(() => {
+        scrollToComments.current.scrollIntoView({ behavior: "smooth" });
     }, [])
 
     const btnIsDisabled = !content || content.trim().length === 0;
@@ -84,33 +86,35 @@ const SingleReview = () => {
                 commentSize === 1 ? "01 Comment" :
                     commentSize > 0 && commentSize <= 9 ? `0${commentSize} Comments` :
                         `${commentSize} Comments`}</h2>}
-            <div className="comments scroller" >
-                {comments?.map(comment => <Comment
-                    key={comment.id}
-                    commentId={comment.id}
-                    commentContent={comment.data.content}
-                    username={comment.data.user.username}
-                    userId={comment.data.user.userId}
-                    timestamp={new Date(comment?.data.sentAt?.toDate())}
-                    score={comment.data.score}
-                />)}
+            <div className="reviews-container">
+                <div className="comments scroller" >
+                    {comments?.map(comment => <Comment
+                        key={comment.id}
+                        commentId={comment.id}
+                        commentContent={comment.data.content}
+                        username={comment.data.user.username}
+                        userId={comment.data.user.userId}
+                        timestamp={new Date(comment?.data.sentAt?.toDate())}
+                        score={comment.data.score}
+                    />)}
+                </div>
+                {!fetching && commentSize === 0 && <div className="no-comment">
+                    <Forum sx={{ color: "#fff", fontSize: "100px" }} />
+                    {user && <p>Be the first to comment.</p>}
+                </div>}
+                {user && <TextArea
+                    placeholder="What's on your mind ?"
+                    setContent={setContent}
+                    value={content}
+                    disabled={btnIsDisabled}
+                    sendComment={sendComment}
+                    action="comment"
+                />}
             </div>
-            {!fetching && commentSize === 0 && <div className="no-comment">
-                <Forum sx={{ color: "#fff", fontSize: "100px" }} />
-                <p>Be the first to comment.</p>
-            </div>}
-            {user && <TextArea
-                placeholder="What's on your mind ?"
-                setContent={setContent}
-                value={content}
-                disabled={btnIsDisabled}
-                sendComment={sendComment}
-                action="comment"
-            />}
         </div>
 
     const comment =
-        <div className="movie-single__review">
+        <div className="single__review" ref={scrollToComments} >
             <div
                 className="single-comment scroller" >
                 <ViewReplies />

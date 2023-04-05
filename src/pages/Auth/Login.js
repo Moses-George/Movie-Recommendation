@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff, Google, Facebook } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField, Divider, Chip } from "@mui/material";
 import '../../styles/pages/Auth.scss';
-import Button from "../../components/UI/Button";
+import Button from "../../components/UI/Button/Button";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, signInWithGoogle } from "../../firebase";
 // import Spinner from "../../components/UI/Spinners/Spinner";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import AuthSpinner from "../../components/UI/Spinners/AuthSpinner";
 
-const textFieldStyle = { width: "100%", "& .MuiFilledInput-root": { backgroundColor: "gray", color: "#fff" } }
+const textFieldStyle = { width: "100%", "& .MuiFilledInput-root": { backgroundColor: "gray", color: "#fff" } } 
 
 const Login = () => {
 
@@ -83,13 +83,13 @@ const Login = () => {
                             <Button>Login</Button>
                         </form>
                         <div>
-                            <Divider sx={{ "&::before, &::after": { borderColor: "#fff" } }} >
-                                <Chip label="OR" sx={{ color: "#fff", borderColor: "#fff" }} />
-                            </Divider>
+                            {/* <Divider sx={{ "&::before, &::after": { borderColor: "#fff" } }} >
+                                <Chip label="OR" sx={{borderColor: "#fff" }} />
+                            </Divider> */}
                         </div>
                         <div className="alt-auth">
                             <Button onClick={signInWithGoogle} > <Google /> </Button>
-                            <Button onClick={()=> alert("This option is disabled!. You may want to sign up with google")}  > <Facebook /> </Button>
+                            <Button onClick={()=> alert("This option is disabled!. You may want to sign in with google")}  > <Facebook /> </Button>
                         </div> 
                         <p className="member">Don't have an account ? <Link to="/auth/sign-up">Sign Up</Link> </p>
                     </div>

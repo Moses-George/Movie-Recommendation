@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import '../../styles/MovieSingle/MovieSingleMoreInfo.scss';
 import { formatDate } from "../../utils/dateFormatter";
 
@@ -21,8 +21,8 @@ const MovieSingleMoreInfo = ({ single }) => {
                 {single?.genres.map(genre => <div key={genre.id}>{genre.name}</div>)}
             </div>
             <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
+            <h3>Production Companies</h3>
             <div className="production-companies">
-                <h3>Production Companies</h3>
                 {single?.production_companies.map(company => <div key={company.id} className="company">
                     {company.logo_path && <img src={`https://image.tmdb.org/t/p/w92${company.logo_path}`} alt="" />}
                     <div className="company-detail">

@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import "../Modals/ImagePreview.scss";
-import Button from "../Button";
-import Backdrop from "./Backdrop";
+import "./ImagePreview.scss";
+import Button from "../../Button/Button";
+import Backdrop from "../Backdrop";
 
 const ImagePreviewOverlay = ({ onClose, onSave, image, progressPercent }) => {
 
     return (
         <div className="imagePreview">
-            <img src={`${URL.createObjectURL(image)}`} alt="profile picture" />
+            <img src={`${URL.createObjectURL(image)}`} alt="" />
             {progressPercent > 0 && <div className="percentage-bar">
                 <div className="percentage-bar-loader" style={{ width: `${progressPercent}%` }}></div>
             </div>}

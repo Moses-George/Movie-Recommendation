@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Favorite, Star } from "@mui/icons-material";
-import Button from "../UI/Button";
+import Button from "../UI/Button/Button";
 import '../../styles/Movies/MovieCard.scss';
 import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";

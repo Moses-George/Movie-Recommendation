@@ -39,7 +39,7 @@ const ViewReplies = () => {
                     data: doc.data()
                 })));
             });
-    }, [commentId, movie]);
+    }, [commentId, movie]); 
 
 
     return (
@@ -58,7 +58,7 @@ const ViewReplies = () => {
                                 username={singleComment?.user?.username}
                                 userId={singleComment?.user?.userId}
                                 timestamp={new Date(singleComment?.sentAt?.toDate())} />
-                            <CommentHeaderBtn type="reply" />
+                            <CommentHeaderBtn type="reply"  />
                         </div>
                         <div className="comment-content"> {singleComment?.content} </div>
                     </div>

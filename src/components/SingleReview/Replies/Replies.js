@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Reply from "./Reply";
 import '../../../styles/SingleReview/Replies.scss';
 import { Avatar } from "@mui/material";
+import useFetchProfilePic from "../../../hook/useFetchProfilePic";
 
 const Replies = ({ replies }) => {
 
@@ -22,16 +23,25 @@ const Replies = ({ replies }) => {
     )
 }
 
-export const RepliesOutline = ({ replies, commentId }) => {
+const ReplyPreview = ({reply, commentId}) => {
+
+    const imageUrl = useFetchProfilePic(reply?.data.user.userId); 
+
+    return (
+        <div className="replies-outline" >
+        {imageUrl ? <img src={imageUrl} alt="" /> : <Avatar />}
+        <Link to={commentId}> {reply.data.user.username}</Link>
+        <p> {reply.data.content?.length > 12 ? `${reply.data.content?.slice(0, 12)}...` : reply.data.content} </p>
+    </div>
+    )
+}
+
+export const RepliesPreview = ({ replies, commentId }) => {
 
     return (
         <div className="replies">
             {replies.map(reply =>
-                <div className="replies-outline" key={reply.id} >
-                    {reply.data.user.image ? <img src={reply.data.user.image} alt="" /> : <Avatar />}
-                    <Link to={commentId}> {reply.data.user.username}</Link>
-                    <p> {reply.data.content?.length > 12 ? `${reply.data.content?.slice(0, 12)}...` : reply.data.content} </p>
-                </div>
+                <ReplyPreview reply={reply} key={reply.id} commentId={commentId} /> 
             )}
         </div>
     )

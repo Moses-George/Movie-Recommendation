@@ -8,7 +8,7 @@ import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import { storage, db, logOut, auth } from "../../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { doc, collection, addDoc, serverTimestamp, orderBy, onSnapshot } from "firebase/firestore";
-import ImagePreview from "../UI/Modals/ImagePreview";
+import ImagePreview from "../UI/Modals/ImagePreview/ImagePreview";
 
 const Profile = () => {
 
@@ -94,7 +94,7 @@ const Profile = () => {
                             <AddAPhoto sx={{ fontSize: "30px" }} />
                         </div>
                     </label>
-                    <input type="file" id="fileInput" onChange={(e) => setImage(e.target.files[0])} />
+                    <input type="file" id="fileInput" onChange={(e) => setImage(e.target.files[0])}  />
                 </form>
                 <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
                 <div className="account-details">
