@@ -11,18 +11,14 @@ const MovieSingle = () => {
 
     const { movieId } = useParams();
 
-    const { data: single, isFetching, isSuccess } = useGetSingleMovieQuery(movieId);
-
-    if (isFetching) {
-        return <Spinner />
-    }
+    const { data: single} = useGetSingleMovieQuery(movieId);
 
 
     return (
         <div className="movie-single">
-            {isSuccess && <MovieSingleInfo single={single} />}
+            <MovieSingleInfo single={single} />
             <Routes>
-                <Route index={true} element={isSuccess && <MovieSingleMoreInfo single={single} />} />
+                <Route index={true} element={ <MovieSingleMoreInfo single={single} />} />
                 <Route path='comments/*' element={<SingleReview />} />
             </Routes>
         </div>

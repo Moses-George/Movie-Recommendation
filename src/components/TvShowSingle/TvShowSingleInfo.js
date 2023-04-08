@@ -5,7 +5,6 @@ import Season from "./Season";
 
 const TvShowSingleInfo = ({ single }) => {
 
-console.log(single)
     return (
         <div className="movie-single__info">
             <h1> {single?.name} </h1>

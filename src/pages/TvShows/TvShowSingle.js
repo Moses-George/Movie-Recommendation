@@ -11,18 +11,15 @@ const TvShowSingle = () => {
  
     const { tvShowId } = useParams();
 
-    const { data: single, isFetching, isSuccess } = useGetSingleTvShowQuery(tvShowId);
+    const { data: single } = useGetSingleTvShowQuery(tvShowId);
 
-    if(isFetching) {
-        return <Spinner />
-    }
 
 
     return (
         <div className="movie-single">
-             {isSuccess && <TvShowSingleInfo single={single} />}
+            <TvShowSingleInfo single={single} />
             <Routes>
-                <Route index={true} element={ isSuccess && <TvShowSingleMoreInfo single={single} />} />
+                <Route index={true} element={<TvShowSingleMoreInfo single={single} />} />
                 <Route path='comments/*' element={<SingleReview />} />
             </Routes>
         </div>
