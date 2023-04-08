@@ -68,13 +68,13 @@ const TvShowCard = ({ tvShow }) => {
                 <p>{new Date(tvShow.first_air_date).getFullYear()}</p>
                 <div className="movie-info__right">
                     <span>
-                        <Favorite onClick={handleClick}
+                        {user && <Favorite onClick={handleClick}
                             sx={{ fontSize: "23px", color: color }}
                             className={`${isFavourite === tvShow.name && "bump"}`} 
-                        />
+                        />}
                     </span>
                     <span> <Star sx={{ fontSize: "22px" }} /> {tvShow.vote_average} </span>
-                </div>
+                </div> 
             </div>
         </div>
     )
