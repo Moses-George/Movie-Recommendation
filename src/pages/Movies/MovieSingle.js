@@ -11,15 +11,12 @@ const MovieSingle = () => {
 
     const { movieId } = useParams();
 
-    const { data: single, isError, error, isFetching, isSuccess } = useGetSingleMovieQuery(movieId);
+    const { data: single, isFetching, isSuccess } = useGetSingleMovieQuery(movieId);
 
     if (isFetching) {
         return <Spinner />
     }
 
-    if (isError) {
-        return <h2>An error has occurred!</h2>
-    }
 
     return (
         <div className="movie-single">

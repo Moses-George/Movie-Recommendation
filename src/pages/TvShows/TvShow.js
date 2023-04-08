@@ -12,7 +12,7 @@ const TvShows = () => {
             </div>
             <div className="tvShows">
                 <TvShowGrid  />
-                <MovieSearch  />
+                <MovieSearch type="tvShow"  />
             </div>
         </>
     )
