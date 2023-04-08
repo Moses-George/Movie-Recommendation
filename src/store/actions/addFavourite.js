@@ -1,4 +1,4 @@
-import { showPopUpMessage } from "../features/addFavouriteSlice";
+import { showPopUpMessage } from "../features/popupMessageSlice";
 import { doc, collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 

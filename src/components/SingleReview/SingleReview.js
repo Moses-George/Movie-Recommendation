@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useParams } from 'react-router-dom';
-import { Forum } from "@mui/icons-material";
+import React, { useEffect, useState, useRef } from "react";
+import { Routes, Route, Navigate, Link } from 'react-router-dom';
+import { Forum, EmojiEmotions } from "@mui/icons-material";
 import '../../styles/SingleReview/SingleReview.scss';
 import TextArea from "./TextArea";
 import Comment from "./Comments/Comment";
@@ -10,25 +10,21 @@ import { db, auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import useMovieName from "../../hook/useMovieName";
-import ReviewSpinner from "../UI/Spinners/ReviewSpinner";
-import { useRef } from "react";
 
 const SingleReview = () => {
 
     const [content, setContent] = useState("");
     const [comments, setComments] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
     const scrollToComments = useRef(null);
 
     const { movie, fetching } = useMovieName();
     const [user] = useAuthState(auth);
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
-    // const commentRef = document.getElementById("comment")
 
     useEffect(() => {
         scrollToComments.current.scrollIntoView({ behavior: "smooth" });
-    }, [])
+    }, []);
 
     const btnIsDisabled = !content || content.trim().length === 0;
 
@@ -66,7 +62,6 @@ const SingleReview = () => {
     };
 
     useEffect(() => {
-        setIsLoading(true);
         onSnapshot(collection(db, "movies", movie, "comments"), orderBy(
             'timestamp', 'asc'), (snapshot) => {
                 setComments(snapshot.docs.map(doc => ({
@@ -74,15 +69,13 @@ const SingleReview = () => {
                     data: doc.data()
                 })));
             });
-        setIsLoading(false);
     }, [movie]);
 
     const commentSize = comments.length;
 
     const Reviews =
         <div className="single__review" ref={scrollToComments} >
-            {fetching && <ReviewSpinner />}
-            {!fetching && <h2>{commentSize === 0 ? "No Comment" :
+            {!fetching && <h2> {commentSize === 0 ? "No Comment" :
                 commentSize === 1 ? "01 Comment" :
                     commentSize > 0 && commentSize <= 9 ? `0${commentSize} Comments` :
                         `${commentSize} Comments`}</h2>}
@@ -98,9 +91,13 @@ const SingleReview = () => {
                         score={comment.data.score}
                     />)}
                 </div>
-                {!fetching && commentSize === 0 && <div className="no-comment">
-                    <Forum sx={{ color: "#fff", fontSize: "100px" }} />
-                    {user && <p>Be the first to comment.</p>}
+                {user && !fetching && commentSize === 0 && <div className="no-comment">
+                    <Forum sx={{ color: "#fff", fontSize: "10rem" }} />
+                    <p>Be the first to comment.</p>
+                </div>}
+                {!user && !fetching && commentSize === 0 && <div className="no-comment">
+                    <EmojiEmotions sx={{ color: "gold", fontSize: "10rem" }} />
+                    <Link to="/auth/login">Login to add a review</Link>
                 </div>}
                 {user && <TextArea
                     placeholder="What's on your mind ?"
@@ -115,17 +112,18 @@ const SingleReview = () => {
 
     const comment =
         <div className="single__review" ref={scrollToComments} >
-            <div
-                className="single-comment scroller" >
-                <ViewReplies />
+            <div className="reviews-container">
+                <div className="single-comment scroller" >
+                    <ViewReplies />
+                </div>
+                {user && <TextArea
+                    placeholder="Reply..."
+                    setContent={setContent}
+                    value={content}
+                    sendReply={sendReply}
+                    disabled={btnIsDisabled}
+                    action="Reply" />}
             </div>
-            {user && <TextArea
-                placeholder="Reply..."
-                setContent={setContent}
-                value={content}
-                sendReply={sendReply}
-                disabled={btnIsDisabled}
-                action="Reply" />}
         </div>
 
     return (

@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useState, useEffect } from "react";
+import React, { Fragment, memo, useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import '../../../styles/SingleReview/Comment.scss';
 import CommentHeader from "../Comments/CommentHeader";
@@ -16,8 +16,13 @@ const ViewReplies = () => {
 
     const [singleComment, setSingleComment] = useState({});
     const [replies, setReplies] = useState([]);
+    const scrollToSingleComment = useRef(null);
 
     const { movie } = useMovieName();
+
+    useEffect(() => {
+        scrollToSingleComment.current.scrollIntoView({ behavior: "smooth" });
+    }, []);
 
     useEffect(() => {
         const getComment = async () => {
@@ -44,7 +49,7 @@ const ViewReplies = () => {
 
     return (
         <Fragment>
-            <div className='comment-section'>
+            <div className='comment-section' ref={scrollToSingleComment} >
                 <div className="comment">
                     <div className="comment-vote">
                         <CommentVote

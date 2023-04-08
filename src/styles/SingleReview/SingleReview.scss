@@ -1,5 +1,6 @@
+@import "../../Variables/Variables";
+
 .single__review {
-    // display: grid;
     display: flex;
     flex-direction: column;
     width: 37rem;
@@ -15,7 +16,10 @@
     display: grid;
     height: 100%;
     width: inherit;
-    align-items: end;
+
+    a {
+        @include linkStyle(#e4e7eb);
+    }
 }
 
 .comments {
@@ -27,6 +31,7 @@
 }
 
 .single-comment {
+    align-self: start;
     max-height: 42rem;
     padding-bottom: 2rem;
 }

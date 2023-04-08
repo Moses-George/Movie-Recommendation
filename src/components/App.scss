@@ -1,0 +1,24 @@
+.horizontal-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    column-gap: 2rem;
+    width: 100%;
+}
+
+.horizontal-scroll {
+    overflow-x: auto;
+    scrollbar-width: thin !important;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+    display: block;
+    width: 12px;
+}
+
+
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .horizontal-scroll {
+        overflow-x: overlay
+    }
+}

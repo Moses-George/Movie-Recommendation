@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
-import '../../styles/SingleReview/TextArea.scss';
+import  '../../styles/SingleReview/TextArea.scss';
 import Button from "../UI/Button/Button";
 import useFetchProfilPic from "../../hook/useFetchProfilePic";
 

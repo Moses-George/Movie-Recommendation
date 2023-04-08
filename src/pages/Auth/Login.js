@@ -1,25 +1,23 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff, Google, Facebook } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField, Divider, Chip } from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import '../../styles/pages/Auth.scss';
 import Button from "../../components/UI/Button/Button";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, signInWithGoogle } from "../../firebase";
-// import Spinner from "../../components/UI/Spinners/Spinner";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import AuthSpinner from "../../components/UI/Spinners/AuthSpinner";
 
-const textFieldStyle = { width: "100%", "& .MuiFilledInput-root": { backgroundColor: "gray", color: "#fff" } } 
+const textFieldStyle = { width: "100%", "& .MuiFilledInput-root": { backgroundColor: "gray", color: "#fff" } }
 
 const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
-
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
 
     const [user] = useAuthState(auth);
     const navigate = useNavigate();
@@ -35,8 +33,6 @@ const Login = () => {
         setIsLoading(true);
         setError(null);
         try {
-            const email = emailRef.current.value;
-            const password = passwordRef.current.value;
             await signInWithEmailAndPassword(auth, email, password);
         } catch (err) {
             setError(err.message);
@@ -58,15 +54,17 @@ const Login = () => {
                                 label="Enter Email"
                                 type="email"
                                 variant="filled"
-                                inputRef={emailRef}
+                                onChange={(e)=> setEmail(e.target.value)}
+                                value={email}
                                 required
                                 sx={textFieldStyle} />
                             <TextField
                                 label="Enter Password"
                                 variant="filled"
-                                inputRef={passwordRef}
-                                required
-                                type={showPassword ? "text" : "password"}
+                                onChange={(e)=> setPassword(e.target.value)}
+                                value={password}
+                                required 
+                                type={showPassword ? "text" : "password"} 
                                 sx={textFieldStyle}
                                 InputProps={{
                                     endAdornment: (
@@ -83,14 +81,12 @@ const Login = () => {
                             <Button>Login</Button>
                         </form>
                         <div>
-                            {/* <Divider sx={{ "&::before, &::after": { borderColor: "#fff" } }} >
-                                <Chip label="OR" sx={{borderColor: "#fff" }} />
-                            </Divider> */}
+                        <div className="or">OR</div>
                         </div>
                         <div className="alt-auth">
                             <Button onClick={signInWithGoogle} > <Google /> </Button>
-                            <Button onClick={()=> alert("This option is disabled!. You may want to sign in with google")}  > <Facebook /> </Button>
-                        </div> 
+                            <Button onClick={() => alert("This option is disabled!. You may want to sign in with google")}  > <Facebook /> </Button>
+                        </div>
                         <p className="member">Don't have an account ? <Link to="/auth/sign-up">Sign Up</Link> </p>
                     </div>
                 </div>

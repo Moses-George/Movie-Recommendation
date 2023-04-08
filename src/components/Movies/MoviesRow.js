@@ -1,20 +1,20 @@
 import React from "react";
 import MovieCard from "./MovieCard";
 import '../../styles/Movies/MoviesRow.scss';
-import MovieCardSkeleton from "../UI/Spinners/MovieCardSkeleton";
+import CardSkeleton from "../UI/Spinners/CardSkeleton";
 
-const MoviesRow = ({ header, movieData }) => {
+const arr = new Array(20);
+
+
+const MoviesRow = ({ header, movieData, loading }) => {
 
 
     return (
-        <section className="movies-catalog">
+        <section className="movies-row">
             <h1>{header}</h1>
-            <div className="movies-catalog__row">
-                {movieData.map(movie => <MovieCard key={movie.id} movie={movie} />)}
-                {/* {movieData.map(movie => <MovieCardSkeleton key={movie.id} />)} */}
-                {/* <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton /> */}
+            <div className="horizontal-scroll">
+                {!loading && movieData?.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+                {loading && arr.map(movie => <CardSkeleton key={movie} />)}
             </div>
         </section>
     )

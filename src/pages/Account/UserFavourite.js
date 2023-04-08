@@ -1,5 +1,3 @@
-import MovieGrid from "../../components/Movies/MovieGrid";
-import MoviesRow from "../../components/Movies/MoviesRow";
 import FavouriteCard from "../../components/Movies/FavouriteCard";
 import "../../styles/pages/UserFavouriteMovies.scss";
 import { collection, onSnapshot, orderBy, deleteDoc, doc } from "firebase/firestore";
@@ -7,8 +5,10 @@ import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import { useState, useEffect, useRef } from "react";
+import { EmojiEmotions } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
-const UserFavouriteMovies = () => {
+const UserFavourite = () => {
 
     const [userFavourites, setUserFavourites] = useState([]);
     const scrollToFavourites = useRef(null);
@@ -27,7 +27,6 @@ const UserFavouriteMovies = () => {
                 })));
             });
     }, [currentUser?.docId]);
-    console.log(userFavourites)
 
     useEffect(() => {
         scrollToFavourites.current.scrollIntoView({ behavior: "smooth" });
@@ -43,23 +42,21 @@ const UserFavouriteMovies = () => {
         }
     }
 
-    const discoveryItems = localStorage.getItem("discoveries") !== null ? JSON.parse(localStorage.getItem("discoveries")) : []
     return (
-        // <div className="userFavourite">
-        //     <h1>Your favourites</h1>
-        //     <div className="userFavourite-movies">
-        //         {userFavourites?.map(favourite => <MovieCard key={favourite.id} movie={favourite.data} isFavouritePage={true} id={favourite.id} removeFavourite={removeFavourite}  />)}
-        //     </div>
-        // </div>
         <div className="favourite-grid" ref={scrollToFavourites} >
-            <div className="favourite-grid__length">
+            {userFavourites.length > 0 && <div className="favourite-grid__length">
                 <p> {`Found ${userFavourites.length} Favourites`} </p>
-            </div>
+            </div>}
             <div className="favourite-grid__wrapper">
                 {userFavourites.map(favourite => <FavouriteCard key={favourite.id} favourite={favourite.data} id={favourite.id} removeFavourite={removeFavourite} />)}
             </div>
+            {userFavourites.length === 0 && <div className="no-favourite">
+                <h2>No Fvaourite Found!</h2>
+                <EmojiEmotions sx={{ fontSize: "9rem", color:"#e4e7eb" }} />
+                <Link to="/movies">Wanna explore ? let's go! </Link>
+            </div>}
         </div>
     )
 }
 
-export default UserFavouriteMovies;
+export default UserFavourite;

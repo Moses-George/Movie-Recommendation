@@ -2,13 +2,18 @@ import React, { Fragment } from "react";
 import ReactDOM from 'react-dom';
 import Backdrop from "../Backdrop";
 import "./DeleteModal.scss";
+import { useParams } from "react-router-dom";
 
-const DeleteModalOverlay = ({ onCancel, onDelete }) => {
+const DeleteModalOverlay = ({ onCancel, onDelete}) => {
+
+    const { commentId } = useParams();
+    
+    const type = commentId ? "reply" : "comment";
 
     return (
         <div className="delete-modal">
             <h3>Delete comment</h3>
-            <p>Are you sure you want to delete this comment? This will remove the comment and can't be undone</p>
+            <p>{`Are you sure you want to delete this ${type} ? This will remove the ${type} and can't be undone`}</p>
             <div className="delete-btn">
                 <button onClick={onCancel} >NO, CANCEL</button>
                 <button onClick={onDelete} >YES, DELETE</button>

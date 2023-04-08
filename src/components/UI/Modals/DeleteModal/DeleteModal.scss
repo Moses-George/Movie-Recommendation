@@ -4,7 +4,8 @@
     top: 30vh;
     z-index: 99999;
     justify-self: center;
-    background-color: #fff;
+    // background-color: #fff;
+    background-color: #000;
     border-radius: 7px;
     padding: 1.5rem;
     width: 22rem;
@@ -12,12 +13,13 @@
 
     h3 {
         margin: 0;
-        color: hsl(212, 24%, 26%);
+        color: #fff;
+        // color: hsl(212, 24%, 26%);
     }
 
     p {
         line-height: 1.5;
-        color: hsl(211, 10%, 45%);
+        color: #e4e7eb;
     }
 }
 
@@ -35,7 +37,8 @@
 }
 
 .delete-btn button:nth-child(1) {
-    background-color: hsl(211, 10%, 45%);
+    background-color: #cbd2d9;
+    color: #323f4b;
 }
 
 .delete-btn button:nth-child(2) {

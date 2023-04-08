@@ -12,16 +12,9 @@
     display: flex;
     align-items: center; 
     column-gap: 1rem;
-    // flex-direction: column;
     justify-content: flex-end;
     justify-items: flex-end;
     color: #fff;
-
-    // h4 {
-    //     margin: 0;
-    //     font-weight: bold;
-    //     color: hsl(212, 23%, 43%);
-    // }
 
     a {
         margin: 0;
@@ -31,7 +24,7 @@
 
     p {
         margin: 0;
-        color: hsl(212, 7%, 58%);
+        color: #e4e7eb;
     }
 
     img {

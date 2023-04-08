@@ -14,7 +14,7 @@ const ProfileDetails = () => {
     const [user] = useAuthState(auth);
 
     // Fetch current user from firebase db with user found from the authentication state
-    const { data: currentUser, isFetching, isLoading, isError, error } = useFetchCurrentUserQuery(user?.uid);
+    const { data: currentUser} = useFetchCurrentUserQuery(user?.uid); 
 
 
     return (

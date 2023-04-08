@@ -48,7 +48,7 @@
     word-break: break-all;
     text-align: justify;
     text-justify: inter-word;
-    color: hsl(212, 7%, 58%);
+    color: #e4e7eb;
     padding-right: 1rem;
 
     span {
@@ -56,11 +56,6 @@
         color: hsl(238, 40%, 52%);
     }
 }
-
-// .content span {
-//     font-weight: bold;
-//     color: hsl(238, 40%, 52%);
-// }
 
 .update {
     align-self: flex-end;

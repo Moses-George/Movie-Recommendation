@@ -1,37 +1,38 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { TMDB_API_KEY } from "../../config";
 
-const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
+// const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
 
 export const movieApi = createApi({
     reducerPath: "movieApi",
     baseQuery: fetchBaseQuery({ baseUrl: "https://api.themoviedb.org/3/" }),
     endpoints: (builder) => ({
         getMoviesDiscover: builder.query({
-            query: (pageNum) => `discover/movie?api_key=${API_KEY}&page=${pageNum}`,
+            query: (pageNum) => `discover/movie?api_key=${TMDB_API_KEY}&page=${pageNum}`,
         }),
         getUpcomingMovies: builder.query({
-            query: (pageNum) => `movie/upcoming?api_key=${API_KEY}&page=${pageNum}`,
+            query: (pageNum) => `movie/upcoming?api_key=${TMDB_API_KEY}&page=${pageNum}`,
         }),
         getTopRatedTVShows: builder.query({
-            query: (pageNum) => `tv/top_rated?api_key=${API_KEY}&page=${pageNum}`,
+            query: (pageNum) => `tv/top_rated?api_key=${TMDB_API_KEY}&page=${pageNum}`,
         }),
         getPopularTVShows: builder.query({
-            query: (pageNum) => `tv/popular?api_key=${API_KEY}&page=${pageNum}`,
+            query: (pageNum) => `tv/popular?api_key=${TMDB_API_KEY}&page=${pageNum}`,
         }),
         getTrendingMovies: builder.query({
-            query: (pageNum) => `trending/movie/day?api_key=${API_KEY}&page=${pageNum}`,
+            query: (pageNum) => `trending/movie/day?api_key=${TMDB_API_KEY}&page=${pageNum}`,
         }),
         getSingleMovie: builder.query({
-            query: (movieId) => `movie/${movieId}?api_key=${API_KEY}`,
+            query: (movieId) => `movie/${movieId}?api_key=${TMDB_API_KEY}`,
         }),
         getSingleTvShow: builder.query({
-            query: (tvShowId) => `tv/${tvShowId}?api_key=${API_KEY}`,
+            query: (tvShowId) => `tv/${tvShowId}?api_key=${TMDB_API_KEY}`,
         }),
         getSortedMovies: builder.query({
-            query: (page, query) =>  `movie/upcoming?sort_by=${query}&api_key=${API_KEY}&page=${page}`
+            query: (page, query) =>  `movie/upcoming?sort_by=${query}&api_key=${TMDB_API_KEY}&page=${page}`
         }),
         getSortedTvShows: builder.query({
-            query: (page, query) => `tv/on_the_air?sort_by=${query}&api_key=${API_KEY}&page=${page}` ,
+            query: (page, query) => `tv/on_the_air?sort_by=${query}&api_key=${TMDB_API_KEY}&page=${page}` ,
         })
     })
 });

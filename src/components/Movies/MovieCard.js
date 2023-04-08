@@ -14,6 +14,7 @@ const MovieCard = ({ movie }) => {
 
     const [favouriteMovies, setFavouriteMovies] = useState([]);
     const [color, setColor] = useState(false);
+    const [isFavourite, setIsFavourite] = useState("");
     const dispatch = useDispatch();
 
     // get user authentication state with the useAuthState hook
@@ -56,6 +57,15 @@ const MovieCard = ({ movie }) => {
     }
 
 
+    const handleClick = () => {
+        // sets movie title to add animation to the clicked movie
+        setIsFavourite(movie.title);
+        // adds movie to favourite 
+        dispatch(addToFavourite(movieInfo, currentUser?.docId));
+
+    }
+
+
     return (
         <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
@@ -65,7 +75,10 @@ const MovieCard = ({ movie }) => {
                 <p>{new Date(movie.release_date).getFullYear()}</p>
                 <div className="movie-info__right">
                     {user && <span>
-                        <Favorite sx={{ fontSize: "23px", color: color }} onClick={() => dispatch(addToFavourite(movieInfo, currentUser?.docId))} />
+                        <Favorite
+                            sx={{ fontSize: "23px", color: color }}
+                            className={`${isFavourite === movie.title && "bump"}`}
+                            onClick={handleClick} />
                     </span>}
                     <span> <Star sx={{ fontSize: "22px", color: "gold" }} /> {movie.vote_average} </span>
                 </div>

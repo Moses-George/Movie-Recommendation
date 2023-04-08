@@ -2,7 +2,6 @@
 
 .slideshow {
     position: relative;
-    // padding-top: 4rem;
     margin: 0 auto;
     overflow: hidden;
     width: 100%;
@@ -13,6 +12,7 @@
     width: 100%;
     transition: ease 1000ms;
     white-space: nowrap;
+    
 }
 
 .featured-movie__container {
@@ -22,6 +22,7 @@
     display: inline-block;
     padding: 5rem 0 0 3rem;
     width: 100%;
+    margin-top: 0;
 
     h1 {
         font-size: 3rem;
@@ -104,6 +105,8 @@
 @media screen and (min-width: 320px) and (max-width: 500px)  {
     .featured-movie__container {
         padding: 5rem 0 0 1rem;
+        margin-top: -2.3rem;
+        height: 34rem;
 
         h1 {
             width: 6rem;
@@ -111,13 +114,15 @@
         }
     }
     .featured-movie__genre {
-        column-gap: .5rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: start;
+        row-gap: .5rem;
     }
 
     .featured-movie__info {
         flex-direction: column;
         row-gap: .5rem;
-        // justify-items: flex-start;
         align-items: flex-start;
     }
 
@@ -126,7 +131,6 @@
     }
 
     .slideshowDots {
-        // justify-content: flex-start;
         column-gap: .5rem;
     }
 }

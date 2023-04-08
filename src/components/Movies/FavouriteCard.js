@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const FavouriteCard = ({ favourite, removeFavourite, id }) => {
 
 
-    return ( 
+    return (
         <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500${favourite.poster_path}`} alt="" />
             <Link to={`/${favourite.type === "movie" ? "movies" : "tv"}/${favourite.id}`}> <Button>Read More</Button></Link>

@@ -6,7 +6,6 @@
     height: 100%;
     z-index: 9999;
     background: transparent;
-    // background: rgba(0, 0, 0, 0.25);
     display: grid;
 }
 
@@ -15,7 +14,6 @@
     position: fixed;
     z-index: 99999;
     transform: scale(1);
-    // transform: translateY(100%);
     top: -400px;
     background-color: #fff;
     padding: 1rem;
@@ -50,15 +48,3 @@
     }
 
 }
-
-// @keyframes popback {
-
-//     from {
-//         transform: translateY(600px);
-//     }
-
-//     to {
-//         transform: translateY(-600px);
-//     }
-
-// }

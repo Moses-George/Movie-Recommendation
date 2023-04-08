@@ -1,19 +1,21 @@
 import React from "react";
-import "../../styles/News/NewsCollection.scss"
+import "../../styles/News/NewsCollection.scss";
 import NewsCard from "./NewsCard";
+import CardSkeleton from "../UI/Spinners/CardSkeleton";
 
-const newsItem = ["n1", "n2", "n3", "n4", "n5", "n6"]
+const arr = new Array(20); 
 
-const NewsCollection = ({header}) => {
+const NewsCollection = ({header, newsItem, loading}) => {
 
 
     return (
-        <div className="news-collection">
+        <div className="news-collection ">
             <h1>{header}</h1>
-            <div className="news-collection__row">
-                {newsItem.map(news => <NewsCard key={news} />)}
+            <div className="news-collection__row horizontal-scroll">
+                {!loading && newsItem?.map(news => <NewsCard key={news.id} news={news} />)}
+                {loading && arr.map(news => <CardSkeleton key={news.id} />)}
             </div>
-        </div>
+        </div> 
     )
 }
 

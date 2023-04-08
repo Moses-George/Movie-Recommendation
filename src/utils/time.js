@@ -22,13 +22,6 @@ const timeAgo = (currentTime) => {
             return formatter.format(Math.round(delta), key);
         };
     };
-    // const sec = (currentTime / 1000);
-    // const min = (currentTime / (1000 * 60)).toFixed(0);
-    // const hrs = (currentTime / (1000 * 60 * 60)).toFixed(0);
-    // const days = (currentTime / (1000 * 60 * 60 * 24)).toFixed(0);
-    // const weeks = (currentTime / (1000 * 60)).toFixed(0);
-    // const months = (currentTime / (1000 * 60)).toFixed(0);
-    // const years = (currentTime / (1000 * 60)).toFixed(0);
 };
 
 export default timeAgo;

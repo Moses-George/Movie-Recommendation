@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const addFavouriteSlice = createSlice({
-    name: "favouriteMessage",
+const popupMessageSlice = createSlice({
+    name: "popupMessage",
     initialState: { message: "" },
     reducers: {
         showPopUpMessage: (state, action) => {
@@ -10,6 +10,6 @@ const addFavouriteSlice = createSlice({
     }
 });
 
-export const { showPopUpMessage } = addFavouriteSlice.actions;
+export const { showPopUpMessage } = popupMessageSlice.actions;
 
-export default addFavouriteSlice; 
+export default popupMessageSlice;  

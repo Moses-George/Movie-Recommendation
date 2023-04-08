@@ -5,8 +5,9 @@ import SearchBar from './SearchBar';
 import SearchItem from "./SearchItem";
 import Backdrop from "../Backdrop";
 import Button from "../../Button/Button";
-import { Cancel } from "@mui/icons-material";
+import { Cancel, Movie, Tv } from "@mui/icons-material";
 import SearchSpinner from "../../Spinners/SearchSpinner";
+import { TMDB_API_KEY } from "../../../../config";
 
 const SearchModalOverlay = ({ onClick }) => {
 
@@ -32,9 +33,8 @@ const SearchModalOverlay = ({ onClick }) => {
     const handleChange = async (value) => {
         setIsLoading(true);
         try {
-            const API_KEY = "325e920b899e3b823d52fa3739a5c71d";
             const filter = searchRef.current.textContent.trim();
-            const res = await fetch(`https://api.themoviedb.org/3/search/${filter}?api_key=${API_KEY}&query=${value}`);
+            const res = await fetch(`https://api.themoviedb.org/3/search/${filter}?api_key=${TMDB_API_KEY}&query=${value}`);
             if (!res.ok) {
                 throw new Error("No Result Found");
             }
@@ -66,8 +66,14 @@ const SearchModalOverlay = ({ onClick }) => {
                 </div>}
                 <p>Search From:</p>
                 <div className="search-btn">
-                    <Button onClick={() => setFilteredTerm("movie")} className={filteredTerm === "movie" ? "active-filter" : "inactive-filter"} >Movie</Button>
-                    <Button onClick={() => setFilteredTerm("tv")} className={filteredTerm === "tv" ? "active-filter" : "inactive-filter"} >TvShow</Button>
+                    <Button onClick={() => setFilteredTerm("movie")} className={filteredTerm === "movie" ? "active-filter" : "inactive-filter"} >
+                        <Movie />
+                        <span>Movie</span>
+                    </Button>
+                    <Button onClick={() => setFilteredTerm("tv")} className={filteredTerm === "tv" ? "active-filter" : "inactive-filter"} >
+                        <Tv />
+                        <span>TvShow</span>
+                    </Button>
                 </div>
             </div>
             <hr />

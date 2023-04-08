@@ -1,4 +1,6 @@
-.userFavourite {
+ @import "../../Variables/Variables";
+
+ .userFavourite {
     h1 {
         color: #fff;
         display: block;
@@ -26,8 +28,18 @@
     padding: 1rem;
     border-top: 1px solid hsl(212, 7%, 58%);
     border-bottom: 1px solid hsl(212, 7%, 58%);
-    // border: 2px 0 solid #fff;
     color: #fff;
+}
+
+.no-favourite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #e4e7eb;
+
+    a {
+        @include linkStyle(#e4e7eb);
+    }
 }
 
 @media screen and (min-width: 320px) and (max-width: 500px)  {
@@ -41,13 +53,5 @@
         gap: 0;
         row-gap: 1rem;
         justify-items: center;
-
-        // div {
-        //     width: 95% !important;
-        // }
     }
-    // .favourite-grid__length {
-    //     justify-self: center;
-    //     align-self: center;
-    // }
 }

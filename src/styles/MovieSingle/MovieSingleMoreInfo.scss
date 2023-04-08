@@ -35,8 +35,6 @@
     display: grid;
     grid-template-columns: repeat(2,1fr);
     column-gap: 1rem;
-    // display: flex;
-    // flex-direction: column;
     row-gap: .8rem;
     padding-bottom: 1rem;
 }
@@ -46,8 +44,6 @@
     column-gap: 1rem;
     align-items: center;
     border-radius: 10px;
-    // width: fit-content;
-    // background-color: rgb(39, 38, 38);
     background-color: rgb(0,0,0,0.9);
     padding: 0 .5rem;
 
@@ -62,7 +58,7 @@
     .genre {
         display: grid;
         grid-template-columns: repeat(3,1fr);
-        column-gap: 0;
+        column-gap: .7rem;
         row-gap: 1rem;
 
         div {

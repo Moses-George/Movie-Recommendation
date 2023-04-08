@@ -2,16 +2,17 @@ import { Fragment } from "react"
 import ReactDOM from 'react-dom';
 import { NavLink, Link } from "react-router-dom";
 import "./Sidebar.scss";
-import Backdrop from "../Modals/Backdrop";
+import Backdrop from "../../../components/UI/Modals/Backdrop";
 import { Avatar } from '@mui/material';
-import { ArrowBack, Home, Movie, Newspaper, Settings, Tv, Login, Logout } from '@mui/icons-material';
+import { ArrowBack, Settings, Login, Logout } from '@mui/icons-material';
 import { logOut } from "../../../firebase";
+import { navigationData } from "../navigationData";
 
-const SidebarOverlay = ({ setOpenSidebar, currentUser, user, imageUrl }) => {
+const SidebarOverlay = ({ openSidebar, setOpenSidebar, currentUser, user, imageUrl }) => {
 
 
     return (
-        <section className="sidebar">
+        <aside className={openSidebar ? "open-sidebar sidebar" : "sidebar"}>
             <div className="sidebar-header">
                 <div className='sidebar-dots'>
                     <span />
@@ -23,34 +24,18 @@ const SidebarOverlay = ({ setOpenSidebar, currentUser, user, imageUrl }) => {
                 </div>
             </div>
             <div className='sidebar-profile'>
-                {user ? (imageUrl ? <img src={imageUrl} alt='profil-pic' /> : <Avatar sx={{ width:"6rem", height:"6rem" }} />) : ""}
+                {user ? (imageUrl ? <img src={imageUrl} alt='profil-pic' /> : <Avatar sx={{ width: "6rem", height: "6rem" }} />) : ""}
                 {user && <p>{currentUser?.data.username}</p>}
             </div>
             <ul>
-                <li>
-                    <NavLink to="/home" className={({ isActive }) => (!isActive ? "unselected" : "active-sidebar-link")}>
-                        <Home />
-                        <span>Home</span>
-                    </NavLink> 
-                </li>
-                <li>
-                    <NavLink to="/movies" className={({ isActive }) => (!isActive ? "unselected" : "active-sidebar-link")}>
-                        <Movie />
-                        <span>Movies</span>
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/tv" className={({ isActive }) => (!isActive ? "unselected" : "active-sidebar-link")}>
-                        <Tv />
-                        <span>Tv Shows</span>
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/news" className={({ isActive }) => (!isActive ? "unselected" : "active-sidebar-link")}>
-                        <Newspaper />
-                        <span>News</span>
-                    </NavLink>
-                </li>
+                {navigationData.map(navItem =>
+                    <li key={navItem.id}>
+                        <NavLink to={navItem.path} className={({ isActive }) => (!isActive ? "unselected" : "active-sidebar-link")}>
+                            {navItem.icon}
+                            <span>{navItem.text}</span>
+                        </NavLink>
+                    </li>
+                )}
             </ul>
             <div className="sidebar-account">
                 <p>Account</p>
@@ -73,17 +58,17 @@ const SidebarOverlay = ({ setOpenSidebar, currentUser, user, imageUrl }) => {
                     </Link>}
                 </div>
             </div>
-        </section>
+        </aside>
     )
 }
 
-const Sidebar = ({ setOpenSidebar, currentUser, user, imageUrl }) => {
+const Sidebar = ({ setOpenSidebar, currentUser, user, imageUrl, openSidebar }) => {
 
     return (
         <Fragment>
             {ReactDOM.createPortal(<Backdrop onClick={() => setOpenSidebar(false)} />, document.getElementById("backdrop-root"))}
             {ReactDOM.createPortal(
-                <SidebarOverlay setOpenSidebar={setOpenSidebar} currentUser={currentUser} user={user} imageUrl={imageUrl} />,
+                <SidebarOverlay openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} currentUser={currentUser} user={user} imageUrl={imageUrl} />,
                 document.getElementById("modal-root"))}
         </Fragment>
     )

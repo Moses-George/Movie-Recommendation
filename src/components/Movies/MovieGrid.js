@@ -4,6 +4,7 @@ import '../../styles/Movies/MovieGrid.scss';
 import MovieCard from './MovieCard';
 import { useGetSortedMoviesQuery } from "../../store/service/movieApiSlice";
 import MovieSpinner from "../UI/Spinners/MovieSpinner";
+import MovieCardSkeleton from "../UI/Spinners/CardSkeleton";
 
 
 const textFieldStyle = {
@@ -19,7 +20,7 @@ const MovieGrid = () => {
     const scrollToRef = useRef(null);
 
     // Fetch discovery movies from api using RTK query
-    const { data: movies, isLoading, isFetching, refetch } = useGetSortedMoviesQuery(page, filter);
+    const { data: movies, isLoading, refetch } = useGetSortedMoviesQuery(page, filter);
 
     // Handle page change from api
     const handlePageChange = (e, value) => {
@@ -57,6 +58,7 @@ const MovieGrid = () => {
                 </div>
                 <div className="movie-grid__wrapper">
                     {!isLoading && movies?.results.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+                    {isLoading && movies?.results.map(movie => <MovieCardSkeleton key={movie.id} />)}
                 </div>
                 <Pagination onChange={handlePageChange} count={20} color="primary" />
             </div>

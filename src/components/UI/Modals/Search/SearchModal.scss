@@ -64,7 +64,9 @@
     justify-content: space-between;
 
     button {
-        // @include btnStyle(rgb(51, 45, 45));
+        display: flex;
+        align-items: center;
+        column-gap: .3rem;
         padding: .5rem 1rem;
     }
 }

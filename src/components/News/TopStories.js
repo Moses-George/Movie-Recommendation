@@ -3,16 +3,13 @@ import { Link } from "react-router-dom";
 import "../../styles/News/TopStories.scss";
 import NewsCard from "./NewsCard";
 import { useGetTopStoriesQuery } from "../../store/service/newsApiSlice";
+import CardSkeleton from "../UI/Spinners/CardSkeleton";
 
-const newsItem = ["n1", "n2", "n3", "n4"]
+const arr = new Array(10);
 
 const TopStories = () => {
 
-    const { data: topStories, isLoading, isFetching } = useGetTopStoriesQuery();
-    // if (!isFetching) {
-    //     localStorage.setItem("stories", JSON.stringify(topStories.articles.map(item=> item)));
-    // }
-    const topStoriesItem = localStorage.getItem("stories") !== null ? JSON.parse(localStorage.getItem("stories")) : []
+    const { data: topStories, isLoading } = useGetTopStoriesQuery();
 
     return (
         <div className="top-stories">
@@ -21,7 +18,8 @@ const TopStories = () => {
                 <Link to="/news">See all news</Link>
             </div>
             <div className="top-stories__collection">
-                {!isLoading && topStoriesItem.slice(0,4).map((news, index) => <NewsCard key={index} news={news} />)}
+                {!isLoading && topStories?.articles?.slice(0, 4).map(news => <NewsCard key={news.id} news={news} />)}
+                {isLoading && arr.map(news => <CardSkeleton key={news.id} />)}
             </div>
         </div>
     )
