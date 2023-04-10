@@ -62,20 +62,22 @@ const SingleReview = () => {
     };
 
     useEffect(() => {
-        onSnapshot(collection(db, "movies", movie, "comments"), orderBy(
+        if (movie) {
+                    onSnapshot(collection(db, "movies", movie, "comments"), orderBy(
             'timestamp', 'asc'), (snapshot) => {
                 setComments(snapshot.docs.map(doc => ({
                     id: doc.id,
                     data: doc.data()
                 })));
             });
+        }
     }, [movie]);
 
     const commentSize = comments.length;
 
     const Reviews =
         <div className="single__review" ref={scrollToComments} >
-            {!fetching && <h2> {commentSize === 0 ? "No Comment" :
+            {user && !fetching && <h2> {commentSize === 0 ? "No Comment" :
                 commentSize === 1 ? "01 Comment" :
                     commentSize > 0 && commentSize <= 9 ? `0${commentSize} Comments` :
                         `${commentSize} Comments`}</h2>}

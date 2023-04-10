@@ -73,7 +73,8 @@ const CommentVote = ({ isComment, reviewId }) => {
 
     // Fetch votes from database
     useEffect(() => {
-        const colRef = isComment ? collection(db, "movies", movie, "comments", reviewId, "votes") :
+        if (commentId && movie) {
+            const colRef = isComment ? collection(db, "movies", movie, "comments", reviewId, "votes") :
             collection(db, "movies", movie, "comments", commentId, "reply", reviewId, "votes");
         onSnapshot(colRef, orderBy(
             'timestamp', 'asc'), (snapshot) => {
@@ -82,7 +83,8 @@ const CommentVote = ({ isComment, reviewId }) => {
                     data: doc.data()
                 })));
             });
-    }, [commentId, reviewId]);
+        }
+    }, [commentId, reviewId, movie]);
 
 
     return (

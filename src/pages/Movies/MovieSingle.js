@@ -11,7 +11,11 @@ const MovieSingle = () => {
 
     const { movieId } = useParams();
 
-    const { data: single} = useGetSingleMovieQuery(movieId);
+    const { data: single, isLoading} = useGetSingleMovieQuery(movieId);
+
+    if (isLoading) {
+        return <Spinner />
+    }
 
 
     return (

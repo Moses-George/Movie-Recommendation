@@ -40,13 +40,15 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
 
     // Fetch all Replies for a specific comment 
     useEffect(() => {
-        onSnapshot(collection(db, "movies", movie, "comments", commentId, "replies"), orderBy(
-            'timestamp', 'asc'), (snapshot) => {
-                setReplies(snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    data: doc.data()
-                })));
-            });
+        if (movie) {
+            onSnapshot(collection(db, "movies", movie, "comments", commentId, "replies"), orderBy(
+                'timestamp', 'asc'), (snapshot) => {
+                    setReplies(snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        data: doc.data()
+                    })));
+                });
+        }
     }, [commentId, movie]);
 
 

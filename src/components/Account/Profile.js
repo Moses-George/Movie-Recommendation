@@ -7,7 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
 import { storage, db, logOut, auth } from "../../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { doc, collection, addDoc, serverTimestamp, orderBy, onSnapshot } from "firebase/firestore";
+import { doc, collection, addDoc, serverTimestamp, orderBy, onSnapshot, query } from "firebase/firestore";
 import ImagePreview from "../UI/Modals/ImagePreview/ImagePreview";
 
 const Profile = () => {
@@ -63,19 +63,19 @@ const Profile = () => {
         if (url) {
             addProfilePic();
         }
-    }, [url]);
+    }, [url, currentUser?.docId]);
 
 // Fetch user profile pictures download url
     useEffect(() => {
-        const docId = currentUser?.docId;
-        onSnapshot(collection(db, "users", docId, "profileImages"), orderBy(
-            'timestamp', 'asc'), (snapshot) => {
+        const docId = currentUser?.docId; 
+        const q = query(collection(db, "users", docId, "profileImages"), orderBy('sentAt', 'desc'))
+        onSnapshot(q,  (snapshot) => {
                 setProfilePics(snapshot.docs.map(doc => ({
-                    id: doc.id,
+                    id: doc.id, 
                     data: doc.data()
                 })));
-            });
-    }, [url]);
+        });
+    }, [url, currentUser?.docId]);
 
     return (
         <>
@@ -94,7 +94,7 @@ const Profile = () => {
                             <AddAPhoto sx={{ fontSize: "30px" }} />
                         </div>
                     </label>
-                    <input type="file" id="fileInput" onChange={(e) => setImage(e.target.files[0])}  />
+                    <input type="file" id="fileInput" accept="image/*" onChange={(e) => setImage(e.target.files[0])}  />
                 </form>
                 <Divider sx={{ borderColor: "rgb(49, 49, 49)" }} />
                 <div className="account-details">

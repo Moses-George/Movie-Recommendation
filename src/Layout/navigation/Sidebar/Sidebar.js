@@ -1,4 +1,4 @@
-import { Fragment } from "react"
+import React, { Fragment } from "react";
 import ReactDOM from 'react-dom';
 import { NavLink, Link } from "react-router-dom";
 import "./Sidebar.scss";
@@ -74,4 +74,4 @@ const Sidebar = ({ setOpenSidebar, currentUser, user, imageUrl, openSidebar }) =
     )
 }
 
-export default Sidebar;
+export default React.memo(Sidebar);

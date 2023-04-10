@@ -14,7 +14,7 @@ const useMovieName = () => {
     const isMovie = path.split("/").includes("movies");
 
 
-    const movie = isMovie ? singleMovie.original_title : singleTvShow.name;
+    const movie = isMovie ? singleMovie?.original_title : singleTvShow?.name;
     const fetching = isMovie ? isFetchingMovie : isFetchingTvShow;
 
     return { movie, fetching };

@@ -30,20 +30,22 @@ const ViewReplies = () => {
             const snapshot = await getDoc(docRef);
             setSingleComment(snapshot.data());
         }
-        if (commentId) {
+        if (commentId && movie) {
             getComment();
         }
     }, [commentId, movie]);
 
 
     useEffect(() => {
-        onSnapshot(collection(db, "movies", movie, "comments", commentId, "replies"), orderBy(
-            'timestamp', 'asc'), (snapshot) => {
-                setReplies(snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    data: doc.data()
-                })));
-            });
+        if (commentId && movie) {
+            onSnapshot(collection(db, "movies", movie, "comments", commentId, "replies"), orderBy(
+                'timestamp', 'asc'), (snapshot) => {
+                    setReplies(snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        data: doc.data()
+                    })));
+                });
+        }
     }, [commentId, movie]); 
 
 
