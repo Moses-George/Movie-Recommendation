@@ -44,7 +44,7 @@ const Navbar = () => {
         user={user}
         imageUrl={imageUrl} />}
       {isVisible && <SearchModal onClick={() => setIsVisible(false)} />}
-      <header className="header">
+      <header className="header" id="nav" >
         <div className="navbar-left">
           {!isDesktop && <Menu onClick={() => setOpenSidebar(true)} sx={{ fontSize: "35px", color: "#fff" }} />}
           <h2>{isDesktop ? "GEO MOVIES" : "GM"}</h2>

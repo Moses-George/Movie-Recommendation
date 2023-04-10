@@ -1,3 +1,12 @@
 main {
     width: 100%;
 }
+
+.scroll-up {
+    padding: .7rem .8rem;
+    border-radius: 50%;
+    background-color: red;
+    position: fixed;
+    bottom: 5%;
+    right: 3%;
+}

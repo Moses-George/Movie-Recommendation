@@ -13,8 +13,8 @@ const MoviesRow = ({ header, movieData, loading }) => {
         <section className="movies-row">
             <h1>{header}</h1>
             <div className="horizontal-scroll">
-                {!loading && movieData?.map(movie => <MovieCard key={movie.id} movie={movie} />)}
-                {loading && arr.map(movie => <CardSkeleton key={movie} />)}
+                {movieData && movieData?.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+                {!movieData && arr.map(movie => <CardSkeleton key={movie} />)}
             </div>
         </section>
     )

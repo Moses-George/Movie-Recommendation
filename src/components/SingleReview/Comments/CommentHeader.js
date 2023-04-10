@@ -12,7 +12,6 @@ const CommentHeader = ({ timestamp, username, userId}) => {
 
     // Persist commnt posted time 
     const sentAt = timeAgo(timestamp);
-    console.log(timestamp);
 
     // Update comment posted time
     useEffect(()=> {

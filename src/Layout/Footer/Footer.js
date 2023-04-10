@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import { Twitter, GitHub, WhatsApp, Facebook, LinkedIn } from "@mui/icons-material";
-import { TextField } from "@mui/material";
+import { Twitter, GitHub, WhatsApp, LinkedIn } from "@mui/icons-material";
 import { ReactComponent as Tmdb } from "../../Assets/images/tmdb.svg";
-import Button from "../../components/UI/Button/Button";
 import './Footer.scss';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
@@ -24,7 +22,7 @@ const Footer = () => {
                 <h1>GEO MOVIES</h1>
                 <p>Ugbowo Campus, University of Benin</p>
                 <div className="social-icons">
-                    <a href="https://www.com.twitter/GeorgeM_32" target='_blank' rel="noreferrer">
+                    <a href="https://www.twitter.com/GeorgeM_32" target='_blank' rel="noreferrer">
                         <Twitter sx={{ fontSize: "35px" }} />
                     </a>
                     <a href="https://www.linkedin.com/in/george-moses-427601240" target='_blank' rel="noreferrer">

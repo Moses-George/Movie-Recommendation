@@ -11,7 +11,11 @@ const TvShowSingle = () => {
  
     const { tvShowId } = useParams();
 
-    const { data: single } = useGetSingleTvShowQuery(tvShowId);
+    const { data: single, isLoading } = useGetSingleTvShowQuery(tvShowId);
+
+    if (isLoading) {
+        return <Spinner />
+    }
 
 
 
