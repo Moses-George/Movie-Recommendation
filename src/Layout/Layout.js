@@ -10,35 +10,46 @@ import { Navigation } from "@mui/icons-material";
 
 const Layout = ({ children }) => {
 
+    // const [showButton, setShowButton] = useState(false);
+
     const location = useLocation();
     const path = location.pathname;
 
     const authPage = path.split("/").includes("auth");
 
     const dispatch = useDispatch();
-    const popUpMessage = useSelector((state)=> state.popupMessage.message);
+    const popUpMessage = useSelector((state) => state.popupMessage.message);
 
     useEffect(() => {
         const timer = setTimeout(() => dispatch(showPopUpMessage("")), 4000);
         return () => clearTimeout(timer);
     }, [popUpMessage, dispatch]);
-    
-    const navbar = document.getElementById("nav");
 
-    const scrollToNavbar = () => {
-        navbar.scrollIntoView({ behavior: "smooth" });
+    // useEffect(() => {
+    //     window.addEventListener("scroll", () => {
+    //         if (window.pageYOffset > 300) {
+    //             setShowButton(true);
+    //         } else {
+    //             setShowButton(false);
+    //         }
+    //     })
+    // }, []);
+
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     return (
         <Fragment>
-        {popUpMessage && <Popup message={popUpMessage} />}
+            {popUpMessage && <Popup message={popUpMessage} />}
             {!authPage && <Navbar />}
             <main style={{ height: `${authPage ? "100%" : "auto"}` }} className="main">{children}</main>
             {!authPage && <Footer />}
-            {!authPage && <div className="scroll-up" onClick={scrollToNavbar} >
-                <Navigation sx={{fontSize: "2.5rem", color:'white'}} />
+            {!authPage &&  <div className="scroll-up" onClick={scrollToTop} >
+                <Navigation sx={{ fontSize: "2rem", color: 'white' }} />
             </div>}
-        </Fragment>
+        </Fragment> 
     )
 }
 

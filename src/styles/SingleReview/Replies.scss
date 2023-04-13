@@ -8,7 +8,7 @@
     
 }
 
-.replies-outline {
+.reply-preview {
     display: flex;
     align-items: center; 
     column-gap: .8rem;
@@ -29,8 +29,8 @@
     }
 
     img {
-        width: 3rem;
-        height: 3rem;
+        width: 2.2rem;
+        height: 2.2rem;
         border-radius: 50%;
     }
 }
@@ -39,7 +39,7 @@
     .replies {
         width: 90%;
     }
-    .replies-outline {
+    .reply-preview {
         width: 90%;
     }
 }

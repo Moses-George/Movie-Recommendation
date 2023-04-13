@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff, Google, Facebook } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField} from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import '../../styles/pages/Auth.scss';
 import Button from "../../components/UI/Button/Button";
-import { auth,  signInWithGoogle, db } from "../../firebase";
+import { auth, signInWithGoogle, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
@@ -93,22 +93,22 @@ const SignUp = () => {
     const signUpWithEmailAndPassword = async (username, email, password) => {
         setIsLoading(true);
         try {
-          const res = await createUserWithEmailAndPassword(auth, email, password);
-          const user = res.user;
-          console.log(user);
-          await addDoc(collection(db, "users"), {
-            uid: user.uid,
-            username,
-            authProvider: "local",
-            imageUrl: "",
-            email
-          })
+            const res = await createUserWithEmailAndPassword(auth, email, password);
+            const user = res.user;
+            console.log(user);
+            await addDoc(collection(db, "users"), {
+                uid: user.uid,
+                username,
+                authProvider: "local",
+                imageUrl: "",
+                email
+            })
         } catch (err) {
-          console.log(err);
-          alert(err.message);
+            console.log(err);
+            alert(err.message);
         }
         setIsLoading(false);
-      };
+    };
 
     const signUp = async (e) => {
         e.preventDefault();
@@ -125,6 +125,7 @@ const SignUp = () => {
                         <h1>Sign Up</h1>
                         <form onSubmit={signUp} >
                             <TextField label="Enter Username"
+                            autoComplete="off"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 type="text"
@@ -133,6 +134,7 @@ const SignUp = () => {
                                 sx={textFieldStyle} />
                             {invalidUsernameMessage && <p className="error-message">{invalidUsernameMessage}</p>}
                             <TextField label="Enter Email"
+                            autoComplete="off"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 type="email"
@@ -141,6 +143,7 @@ const SignUp = () => {
                                 sx={textFieldStyle} />
                             <TextField label="Enter Password"
                                 variant="filled"
+                                autoComplete="off"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
@@ -161,11 +164,17 @@ const SignUp = () => {
                             <Button disabled={passwordIsInvalid || invalidUsernameMessage} >Sign Up</Button>
                         </form>
                         <div>
-                        <div className="or">OR</div>
+                            <div className="or">OR</div> 
                         </div>
                         <div className="alt-auth">
-                            <Button onClick={signInWithGoogle} > <Google /> </Button>
-                            <Button onClick={()=> alert("This option is disabled!. You may want to sign up with google")} > <Facebook /> </Button>
+                            <Button onClick={signInWithGoogle} >
+                                <Google sx={{ color: "gold", fontSize: "1.8rem" }} />
+                                <span>Sign up with Google</span>
+                            </Button>
+                            <Button onClick={() => alert("This option is disabled!. You may want to sign up with google")} >
+                                <Facebook sx={{ color: "blue", fontSize:"1.8rem" }} />
+                                <span>Sign up with Facebook</span>
+                            </Button>
                         </div>
                         <p className="member">Already a member ? <Link to="/auth/login">LOGIN</Link> </p>
                     </div>

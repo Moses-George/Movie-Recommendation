@@ -68,13 +68,15 @@ const Profile = () => {
 // Fetch user profile pictures download url
     useEffect(() => {
         const docId = currentUser?.docId; 
-        const q = query(collection(db, "users", docId, "profileImages"), orderBy('sentAt', 'desc'))
-        onSnapshot(q,  (snapshot) => {
-                setProfilePics(snapshot.docs.map(doc => ({
-                    id: doc.id, 
-                    data: doc.data()
-                })));
-        });
+        if (docId) {
+            const q = query(collection(db, "users", docId, "profileImages"), orderBy('sentAt', 'desc'))
+            onSnapshot(q,  (snapshot) => {
+                    setProfilePics(snapshot.docs.map(doc => ({
+                        id: doc.id, 
+                        data: doc.data()
+                    })));
+            });
+        }
     }, [url, currentUser?.docId]);
 
     return (

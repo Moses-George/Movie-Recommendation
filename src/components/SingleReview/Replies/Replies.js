@@ -28,7 +28,7 @@ const ReplyPreview = ({reply, commentId}) => {
     const imageUrl = useFetchProfilePic(reply?.data.user.userId); 
 
     return (
-        <div className="replies-outline" >
+        <div className="reply-preview" >
         {imageUrl ? <img src={imageUrl} alt="" /> : <Avatar />}
         <Link to={commentId}> {reply.data.user.username}</Link>
         <p> {reply.data.content?.length > 12 ? `${reply.data.content?.slice(0, 12)}...` : reply.data.content} </p>
