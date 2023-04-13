@@ -35,6 +35,7 @@ const TextArea = ({ placeholder, sendComment, sendReply, value, disabled, setCon
                 rows={!isExpanded ? 1 : 3}
                 cols={35}
                 placeholder={placeholder}
+                autoComplete="off"
                 onChange={(e) => setContent(e.target.value)}
                 onClick={() => setIsExpanded(prev => !prev)}
                 value={value}

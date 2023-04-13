@@ -32,7 +32,13 @@ export const movieApi = createApi({
         }),
         getSortedTvShows: builder.query({
             query: (page, query) => `tv/on_the_air?sort_by=${query}&api_key=${TMDB_API_KEY}&page=${page}` ,
-        })
+        }),
+        getMovieVideos: builder.query({
+            query: (movieId) => `movie/${movieId}/videos?api_key=${TMDB_API_KEY}`,
+        }),
+        getTvShowVideos: builder.query({
+            query: (tvShowId) => `tv/${tvShowId}/videos?api_key=${TMDB_API_KEY}`,
+        }),
     })
 });
 
@@ -44,5 +50,7 @@ export const { useGetMoviesDiscoverQuery,
     useGetSingleMovieQuery,
     useGetSingleTvShowQuery,
     useGetSortedMoviesQuery,
-    useGetSortedTvShowsQuery
+    useGetSortedTvShowsQuery,
+    useGetMovieVideosQuery,
+    useGetTvShowVideosQuery
 } = movieApi;

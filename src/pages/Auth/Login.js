@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff, Google, Facebook } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
@@ -52,19 +52,21 @@ const Login = () => {
                         <form onSubmit={logIn} >
                             <TextField
                                 label="Enter Email"
+                                autoComplete="off"
                                 type="email"
                                 variant="filled"
-                                onChange={(e)=> setEmail(e.target.value)}
+                                onChange={(e) => setEmail(e.target.value)}
                                 value={email}
                                 required
                                 sx={textFieldStyle} />
                             <TextField
                                 label="Enter Password"
+                                autoComplete="off"
                                 variant="filled"
-                                onChange={(e)=> setPassword(e.target.value)}
+                                onChange={(e) => setPassword(e.target.value)}
                                 value={password}
-                                required 
-                                type={showPassword ? "text" : "password"} 
+                                required
+                                type={showPassword ? "text" : "password"}
                                 sx={textFieldStyle}
                                 InputProps={{
                                     endAdornment: (
@@ -81,11 +83,17 @@ const Login = () => {
                             <Button>Login</Button>
                         </form>
                         <div>
-                        <div className="or">OR</div>
+                            <div className="or">OR</div>
                         </div>
                         <div className="alt-auth">
-                            <Button onClick={signInWithGoogle} > <Google /> </Button>
-                            <Button onClick={() => alert("This option is disabled!. You may want to sign in with google")}  > <Facebook /> </Button>
+                            <Button onClick={signInWithGoogle} >
+                                <Google sx={{ color: "gold", fontSize: "1.8rem" }} />
+                                <span>Sign in with Google</span>
+                            </Button>
+                            <Button onClick={() => alert("This option is disabled!. You may want to sign in with google")}  >
+                                <Facebook sx={{ color: "blue", fontSize:"1.8rem" }} />
+                                <span>Sign in with Facebook</span>
+                            </Button>
                         </div>
                         <p className="member">Don't have an account ? <Link to="/auth/sign-up">Sign Up</Link> </p>
                     </div>

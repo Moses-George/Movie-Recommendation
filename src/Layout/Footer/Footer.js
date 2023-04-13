@@ -20,7 +20,7 @@ const Footer = () => {
         <footer className="footer">
             <div className="footer-left">
                 <h1>GEO MOVIES</h1>
-                <p>Ugbowo Campus, University of Benin</p>
+                <p>Ugbowo Campus, University of Benin.</p>
                 <div className="social-icons">
                     <a href="https://www.twitter.com/GeorgeM_32" target='_blank' rel="noreferrer">
                         <Twitter sx={{ fontSize: "35px" }} />
@@ -53,7 +53,7 @@ const Footer = () => {
                 </div>
                 <div className="copyright">
                     <Tmdb />
-                    <p>Copyright {year} George Moses</p>
+                    <p>Copyright © {year} George Moses</p>
                 </div>
             </div>
         </footer>

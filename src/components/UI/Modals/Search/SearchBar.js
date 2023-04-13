@@ -7,7 +7,7 @@ const SearchBar = ({onClick, onChange, value}) => {
     return (
         <div className="searchBar">
             <ArrowBack sx={{alignSelf: "flex-end"}} onClick={onClick} /> 
-            <TextField onChange={onChange} value={value}  label="search for a movie..." variant="standard" sx={{width: "100%"}} />
+            <TextField autoComplete="off" onChange={onChange} value={value}  label="search for a movie..." variant="standard" sx={{width: "100%"}} />
         </div>
     )
 }
