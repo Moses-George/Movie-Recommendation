@@ -6,7 +6,7 @@ $navColor : #fff;
 .header {
     background-color: $navBgColor;
     display: grid;
-    grid-template-columns: 3fr 4fr 3fr;
+    grid-template-columns: 2fr 5fr 3fr;
     column-gap: 1rem;
     align-items: center;
     padding: 1rem 3rem;
@@ -117,7 +117,7 @@ $navColor : #fff;
     }
 }
 
-@media screen and (min-width: 700px) and (max-width: 1024px)  {
+@media screen and (min-width: 700px) and (max-width: 1199px)  {
     .header {
         padding: 1rem;
         grid-template-columns: repeat(2, 1fr);

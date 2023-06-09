@@ -1,0 +1,113 @@
+.notifications {
+    margin: 0 auto;
+    width: 50%;
+    background-color: rgba(0, 0, 0, 0.55);
+
+    h1 {
+        color: #e4e7eb;
+        margin: 0;
+        padding: 1rem;
+        letter-spacing: 2px;
+    }
+}
+
+.notifications-container {
+    display: grid;
+    row-gap: 1rem;
+    padding: 0 .5rem 4rem .5rem;
+}
+
+.notification {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 1rem;
+    background-color: rgb(0 0 0 / 25%);
+    padding: 1rem;
+    border-left: 3px solid hsl(238, 40%, 52%);
+    border-radius: .5rem 0 0 .5rem;
+}
+
+.notification-img {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+
+    img {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+    }
+}
+
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+
+    p {
+        color: hsl(211, 10%, 45%);
+    }
+}
+
+.notification-content-details {
+
+    span {
+        &:nth-child(1) {
+            text-transform: capitalize;
+            font-weight: bold;
+            // color: #b4bcc4;
+            color: hsl(238, 40%, 52%);
+            // text-transform: capitalize;
+        }
+    }
+
+    span {
+        &:nth-child(2) {
+            color: #e4e7eb;
+            margin: 0 .4rem;
+            line-height: 1.5;
+            line-break: anywhere;
+        }
+    }
+
+    span {
+        &:nth-child(3) {
+            font-weight: bold;
+            color: #e4e7eb;
+            line-break: anywhere;
+            line-height: 1.5;
+        }
+    }
+}
+
+.no-notifications {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+
+    h2 {
+        color: #e4e7eb;
+    }
+
+    p {
+        color: #c1c6cc;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 700px)  {
+    .notifications {
+        width: 100%;
+
+        h1 {
+            padding: 1.5rem;
+            font-size: 1.8rem;
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 1200px) {
+    .notifications {
+        width: 70%;
+    }
+}

@@ -9,7 +9,7 @@ import { collection, doc, addDoc, serverTimestamp, onSnapshot, orderBy, getDoc }
 import { db, auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../store/service/currentUserSlice";
-import useMovieName from "../../hook/useMovieName";
+import useMedia from "../../hook/useMedia";
 
 const SingleReview = () => {
 
@@ -17,7 +17,7 @@ const SingleReview = () => {
     const [comments, setComments] = useState([]);
     const scrollToComments = useRef(null);
 
-    const { movie, fetching } = useMovieName();
+    const media = useMedia();
     const [user] = useAuthState(auth);
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
@@ -31,7 +31,7 @@ const SingleReview = () => {
 
     const sendComment = async () => {
         const docId = currentUser?.docId;
-        const docRef = doc(db, "movies", movie);
+        const docRef = doc(db, "movies", media?.name);
         const colRef = collection(docRef, "comments");
         await addDoc(colRef, {
             content: content,
@@ -44,11 +44,29 @@ const SingleReview = () => {
         setContent("");
     };
 
+    const sendNotification = async (senderId, receiverId, commentId) => {
+        const docRef = doc(db, "users", receiverId);
+        const colRef = collection(docRef, "notifications");
+        await addDoc(colRef, {
+            senderId: senderId,
+            createdAt: serverTimestamp(),
+            senderName: currentUser?.data.username,
+            read: false,
+            media: {
+                mediaId: media?.id,
+                mediaName: media?.name,
+                mediaType: media?.mediaType
+            },
+            commentId: commentId
+        })
+    }
+
     const sendReply = async (commentId) => {
         const docId = currentUser?.docId;
-        const docRef = doc(db, "movies", movie, "comments", commentId);
+        const docRef = doc(db, "movies", media?.name, "comments", commentId);
         const colRef = collection(docRef, "replies");
         const snapshot = await getDoc(docRef);
+        const receiverId = snapshot.data().user?.userId ;
         await addDoc(colRef, {
             content: content,
             sentAt: serverTimestamp(),
@@ -58,26 +76,27 @@ const SingleReview = () => {
                 username: currentUser?.data.username,
             }
         });
+        await sendNotification(docId, receiverId, commentId);
         setContent("");
     };
 
     useEffect(() => {
-        if (movie) {
-                    onSnapshot(collection(db, "movies", movie, "comments"), orderBy(
-            'timestamp', 'asc'), (snapshot) => {
-                setComments(snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    data: doc.data()
-                })));
-            });
+        if (media?.name) {
+            onSnapshot(collection(db, "movies", media?.name, "comments"), orderBy(
+                'timestamp', 'asc'), (snapshot) => {
+                    setComments(snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        data: doc.data()
+                    })));
+                });
         }
-    }, [movie]);
+    }, [media?.name]);
 
     const commentSize = comments.length;
 
     const Reviews =
         <div className="single__review" ref={scrollToComments} >
-            {user && !fetching && <h2> {commentSize === 0 ? "No Comment" :
+            {user && <h2> {commentSize === 0 ? "No Comment" :
                 commentSize === 1 ? "01 Comment" :
                     commentSize > 0 && commentSize <= 9 ? `0${commentSize} Comments` :
                         `${commentSize} Comments`}</h2>}
@@ -93,11 +112,11 @@ const SingleReview = () => {
                         score={comment.data.score}
                     />)}
                 </div>
-                {user && !fetching && commentSize === 0 && <div className="no-comment">
+                {user && commentSize === 0 && <div className="no-comment">
                     <Forum sx={{ color: "#fff", fontSize: "10rem" }} />
                     <p>Be the first to comment.</p>
                 </div>}
-                {!user && !fetching && commentSize === 0 && <div className="no-comment">
+                {!user && commentSize === 0 && <div className="no-comment">
                     <EmojiEmotions sx={{ color: "gold", fontSize: "10rem" }} />
                     <Link to="/auth/login">Login to add a review</Link>
                 </div>}

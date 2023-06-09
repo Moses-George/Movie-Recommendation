@@ -20,7 +20,7 @@ const SidebarOverlay = ({ openSidebar, setOpenSidebar, currentUser, user, imageU
                     <span />
                 </div>
                 <div className='sidebar-arrowback'>
-                    <ArrowBack onClick={() => setOpenSidebar(false)} sx={{ color: "#fff", fontSize: "35px" }} />
+                    <ArrowBack onClick={() => setOpenSidebar(false)} sx={{ color: "#fff", fontSize: "30px" }} />
                 </div>
             </div>
             <div className='sidebar-profile'>
