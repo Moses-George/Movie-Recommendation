@@ -18,13 +18,15 @@ const Notifications = () => {
 
     useEffect(() => {
         const docId = currentUser?.docId;
-        const q = query(collection(db, "users", docId, "notifications"), orderBy('createdAt', 'desc'))
-        onSnapshot(q, (snapshot) => {
-            setNotifications(snapshot.docs.map(doc => ({
-                id: doc.id,
-                data: doc.data()
-            })));
-        });
+        if(docId) {
+            const q = query(collection(db, "users", docId, "notifications"), orderBy('createdAt', 'desc'))
+            onSnapshot(q, (snapshot) => {
+                setNotifications(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    data: doc.data()
+                })));
+            });
+        }
     }, [currentUser?.docId]);
 
     // Delete Notification
