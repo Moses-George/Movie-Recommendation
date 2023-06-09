@@ -45,9 +45,8 @@ const Login = () => {
         <>
             {isLoading && <AuthSpinner />}
             <div className="sign-up__wrapper">
-                <h1>GEO MOVIES</h1>
-                <div className="form-container">
-                    <div className="form-control">
+                <div className="form-container" >
+                    <div className="form-control" style={{paddingBottom:"2rem"}} >
                         <h1>Login</h1>
                         <form onSubmit={logIn} >
                             <TextField
@@ -83,16 +82,12 @@ const Login = () => {
                             <Button>Login</Button>
                         </form>
                         <div>
-                            <div className="or">OR</div>
+                            <div style={{margin:"1.5rem 0"}} className="or">OR</div>
                         </div>
                         <div className="alt-auth">
                             <Button onClick={signInWithGoogle} >
                                 <Google sx={{ color: "gold", fontSize: "1.8rem" }} />
                                 <span>Sign in with Google</span>
-                            </Button>
-                            <Button onClick={() => alert("This option is disabled!. You may want to sign in with google")}  >
-                                <Facebook sx={{ color: "blue", fontSize:"1.8rem" }} />
-                                <span>Sign in with Facebook</span>
                             </Button>
                         </div>
                         <p className="member">Don't have an account ? <Link to="/auth/sign-up">Sign Up</Link> </p>

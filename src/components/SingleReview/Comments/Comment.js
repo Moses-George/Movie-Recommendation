@@ -8,13 +8,13 @@ import UpdateTextArea from "../../UI/UpdateTextArea/UpdateTextArea";
 import { RepliesPreview } from "../Replies/Replies";
 import { doc, getDoc, updateDoc, collection, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "../../../firebase";
-import useMovieName from "../../../hook/useMovieName";
+import useMedia from "../../../hook/useMedia";
 
 
 const Comments = ({ username, userId, commentId, timestamp, commentContent }) => {
 
     // Fetch movie/tvShow name from api with the custom hook
-    const { movie } = useMovieName();
+    const media = useMedia();
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -24,14 +24,14 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
     // Edit user comment on textArea
     const editComment = async (id) => {
         setIsEditing(true);
-        const docRef = doc(db, "movies", movie, "comments", id);
+        const docRef = doc(db, "movies", media?.name, "comments", id);
         const snapshot = await getDoc(docRef);
         setContent(snapshot.data().content);
     };
 
     // Send edited comment to database
     const updateComment = async (id) => {
-        const docRef = doc(db, "movies", movie, "comments", id);
+        const docRef = doc(db, "movies", media?.name, "comments", id);
         await updateDoc(docRef, {
             content: content
         });
@@ -40,8 +40,8 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
 
     // Fetch all Replies for a specific comment 
     useEffect(() => {
-        if (movie) {
-            onSnapshot(collection(db, "movies", movie, "comments", commentId, "replies"), orderBy(
+        if (media?.name) {
+            onSnapshot(collection(db, "movies", media?.name, "comments", commentId, "replies"), orderBy(
                 'timestamp', 'asc'), (snapshot) => {
                     setReplies(snapshot.docs.map(doc => ({
                         id: doc.id,
@@ -49,7 +49,7 @@ const Comments = ({ username, userId, commentId, timestamp, commentContent }) =>
                     })));
                 });
         }
-    }, [commentId, movie]);
+    }, [commentId, media?.name]);
 
 
     return (

@@ -119,7 +119,6 @@ const SignUp = () => {
         <>
             {isLoading && <AuthSpinner />}
             <div className="sign-up__wrapper">
-                <h1>GEO MOVIES</h1>
                 <div className="form-container">
                     <div className="form-control">
                         <h1>Sign Up</h1>
@@ -170,10 +169,6 @@ const SignUp = () => {
                             <Button onClick={signInWithGoogle} >
                                 <Google sx={{ color: "gold", fontSize: "1.8rem" }} />
                                 <span>Sign up with Google</span>
-                            </Button>
-                            <Button onClick={() => alert("This option is disabled!. You may want to sign up with google")} >
-                                <Facebook sx={{ color: "blue", fontSize:"1.8rem" }} />
-                                <span>Sign up with Facebook</span>
                             </Button>
                         </div>
                         <p className="member">Already a member ? <Link to="/auth/login">LOGIN</Link> </p>

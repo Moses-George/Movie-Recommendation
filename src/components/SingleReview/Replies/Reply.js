@@ -7,26 +7,26 @@ import CommentVote from "../Comments/CommentVote";
 import UpdateTextArea from "../../UI/UpdateTextArea/UpdateTextArea";
 import { db } from "../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import useMovieName from "../../../hook/useMovieName";
+import useMedia from "../../../hook/useMedia";
 
 const Reply = ({ username, userId, timestamp, replyContent, replyingTo, replyId }) => {
 
     const { commentId } = useParams();
 
-    const { movie } = useMovieName();
+    const media = useMedia();
 
     const [isEditing, setIsEditing] = useState(false);
     const [content, setContent] = useState("");
 
     const editReply = async (commentId, replyId) => {
         setIsEditing(true);
-        const docRef = doc(db, "movies", movie, "comments", commentId, "replies", replyId);
+        const docRef = doc(db, "movies", media?.name, "comments", commentId, "replies", replyId);
         const snapshot = await getDoc(docRef);
         setContent(snapshot.data().content);
     };
 
     const updateReply = async (commentId, replyId) => {
-        const docRef = doc(db, "movies", movie, "comments", commentId, "replies", replyId);
+        const docRef = doc(db, "movies", media?.name, "comments", commentId, "replies", replyId);
         await updateDoc(docRef, {
             content: content
         });

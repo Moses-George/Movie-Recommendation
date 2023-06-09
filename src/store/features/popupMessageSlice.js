@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const popupMessageSlice = createSlice({
-    name: "popupMessage",
+    name: "notificationCount",
     initialState: { message: "" },
     reducers: {
         showPopUpMessage: (state, action) => {

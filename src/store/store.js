@@ -5,6 +5,7 @@ import { newsApi } from "./service/newsApiSlice";
 import { currentUserApi } from "./service/currentUserSlice";
 import theme from "./features/Theme/themeSlice";
 import popupMessageSlice from "./features/popupMessageSlice";
+import notificationSlice from "./features/notificationSlice";
 // import favourite from "./features/addFavouriteSlice";
 
 const store = configureStore({
@@ -14,6 +15,7 @@ const store = configureStore({
         [currentUserApi.reducerPath]: currentUserApi.reducer,
         theme,
         popupMessage: popupMessageSlice.reducer,
+        notificationCount: notificationSlice.reducer,
     },
 
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(movieApi.middleware).concat(newsApi.middleware).concat(currentUserApi.middleware)

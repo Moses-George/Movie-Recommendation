@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import { Remove } from "@mui/icons-material";
 import '../../../styles/SingleReview/CommentVote.scss';
-import useMovieName from "../../../hook/useMovieName";
 import { useParams, useNavigate } from "react-router-dom";
 import { db, auth } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFetchCurrentUserQuery } from "../../../store/service/currentUserSlice";
 import { doc, getDocs, collection, onSnapshot, orderBy, addDoc, where, query, deleteDoc } from "firebase/firestore";
+import useMedia from "../../../hook/useMedia";
 
 const CommentVote = ({ isComment, reviewId }) => {
 
@@ -23,13 +23,13 @@ const CommentVote = ({ isComment, reviewId }) => {
     const { data: currentUser } = useFetchCurrentUserQuery(user?.uid);
 
     // Fetch movie name from api with the custom hook
-    const { movie } = useMovieName();
+    const media = useMedia();
 
     // Vote on comment/reply
     const addVote = async () => {
         if (user) {
-            const colRef = isComment ? collection(db, "movies", movie, "comments", reviewId, "votes") :
-                collection(db, "movies", movie, "comments", commentId, "reply", reviewId, "votes");
+            const colRef = isComment ? collection(db, "movies", media?.name, "comments", reviewId, "votes") :
+                collection(db, "movies", media?.name, "comments", commentId, "reply", reviewId, "votes");
             const q = query(colRef, where("userId", "==", currentUser?.data.uid));
             const docs = await getDocs(q);
             if (docs.docs.length === 0) {
@@ -49,15 +49,15 @@ const CommentVote = ({ isComment, reviewId }) => {
     // Unvote on comment/reply
     const removeVote = async () => {
         if (user) {
-            const colRef = isComment ? collection(db, "movies", movie, "comments", reviewId, "votes") :
-                collection(db, "movies", movie, "comments", commentId, "reply", reviewId, "votes");
+            const colRef = isComment ? collection(db, "movies", media?.name, "comments", reviewId, "votes") :
+                collection(db, "movies", media?.name, "comments", commentId, "reply", reviewId, "votes");
             const q = query(colRef, where("userId", "==", currentUser?.data.uid));
             const docs = await getDocs(q);
             if (docs.docs.length !== 0) {
                 try {
                     const docId = docs.docs[0].id;
-                    const docRef = isComment ? doc(db, "movies", movie, "comments", reviewId, "votes", docId) :
-                        doc(db, "movies", movie, "comments", commentId, "reply", reviewId, "votes", docId);
+                    const docRef = isComment ? doc(db, "movies", media?.name, "comments", reviewId, "votes", docId) :
+                        doc(db, "movies", media?.name, "comments", commentId, "reply", reviewId, "votes", docId);
                     await deleteDoc(docRef);
                 } catch (err) {
                     console.error(err);
@@ -73,9 +73,9 @@ const CommentVote = ({ isComment, reviewId }) => {
 
     // Fetch votes from database
     useEffect(() => {
-        if (commentId && movie) {
-            const colRef = isComment ? collection(db, "movies", movie, "comments", reviewId, "votes") :
-            collection(db, "movies", movie, "comments", commentId, "reply", reviewId, "votes");
+        if (commentId && media?.name) {
+            const colRef = isComment ? collection(db, "movies", media?.name, "comments", reviewId, "votes") :
+            collection(db, "movies", media?.name, "comments", commentId, "reply", reviewId, "votes");
         onSnapshot(colRef, orderBy(
             'timestamp', 'asc'), (snapshot) => {
                 setVotes(snapshot.docs.map(doc => ({
@@ -84,7 +84,7 @@ const CommentVote = ({ isComment, reviewId }) => {
                 })));
             });
         }
-    }, [commentId, reviewId, movie]);
+    }, [commentId, reviewId, media?.name]);
 
 
     return (

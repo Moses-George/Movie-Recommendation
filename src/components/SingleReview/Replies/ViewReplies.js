@@ -7,7 +7,7 @@ import CommentVote from '../Comments/CommentVote';
 import Replies from "../Replies/Replies";
 import { db } from "../../../firebase";
 import { doc, getDoc, collection, onSnapshot, orderBy } from "firebase/firestore";
-import useMovieName from "../../../hook/useMovieName";
+import useMedia from "../../../hook/useMedia";
 
 
 const ViewReplies = () => {
@@ -18,7 +18,7 @@ const ViewReplies = () => {
     const [replies, setReplies] = useState([]);
     const scrollToSingleComment = useRef(null);
 
-    const { movie } = useMovieName();
+    const media = useMedia();
 
     useEffect(() => {
         scrollToSingleComment.current.scrollIntoView({ behavior: "smooth" });
@@ -26,19 +26,19 @@ const ViewReplies = () => {
 
     useEffect(() => {
         const getComment = async () => {
-            const docRef = doc(db, "movies", movie, "comments", commentId);
+            const docRef = doc(db, "movies", media?.name, "comments", commentId);
             const snapshot = await getDoc(docRef);
             setSingleComment(snapshot.data());
         }
-        if (commentId && movie) {
+        if (commentId && media?.name) {
             getComment();
         }
-    }, [commentId, movie]);
+    }, [commentId, media?.name]);
 
 
     useEffect(() => {
-        if (commentId && movie) {
-            onSnapshot(collection(db, "movies", movie, "comments", commentId, "replies"), orderBy(
+        if (commentId && media?.name) {
+            onSnapshot(collection(db, "movies", media?.name, "comments", commentId, "replies"), orderBy(
                 'timestamp', 'asc'), (snapshot) => {
                     setReplies(snapshot.docs.map(doc => ({
                         id: doc.id,
@@ -46,7 +46,7 @@ const ViewReplies = () => {
                     })));
                 });
         }
-    }, [commentId, movie]); 
+    }, [commentId, media?.name]); 
 
 
     return (
@@ -65,7 +65,7 @@ const ViewReplies = () => {
                                 username={singleComment?.user?.username}
                                 userId={singleComment?.user?.userId}
                                 timestamp={new Date(singleComment?.sentAt?.toDate())} />
-                            <CommentHeaderBtn type="reply"  />
+                            <CommentHeaderBtn username={singleComment?.user?.username} type="reply"  />
                         </div>
                         <div className="comment-content"> {singleComment?.content} </div>
                     </div>

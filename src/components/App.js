@@ -17,6 +17,7 @@ import MovieSingle from '../pages/Movies/MovieSingle';
 import TvShowSingle from '../pages/TvShows/TvShowSingle';
 import Account from '../pages/Account/Account';
 import Settings from '../pages/Account/Settings';
+import Notifications from '../pages/Notification/Notifications';
 
 
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
                     <Route path='tv/:tvShowId/*' element={<TvShowSingle />} />
                     {user && <Route path='/account/:username/*' element={<Account />} />}
                     {user && <Route path='account/:username/settings' element={<Settings />} />}
+                    <Route path='/notifications' element={<Notifications />} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </Layout>

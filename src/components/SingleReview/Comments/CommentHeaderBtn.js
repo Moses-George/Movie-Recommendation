@@ -10,7 +10,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { Link, useParams } from "react-router-dom";
 import { db } from "../../../firebase";
 import DeleteModal from "../../UI/Modals/DeleteModal/DeleteModal";
-import useMovieName from "../../../hook/useMovieName";
+import useMedia from "../../../hook/useMedia";
 
 const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
 
@@ -19,7 +19,7 @@ const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
 
     // Fetch movie/tvShow name with the custom hook
-    const { movie } = useMovieName();
+    const media = useMedia();
 
     // get user authentication state with the useAuthState hook
     const [user] = useAuthState(auth);
@@ -33,7 +33,7 @@ const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
 // Delete comment
     const deleteComment = async (commentId) => {
         try {
-            const docRef = doc(db, "movies", movie, "comments", commentId);
+            const docRef = doc(db, "movies", media?.name, "comments", commentId);
             await deleteDoc(docRef);
         } catch (err) {
             console.error(err);
@@ -43,7 +43,7 @@ const CommentHeaderBtn = ({ editReview, reviewId, type, username }) => {
     // Delete Reply
     const deleteReply = async (commentId, replyId) => {
         try {
-            const docRef = doc(db, "movies", movie, "comments", commentId, "replies", replyId);
+            const docRef = doc(db, "movies", media?.name, "comments", commentId, "replies", replyId);
             await deleteDoc(docRef);
         } catch (err) {
             console.error(err);
